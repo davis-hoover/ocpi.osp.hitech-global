@@ -133,11 +133,23 @@ class zynq_ultra_ps_e_tlm : public sc_core::sc_module   {
     public:
     // Non-AXI ports are declared here
     sc_core::sc_in<bool> maxihpm0_fpd_aclk;
+    sc_core::sc_in<bool> saxihp0_fpd_aclk;
+    sc_core::sc_in<bool> saxihp1_fpd_aclk;
+    sc_core::sc_in<bool> saxihp2_fpd_aclk;
+    sc_core::sc_in<bool> saxihp3_fpd_aclk;
     sc_core::sc_out<bool> pl_resetn0;
     sc_core::sc_out<bool> pl_clk0;
      
     // Xtlm aximm slave sockets are delcared here. these XTLM sockets will hierachically bound with 
     // slave sockets defined in vivado generated wrapper.
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP0_FPD_wr_socket;
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP0_FPD_rd_socket;
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP1_FPD_wr_socket;
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP1_FPD_rd_socket;
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP2_FPD_wr_socket;
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP2_FPD_rd_socket;
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP3_FPD_wr_socket;
+    xtlm::xtlm_aximm_target_socket*         S_AXI_HP3_FPD_rd_socket;
 
     // Xtlm aximm master socket/s is/are delcared here. these XTLM sockets will hierachically bound with 
     // master sockets defined in vivado generated wrapper.
@@ -168,6 +180,14 @@ class zynq_ultra_ps_e_tlm : public sc_core::sc_module   {
     // Bridge's Xtlm wr/rd target sockets binds with 
     // xtlm initiator sockets of zynq_ultra_ps_e_tlm and tlm simple initiator 
     // socket with xilinx_zynqmp's target socket
+    xtlm::xaximm_xtlm2tlm_t<64,32> S_AXI_HP0_FPD_xtlm_brdg;
+    xtlm::xtlm_aximm_fifo *S_AXI_HP0_FPD_buff;
+    xtlm::xaximm_xtlm2tlm_t<64,32> S_AXI_HP1_FPD_xtlm_brdg;
+    xtlm::xtlm_aximm_fifo *S_AXI_HP1_FPD_buff;
+    xtlm::xaximm_xtlm2tlm_t<64,32> S_AXI_HP2_FPD_xtlm_brdg;
+    xtlm::xtlm_aximm_fifo *S_AXI_HP2_FPD_buff;
+    xtlm::xaximm_xtlm2tlm_t<64,32> S_AXI_HP3_FPD_xtlm_brdg;
+    xtlm::xtlm_aximm_fifo *S_AXI_HP3_FPD_buff;
 
     // This Bridges converts b_transport to nb_transports and also
     // Converts tlm transactions to xtlm transactions.

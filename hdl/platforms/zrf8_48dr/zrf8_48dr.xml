@@ -11,9 +11,9 @@
     <property name='frequency' value='100e6'/>
   </device>
   <specproperty name='sdp_width' value='2'/>
-  <!--sdp name='zynq_ultra' master='true' count='4'/-->
-  <!--Property name='axi_error' type='bool' arraylength='4' volatile='true'/-->
-  <!--Property name='sdpDropCount' type='uchar' volatile='true'/-->
+  <sdp name='zynq_ultra' master='true' count='4'/>
+  <Property name='axi_error' type='bool' arraylength='4' volatile='true'/>
+  <Property name='sdpDropCount' type='uchar' volatile='true'/>
 
   <!-- debug stuff -->
   <!--Property name="debug_state" type="Ulonglong" arraylength='4' volatile='true' debug='false'/-->
