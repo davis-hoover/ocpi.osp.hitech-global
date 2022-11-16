@@ -324,11 +324,6 @@ Review Vendor's Reference Design Package
 
       the above has been tested with Vivado 2021.1
 
-TODO: Add Board file if provided:
-
-#. Place the ZRF8 Vivado board files into your Vivado installation directory:
-
-
 TODO: Add documents if provided:
 
 #. Review the vendor provided documentation, such as, but not limited to:
@@ -659,12 +654,6 @@ Create/Install xilinx21_1_aarch64 RCC Platform
 
       ``ocpidev show platforms``
 
-   TODO: Make sure that we want to use gdbserver from 2019.2
-
-   #. Implement ``gdbserver`` into Vitis 2021.1 since it does not exist
-
-      ``sudo cp -rf /opt/Xilinx/Vitis/2019.2/gnu/aarch64/lin/aarch64-linux/bin/gdbserver /opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/``
-
 #. **Install: xilinx21_1_aarch64 (an RCC platform)**
 
    #. Downgrade the ``uboot-tools`` package to avoid any errors
@@ -840,7 +829,7 @@ Configure PS for CP
 
    - Reset(s)
 
-   - An AXI Master interface - Memory mapping must match with that defined in ``HdlZynq.h``
+   - An AXI Master interface - Memory mapping must match with that defined in ``HdlZynq.hh``
 
 - The product of this section is the PS core IP HDL primitive that supports the Control Plane.
 
@@ -917,7 +906,7 @@ Configure PS for CP
 
    #. Perform ``Validate Design (F6)`` -> Auto assign address -> Yes
 
-   #. Edit the Address Editor to match the expected OpenCPI adrress as described here ``/home/user/opencpi/runtime/hdl/include/HDLZynq.hh`` (``M_HP0_PADDR 0xA800000``)
+   #. Edit the Address Editor to match the expected OpenCPI adrress as described here ``/home/user/opencpi/runtime/hdl/include/HdlZynq.hh`` (``M_HP0_PADDR 0xA800000``)
 
       #. Select the ``Address Editor`` ribbon
 
@@ -937,7 +926,7 @@ Configure PS for CP
 
 #. Close Vivado
 
-TODO: Implement CP Block Deisng Picture
+TODO: Implement CP Block Design Picture
 #. The Block Design should look as follows:
 
 .. figure:: figures/zrf8_48dr_cp.png
@@ -958,8 +947,6 @@ PetaLinux workspace for Control Plane
 - The following `PetaLinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked". 
 
 - Successful completion of this section is a bootable SD-card image utilizing the Petalinux utility
-
-TODO: Include Integrating buildtools-extended into Petalinux picture for GCC Error
 
 **IMPLEMENTATION:**
 
@@ -1106,7 +1093,7 @@ TODO: Implement Code-Blocks for the Control-Plane Section
 
 **CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
 
-   ocpi.osp.hitech-global/hdl/platform/zrf8_48dr_48dr/doc/codeblocks/Enable_OpenCPI_Control-Plane/Primitive/
+   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/control-plane/primitives/
 
 ..
 
@@ -1336,7 +1323,7 @@ Create HDL Platform Worker for CP
 
 **CODEBLOCK:** The code block for the various files that make up the HDL platform worker can be found in the following directory of the ocpi.osp.hitech-global repository:::
 
-   ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/codeblocks/Enable_OpenCPI_Control-Plane/Platform-Worker/
+   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/control-plane/platforms/
 
 ..
 
@@ -1856,10 +1843,6 @@ Configure PS for DP
 
 ..
 
-
-
-
-
 PetaLinux workspace for Data Plane
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -2011,16 +1994,10 @@ Configure HDL Primitive for DP
 
 **IMPLEMENTATION:**
 
-.. note::
 
-   **CODEBLOCK: The "finalized" code block of various files mentioned in this section can be
-   found at:**
+**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
 
-   ::
-
-      ocpi.osp.hitech-global/hdl/primitives/zynq_ultra_zrf8_48dr/
-
-   ..
+   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/data-plane/primitives/
 
 ..
 
@@ -2110,15 +2087,10 @@ Configure HDL Platform Worker for DP
 
 **IMPLEMENTATION:**
 
-.. note::
 
-   **CODEBLOCK: The codeblock of various files mentioned in this section can be found at:**
+**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
 
-   ::
-
-      ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/codeblocks/Enable_OpenCPI_Data-Plane/Platform-Worker/
-
-   ..
+   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/data-plane/platforms/
 
 ..
 
@@ -2246,15 +2218,15 @@ Install and Deploy with DP enabled
 
    #. ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64``
 
-   #. ``sudo rm -rf /run/media/<user>/root/*``
+   #. ``sudo rm -rf /run/media/<user>/RootFs/*``
 
-   #. ``sudo rm -rf /run/media/<user>/boot/*``
+   #. ``sudo rm -rf /run/media/<user>/BOOT/*``
 
-   #. ``cp image.ub /run/media/<user>/boot/``
+   #. ``cp image.ub /run/media/<user>/BOOT/``
 
-   #. ``sudo tar xvf rootfs.tar.gz -C /run/media/<user>/root/``
+   #. ``sudo tar xvf rootfs.tar.gz -C /run/media/<user>/RootFs/``
 
-   #. ``sudo cp -RLp opencpi/ /run/media/<user>/root/home/root/``
+   #. ``sudo cp -RLp opencpi/ /run/media/<user>/root/home/RootFs/``
 
    #. ``umount /dev/sda1`` and ``$ umount /dev/sda2``
 
