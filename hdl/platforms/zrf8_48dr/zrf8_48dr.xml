@@ -21,116 +21,11 @@
   <!--Property name="debug_state2" type="Ulonglong" arraylength='4' volatile='true' debug='false'/-->
 
   <slot name='FMC_PL' type='fmc_plus'>
-    <!--signal slot='CLK0_M2C_N' platform='CLK[0]_M2C_N'/>
-    <signal slot='CLK0_M2C_P' platform='CLK[0]_M2C_P'/>
-    <signal slot='DP0_C2M_N' platform='DP[0]_C2M_N'/>
-    <signal slot='DP0_C2M_P' platform='DP[0]_C2M_P'/>
-    <signal slot='DP0_M2C_N' platform='DP[0]_M2C_N'/>
-    <signal slot='DP0_M2C_P' platform='DP[0]_M2C_P'/>
-    <signal slot='DP1_C2M_N' platform='DP[1]_C2M_N'/>
-    <signal slot='DP1_C2M_P' platform='DP[1]_C2M_P'/>
-    <signal slot='DP1_M2C_N' platform='DP[1]_M2C_N'/>
-    <signal slot='DP1_M2C_P' platform='DP[1]_M2C_P'/>
-    <signal slot='DP2_C2M_N' platform='DP[2]_C2M_N'/>
-    <signal slot='DP2_C2M_P' platform='DP[2]_C2M_P'/>
-    <signal slot='DP2_M2C_N' platform='DP[2]_M2C_N'/>
-    <signal slot='DP2_M2C_P' platform='DP[2]_M2C_P'/>
-    <signal slot='DP3_C2M_N' platform='DP[3]_C2M_N'/>
-    <signal slot='DP3_C2M_P' platform='DP[3]_C2M_P'/>
-    <signal slot='DP3_M2C_N' platform='DP[3]_M2C_N'/>
-    <signal slot='DP3_M2C_P' platform='DP[3]_M2C_P'/>
-    <signal slot='DP4_C2M_N' platform='DP[4]_C2M_N'/>
-    <signal slot='DP4_C2M_P' platform='DP[4]_C2M_P'/>
-    <signal slot='DP4_M2C_N' platform='DP[4]_M2C_N'/>
-    <signal slot='DP4_M2C_P' platform='DP[4]_M2C_P'/>
-    <signal slot='DP5_C2M_N' platform='DP[5]_C2M_N'/>
-    <signal slot='DP5_C2M_P' platform='DP[5]_C2M_P'/>
-    <signal slot='DP5_M2C_N' platform='DP[5]_M2C_N'/>
-    <signal slot='DP5_M2C_P' platform='DP[5]_M2C_P'/>
-    <signal slot='DP6_C2M_N' platform='DP[6]_C2M_N'/>
-    <signal slot='DP6_C2M_P' platform='DP[6]_C2M_P'/>
-    <signal slot='DP6_M2C_N' platform='DP[6]_M2C_N'/>
-    <signal slot='DP6_M2C_P' platform='DP[6]_M2C_P'/>
-    <signal slot='DP7_C2M_N' platform='DP[7]_C2M_N'/>
-    <signal slot='DP7_C2M_P' platform='DP[7]_C2M_P'/>
-    <signal slot='DP7_M2C_N' platform='DP[7]_M2C_N'/>
-    <signal slot='DP7_M2C_P' platform='DP[7]_M2C_P'/>
-    <signal slot='GBTCLK0_M2C_N' platform='GBTCLK[0]_M2C_N'/>
-    <signal slot='GBTCLK0_M2C_P' platform='GBTCLK[0]_M2C_P'/>
-    <signal slot='GBTCLK1_M2C_N' platform='GBTCLK[1]_M2C_N'/>
-    <signal slot='GBTCLK1_M2C_P' platform='GBTCLK[1]_M2C_P'/>
-    <signal slot='LA00_N_CC' platform='LA[0]_CC_N'/>
-    <signal slot='LA00_P_CC' platform='LA[0]_CC_P'/>
-    <signal slot='LA01_N_CC' platform='LA[1]_CC_N'/>
-    <signal slot='LA01_P_CC' platform='LA[1]_CC_P'/>
-    <signal slot='LA02_N' platform='LA[2]_N'/>
-    <signal slot='LA02_P' platform='LA[2]_P'/>
-    <signal slot='LA03_N' platform='LA[3]_N'/>
-    <signal slot='LA03_P' platform='LA[3]_P'/>
-    <signal slot='LA04_N' platform='LA[4]_N'/>
-    <signal slot='LA04_P' platform='LA[4]_P'/>
-    <signal slot='LA05_N' platform='LA[5]_N'/>
-    <signal slot='LA05_P' platform='LA[5]_P'/>
-    <signal slot='LA06_N' platform='LA[6]_N'/>
-    <signal slot='LA06_P' platform='LA[6]_P'/>
-    <signal slot='LA07_N' platform='LA[7]_N'/>
-    <signal slot='LA07_P' platform='LA[7]_P'/>
-    <signal slot='LA08_N' platform='LA[8]_N'/>
-    <signal slot='LA08_P' platform='LA[8]_P'/>
-    <signal slot='LA09_N' platform='LA[9]_N'/>
-    <signal slot='LA09_P' platform='LA[9]_P'/>
-    <signal slot='LA10_N' platform='LA[10]_N'/>
-    <signal slot='LA10_P' platform='LA[10]_P'/>
-    <signal slot='LA11_N' platform='LA[11]_N'/>
-    <signal slot='LA11_P' platform='LA[11]_P'/>
-    <signal slot='LA12_N' platform='LA[12]_N'/>
-    <signal slot='LA12_P' platform='LA[12]_P'/>
-    <signal slot='LA13_N' platform='LA[13]_N'/>
-    <signal slot='LA13_P' platform='LA[13]_P'/>
-    <signal slot='LA14_N' platform='LA[14]_N'/>
-    <signal slot='LA14_P' platform='LA[14]_P'/>
-    <signal slot='LA15_N' platform='LA[15]_N'/>
-    <signal slot='LA15_P' platform='LA[15]_P'/>
-    <signal slot='LA16_N' platform='LA[16]_N'/>
-    <signal slot='LA16_P' platform='LA[16]_P'/>
-    <signal slot='LA17_N_CC' platform='LA[17]_CC_N'/>
-    <signal slot='LA17_P_CC' platform='LA[17]_CC_P'/>
-    <signal slot='LA18_N_CC' platform='LA[18]_CC_N'/>
-    <signal slot='LA18_P_CC' platform='LA[18]_CC_P'/>
-    <signal slot='LA19_N' platform='LA[19]_N'/>
-    <signal slot='LA19_P' platform='LA[19]_P'/>
-    <signal slot='LA20_N' platform='LA[20]_N'/>
-    <signal slot='LA20_P' platform='LA[20]_P'/>
-    <signal slot='LA21_N' platform='LA[21]_N'/>
-    <signal slot='LA21_P' platform='LA[21]_P'/>
-    <signal slot='LA22_N' platform='LA[22]_N'/>
-    <signal slot='LA22_P' platform='LA[22]_P'/>
-    <signal slot='LA23_N' platform='LA[23]_N'/>
-    <signal slot='LA23_P' platform='LA[23]_P'/>
-    <signal slot='LA24_N' platform='LA[24]_N'/>
-    <signal slot='LA24_P' platform='LA[24]_P'/>
-    <signal slot='LA25_N' platform='LA[25]_N'/>
-    <signal slot='LA25_P' platform='LA[25]_P'/>
-    <signal slot='LA26_N' platform='LA[26]_N'/>
-    <signal slot='LA26_P' platform='LA[26]_P'/>
-    <signal slot='LA27_N' platform='LA[27]_N'/>
-    <signal slot='LA27_P' platform='LA[27]_P'/>
-    <signal slot='LA28_N' platform='LA[28]_N'/>
-    <signal slot='LA28_P' platform='LA[28]_P'/>
-    <signal slot='LA29_N' platform='LA[29]_N'/>
-    <signal slot='LA29_P' platform='LA[29]_P'/>
-    <signal slot='LA30_N' platform='LA[30]_N'/>
-    <signal slot='LA30_P' platform='LA[30]_P'/>
-    <signal slot='LA31_N' platform='LA[31]_N'/>
-    <signal slot='LA31_P' platform='LA[31]_P'/>
-    <signal slot='LA32_N' platform='LA[32]_N'/>
-    <signal slot='LA32_P' platform='LA[32]_P'/>
-    <signal slot='LA33_N' platform='LA[33]_N'/>
-    <signal slot='LA33_P' platform='LA[33]_P'/-->
 
-    <!-- These signals do not have connections to the platform -->
-    <!--signal slot='DP0_C2M_N' platform=''/-->
-    <!--signal slot='DP0_C2M_P' platform=''/-->
+    <!-- These signals ARE on the zrf8_48dr schematic, but there is an issue when attempting to connect them. Once the issue is resolved, they can be uncommented in the zrf8_48dr.xdc and removed here to indicate they are now being used and the names are unchanged -->
+
+    <signal slot='DP0_C2M_N' platform=''/>
+    <signal slot='DP0_C2M_P' platform=''/>
     <signal slot='DP1_C2M_N' platform=''/>
     <signal slot='DP1_C2M_P' platform=''/>
     <signal slot='DP2_C2M_N' platform=''/>
@@ -145,93 +40,10 @@
     <signal slot='DP6_C2M_P' platform=''/>
     <signal slot='DP7_C2M_N' platform=''/>
     <signal slot='DP7_C2M_P' platform=''/>
-
-    <signal slot='CLK0_M2C_N' platform=''/>
-    <signal slot='CLK0_M2C_P' platform=''/>
-
-    <signal slot='GBTCLK0_M2C_N' platform=''/>
-    <signal slot='GBTCLK0_M2C_P' platform=''/>
-    <signal slot='GBTCLK1_M2C_N' platform=''/>
-    <signal slot='GBTCLK1_M2C_P' platform=''/>
-
-    <signal slot='LA01_N_CC' platform=''/>
-    <signal slot='LA01_P_CC' platform=''/>
-    <signal slot='LA02_N' platform=''/>
-    <signal slot='LA02_P' platform=''/>
-    <signal slot='LA03_N' platform=''/>
-    <signal slot='LA03_P' platform=''/>
-    <signal slot='LA04_N' platform=''/>
-    <signal slot='LA04_P' platform=''/>
-    <signal slot='LA05_N' platform=''/>
-    <signal slot='LA05_P' platform=''/>
-    <signal slot='LA06_N' platform=''/>
-    <signal slot='LA06_P' platform=''/>
-    <signal slot='LA07_N' platform=''/>
-    <signal slot='LA07_P' platform=''/>
-    <signal slot='LA08_N' platform=''/>
-    <signal slot='LA08_P' platform=''/>
-    <signal slot='LA09_N' platform=''/>
-    <signal slot='LA09_P' platform=''/>
-    <signal slot='LA10_N' platform=''/>
-    <signal slot='LA10_P' platform=''/>
-    <signal slot='LA11_N' platform=''/>
-    <signal slot='LA11_P' platform=''/>
-    <signal slot='LA12_N' platform=''/>
-    <signal slot='LA12_P' platform=''/>
-    <signal slot='LA13_N' platform=''/>
-    <signal slot='LA13_P' platform=''/>
-    <signal slot='LA14_N' platform=''/>
-    <signal slot='LA14_P' platform=''/>
-    <signal slot='LA15_N' platform=''/>
-    <signal slot='LA15_P' platform=''/>
-    <signal slot='LA16_N' platform=''/>
-    <signal slot='LA16_P' platform=''/>
-    <signal slot='LA17_N_CC' platform=''/>
-    <signal slot='LA17_P_CC' platform=''/>
-    <signal slot='LA18_N_CC' platform=''/>
-    <signal slot='LA18_P_CC' platform=''/>
-    <signal slot='LA19_N' platform=''/>
-    <signal slot='LA19_P' platform=''/>
-    <signal slot='LA20_N' platform=''/>
-    <signal slot='LA20_P' platform=''/>
-    <signal slot='LA21_N' platform=''/>
-    <signal slot='LA21_P' platform=''/>
-    <signal slot='LA22_N' platform=''/>
-    <signal slot='LA22_P' platform=''/>
-    <signal slot='LA23_N' platform=''/>
-    <signal slot='LA23_P' platform=''/>
-    <signal slot='LA24_N' platform=''/>
-    <signal slot='LA24_P' platform=''/>
-    <signal slot='LA25_N' platform=''/>
-    <signal slot='LA25_P' platform=''/>
-    <signal slot='LA26_N' platform=''/>
-    <signal slot='LA26_P' platform=''/>
-    <signal slot='LA27_N' platform=''/>
-    <signal slot='LA27_P' platform=''/>
-    <signal slot='LA28_N' platform=''/>
-    <signal slot='LA28_P' platform=''/>
-    <signal slot='LA29_N' platform=''/>
-    <signal slot='LA29_P' platform=''/>
-    <signal slot='LA30_N' platform=''/>
-    <signal slot='LA30_P' platform=''/>
-    <signal slot='LA31_N' platform=''/>
-    <signal slot='LA31_P' platform=''/>
-    <signal slot='LA32_N' platform=''/>
-    <signal slot='LA32_P' platform=''/>
-    <signal slot='LA33_N' platform=''/>
-    <signal slot='LA33_P' platform=''/>
-
-    <signal slot='PG_M2C' platform=''/>
-
-    <signal slot='PRSNT_M2C_L' platform=''/>
-
-    <signal slot='REFCLK_M2C_N' platform=''/>
-    <signal slot='REFCLK_M2C_P' platform=''/>
-
     <signal slot='SYNC_C2M_N' platform=''/>
     <signal slot='SYNC_C2M_P' platform=''/>
-    <signal slot='SYNC_M2C_N' platform=''/>
-    <signal slot='SYNC_M2C_P' platform=''/>
+
+    <!-- These signals do not have connections to the platform -->
 
     <signal slot='DP23_M2C_P' platform=''/>
     <signal slot='DP23_M2C_N' platform=''/>
