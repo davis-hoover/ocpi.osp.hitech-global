@@ -587,7 +587,7 @@ set_property IOSTANDARD LVDS     [get_ports {FMC_PL_SYNC_M2C_P}];
 set_property DIFF_TERM 1         [get_ports {FMC_PL_SYNC_M2C_P}];
 
 set_property PACKAGE_PIN B10     [get_ports {FMC_PL_HSPC_PRSNT_M2C_L}];
-set_property IOSTANDARD LVCMOS18 [get_ports {FMC_PL_HSPC_PRSNT_M2C_L}];
+set_property IOSTANDARD LVCMOS33 [get_ports {FMC_PL_HSPC_PRSNT_M2C_L}];
 
 ## ADC Pin Assignments
 #set_property PACKAGE_PIN AF4 [get_ports "ADC_224_REFCLK_N"]
