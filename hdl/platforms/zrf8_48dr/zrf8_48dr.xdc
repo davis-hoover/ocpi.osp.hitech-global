@@ -570,7 +570,7 @@ set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA33_P}];
 set_property DIFF_TERM 1         [get_ports {FMC_PL_LA33_P}];
 
 set_property PACKAGE_PIN A10     [get_ports {FMC_PL_PG_M2C}];
-set_property IOSTANDARD LVCMOS   [get_ports {FMC_PL_PG_M2C}];
+set_property IOSTANDARD LVCMOS33 [get_ports {FMC_PL_PG_M2C}];
 
 set_property PACKAGE_PIN AP11    [get_ports {FMC_PL_REFCLK_M2C_N}];
 set_property PACKAGE_PIN AN11    [get_ports {FMC_PL_REFCLK_M2C_P}];
