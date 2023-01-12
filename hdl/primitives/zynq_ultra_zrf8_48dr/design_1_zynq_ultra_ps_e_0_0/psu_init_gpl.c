@@ -13033,6 +13033,9 @@ unsigned long psu_mio_init_data(void)
     * Master Tri-state Enable for pin 42, active high
     *  PSU_IOU_SLCR_MIO_MST_TRI1_PIN_42_TRI                        0
 
+    * Master Tri-state Enable for pin 44, active high
+    *  PSU_IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI                        1
+
     * Master Tri-state Enable for pin 45, active high
     *  PSU_IOU_SLCR_MIO_MST_TRI1_PIN_45_TRI                        1
 
@@ -13091,10 +13094,10 @@ unsigned long psu_mio_init_data(void)
     *  PSU_IOU_SLCR_MIO_MST_TRI1_PIN_63_TRI                        0
 
     * MIO pin Tri-state Enables, 63:32
-    * (OFFSET, MASK, VALUE)      (0XFF180208, 0xFFFFE780U ,0x00B02000U)
+    * (OFFSET, MASK, VALUE)      (0XFF180208, 0xFFFFF780U ,0x00B03000U)
     */
 	PSU_Mask_Write(IOU_SLCR_MIO_MST_TRI1_OFFSET,
-		0xFFFFE780U, 0x00B02000U);
+		0xFFFFF780U, 0x00B03000U);
 /*##################################################################### */
 
     /*
@@ -14179,7 +14182,7 @@ unsigned long psu_mio_init_data(void)
     *  PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_17            1
 
     * Each bit applies to a single IO. Bit 0 for MIO[26].
-    *  PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_18            1
+    *  PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_18            0
 
     * Each bit applies to a single IO. Bit 0 for MIO[26].
     *  PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_19            0
@@ -14203,10 +14206,10 @@ unsigned long psu_mio_init_data(void)
     *  PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_25            1
 
     * Slew rate control to MIO Bank 1 - control MIO[51:26]
-    * (OFFSET, MASK, VALUE)      (0XFF180168, 0x03FFFFFFU ,0x03F7FFEBU)
+    * (OFFSET, MASK, VALUE)      (0XFF180168, 0x03FFFFFFU ,0x03F3FFEBU)
     */
 	PSU_Mask_Write(IOU_SLCR_BANK1_CTRL6_OFFSET,
-		0x03FFFFFFU, 0x03F7FFEBU);
+		0x03FFFFFFU, 0x03F3FFEBU);
 /*##################################################################### */
 
     /*

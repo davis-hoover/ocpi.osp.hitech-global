@@ -26031,6 +26031,16 @@
 #define IOU_SLCR_MIO_MST_TRI1_PIN_42_TRI_MASK                  0x00000400U
 
 /*
+* Master Tri-state Enable for pin 44, active high
+*/
+#undef IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI_DEFVAL 
+#undef IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI_SHIFT 
+#undef IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI_MASK 
+#define IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI_DEFVAL                0xFFFFFFFF
+#define IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI_SHIFT                 12
+#define IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI_MASK                  0x00001000U
+
+/*
 * Master Tri-state Enable for pin 45, active high
 */
 #undef IOU_SLCR_MIO_MST_TRI1_PIN_45_TRI_DEFVAL 
