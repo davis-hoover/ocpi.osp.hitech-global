@@ -1,4 +1,4 @@
-.. Guide for developing the Hitech Global ZRF8 OSP
+.. OpenCPI zrf8_48dr Developers Guide
 
 .. This file is protected by Copyright. Please refer to the COPYRIGHT file
    distributed with this source distribution.
@@ -18,19 +18,10 @@
    You should have received a copy of the GNU Lesser General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+.. _dev-OpenCPI zrf8_48dr Developers Guide:
 
-:orphan:
-
-.. _dev-Guide for developing the High-Tech Global ZRF8 OSP:
-
-Guide for developing the High-Tech Global ZRF8 OSP
-=========================================================
-
-
-
-
-
-
+OpenCPI zrf8_48dr Developers Guide
+==================================
 
 .. _dev-Introduction-label:
 
@@ -80,17 +71,9 @@ Deliverables
 
 #. Supports the HDL Control Plane, HDL Data Plane, and interfaces to various other devices in a manner that is comparable with the vendor provided SDR
 
-TODO: Not sure if we are provided all of this:
-
 #. Documentation
 
-   #. OpenCPI ZRF8 Getting Started Guide
-
-   #. Guide for developing the Hitech Global ZRF8 OSP (This guide)
-
-   #. Guide for developing Device / Proxy Workers for i2c an bus
-
-   #. Datasheets for each application, Device Worker, and Device Proxy
+   #. OpenCPI zrf8_48dr Getting Started Guide
 
 .. _dev-Prerequisites-label:
 
@@ -101,53 +84,17 @@ Prerequisites
 
    #. A working knowledge of the OpenCPI framework is a must. Its documentation is located at https://opencpi.gitlab.io/releases/latest/. Close attention must be made to the following:
 
-      - `OpenCPI Platform Development Guide <https://opencpi.gitlab.io/releases/v2.2.1/docs/OpenCPI_Platform_Development_Guide.pdf>`_
+      - OpenCPI Platform Development Guide
 
-      - `OpenCPI Component Development Guide (Component Unit Test) <https://opencpi.gitlab.io/releases/v2.2.1/docs/OpenCPI_Component_Development_Guide.pdf>`_
+      - OpenCPI Component Development Guide
 
       - Getting Started Guide for the ZCU104
 
-      - Getting Started Guide for the FSK applications
+   #. High-Tech Global ZRF8 Documentation - **The following documentation must be requested directly from Hitech Global**
 
-      - Support documentation for the fmcomms2/3 daughtercard
+      - HiTech-Global ZRF8 Users Guide
 
-   #. High-Tech Global ZRF8
-
-      .. note::
-
-        The following documentation must be requested directly from Hitech Global
-
-      ..
-
-      #. Documents:
-
-         #.
-
-         #.
-
-         #.
-
-      #. Vendor reference design package
-
-#. **Equipment**
-
-TODO: This needs to be completed
-
-   +------------------+--------------------------------------------------------------------------+
-   | **Item**         | HTG-ZRF89                                                                |
-   +------------------+--------------------------------------------------------------------------+
-   | **Desciption**   | Software Defined Radio that hosts a Zynq UltraScale+ RFSoC               |
-   +------------------+--------------------------------------------------------------------------+
-   | **Vendor**       | High-Tech Global                                                         |
-   +------------------+--------------------------------------------------------------------------+
-   | **Version**      |                                                                          |
-   |                  |                                                                          |
-   |                  |                                                                          |
-   +------------------+--------------------------------------------------------------------------+
-   | **P/N**          | X                                                                        |
-   +------------------+--------------------------------------------------------------------------+
-   | **Cost**         | X                                                                        |
-   +------------------+--------------------------------------------------------------------------+
+      - HiTech-Global ZRF8 Schematic
 
 #. **Tools**
 
@@ -160,13 +107,6 @@ TODO: This needs to be completed
    #. OpenCPI FOSS framework, https://gitlab.com/opencpi/opencpi.git
 
       - Release v2.4.3
-
-      .. note::
-
-         Bug fixes and enhancements are detailed in this guide
-
-      ..
-
 
 .. _dev-Preview-of-the-concluding-directory-tree-label:
 
@@ -199,14 +139,10 @@ This guide requires the creation of many directories. A summary of those directo
 
 **Petalinux directories**::
 
-   /home/user/plx_zrf8_48dr_cp
-   /home/user/plx_zrf8_48dr_dp
+   /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp
+   /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp
 
 ..
-
-
-
-
 
 .. _dev-Design-Staging-label:
 
@@ -328,11 +264,9 @@ TODO: Add documents if provided:
 
 #. Review the vendor provided documentation, such as, but not limited to:
 
-   #.
+   #. HiTech-Global ZRF8 Users Guide
 
-   #.
-
-   #.
+   #. HiTech-Global ZRF8 Schematic
 
 #. Run the various examples application(s)
 
@@ -349,19 +283,6 @@ TODO: Add documents if provided:
    #. Run Application(s)
 
 #. (OPTIONAL) Once you have become familiar with the out-of-the-box reference design, convince yourself that you can edit the design by including a register for readback, which supports read/write or has a constant value. The details are left to the reader.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .. _dev-OpenCPI-Staging-label:
 
@@ -398,7 +319,6 @@ Download the ``v2.4.3`` tag of OpenCPI from the provided link, then run the defa
    ``cd /home/user/opencpi/``
 
    ``./scripts/install-opencpi.sh --minimal``
-
 
 .. _dev-Configure-a-host-terminal-for-OpenCPI-development-label:
 
@@ -804,11 +724,6 @@ Create an OpenCPI project for the ZRF8
 
    ..
 
-
-
-
-
-
 .. _dev-Enable-OpenCPI-HDL-Control-Plane-label:
 
 Enable OpenCPI HDL Control Plane
@@ -944,7 +859,7 @@ PetaLinux workspace for Control Plane
 
 **GOAL:**
 
-- The following `PetaLinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked". 
+- The following `PetaLinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked".
 
 - Successful completion of this section is a bootable SD-card image utilizing the Petalinux utility
 
@@ -956,15 +871,15 @@ PetaLinux workspace for Control Plane
 
 #. Create a petalinux project directory for Control-Plane (cp)
 
-   ``cd /home/user``
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/``
 
-   ``petalinux-create -t project --template zynqMP --name "plx_zrf8_48dr_cp"``
+   ``petalinux-create -t project --template zynqMP --name "petalinux_cp"``
 
 #. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step.
 
-   ``cd /home/user/plx_zrf8_48dr_cp``
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/``
 
-   ``petalinux-config --get-hw-description=../zrf8_48dr_cp/pl_core/build/htg-zrf8_48dr-rev3/pl_core/``
+   ``petalinux-config --get-hw-description=../``
 
 #. Once the ``/misc/config`` System Configuration GUI is present in the terminal, continue with the following edits
 
@@ -999,7 +914,7 @@ Create Control-Plane boot artifacts for the framework to leverage when the Platf
 
 #. Create ``2021.1-zrf8_48dr-release`` directory to store boot artifacts
 
-   ``cd /home/user/plx_zrf8_48dr_cp/images/linux``
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/images/linux``
 
    ``mkdir 2021.1-zrf8_48dr-release``
 
@@ -1444,6 +1359,7 @@ Create HDL Platform Worker for CP
    ``cp /home/user/opencpi/projects/platforms/hdl/platforms/zcu104/zcu104.mk ./zrf8_48dr.mk``
 
    Code-Block:::
+
       HdlPart_zrf8_48dr=xczu48dr-2-ffvg1517e
       HdlRccPlatform_zrf8_48dr=xilinx21_1_aarch64
 
@@ -1603,7 +1519,7 @@ With all previous _dev-Enable-OpenCPI-HDL-Control-Plane-label: section complete,
 
    #. ``sudo rm -rf /run/media/<user>/BOOT/*``
 
-   #. ``cp BOOT.BIN image.ub boot.scr system.dtb /run/media/<user>/BOOT/``
+   #. ``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
 
    #. ``sudo cp -RLp opencpi/ /run/media/<user>/BOOT/``
 
@@ -1675,7 +1591,7 @@ HDL CP Verification: Pattern Capture application
 
 TODO: Revise section
 
-#. Perform the 
+#. Perform the
 
 #. Be sure that the :ref:`dev-Install-and-Deploy-with-CP-enabled-label` section has been implemented, specifically the **Populate the sd-card artifacts** step.
 
@@ -1862,15 +1778,15 @@ TODO: Include Integrating buildtools-extended into Petalinux picture for GCC Err
 
 #. Create a petalinux project directory for Control-Plane (cp)
 
-   ``cd /home/user``
+   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/``
 
-   ``petalinux-create -t project --template zynqMP --name "plx_zrf8_48dr_dp"``
+   ``petalinux-create -t project --template zynqMP --name "petalinux_dp"``
 
 #. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step.
 
-   ``cd /home/user/plx_zrf8_48dr_dp``
+   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp``
 
-   ``petalinux-config --get-hw-description=../zrf8_48dr_dp/pl_core/build/htg-zrf8_48dr-rev3/pl_core/``
+   ``petalinux-config --get-hw-description=../``
 
 #. Once the ``/misc/config`` System Configuration GUI is present in the terminal, continue with the following edits
 
@@ -1905,13 +1821,13 @@ Create Control-Plane boot artifacts for the framework to leverage when the Platf
 
 #. Create ``2021.1-zrf8_48dr-release`` directory to store boot artifacts
 
-   ``cd /home/user/plx_zrf8_48dr_dp/images/linux``
+   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp/images/linux``
 
    ``mkdir 2021.1-zrf8_48dr-release``
 
 #. Copy the boot artifacts into the directory and create a ``ZynqReleases`` tar
 
-   ``cp BOOT.BIN image.ub boot.scr rootfs.tar.gz 2021.1-zrf8_48dr-release``
+   ``cp BOOT.BIN image.ub boot.scr 2021.1-zrf8_48dr-release``
 
    ``tar cvfz 2021.1-zrf8_48dr-release.tar.xz 2021.1-zrf8_48dr-release``
 
@@ -2218,18 +2134,13 @@ Install and Deploy with DP enabled
 
    #. ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64``
 
-   #. ``sudo rm -rf /run/media/<user>/RootFs/*``
-
    #. ``sudo rm -rf /run/media/<user>/BOOT/*``
 
-   #. ``cp image.ub /run/media/<user>/BOOT/``
+   #. ``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
 
-   #. ``sudo tar xvf rootfs.tar.gz -C /run/media/<user>/RootFs/``
+   #. ``sudo cp -RLp opencpi/ /run/media/<user>/BOOT/``
 
-   #. ``sudo cp -RLp opencpi/ /run/media/<user>/root/home/RootFs/``
-
-   #. ``umount /dev/sda1`` and ``$ umount /dev/sda2``
-
+   #. ``umount /dev/sda1``
 
 .. _dev-HDL-DP-Verification-testbias-application-label:
 
@@ -2242,17 +2153,13 @@ HDL DP Verification: testbias application
 
 .. note::
 
-   **The** :ref:`dev-Component-Unit-Test-results-table-label` **section in the
-   APPENDIX contains the verfication test results of the zrf8_48dr board.**
+   **The** :ref:`dev-Component-Unit-Test-results-table-label` **section in the APPENDIX contains the verfication test results of the zrf8_48dr board.**
 
 ..
 
 **IMPLEMENTATION:**
 
-#. Be sure that the :ref:`dev-Install-and-Deploy-with-DP-enabled-label` section has been
-   implemented, specifically the **Populate the sd-card artifacts** step.
-
-#. Execute the :ref:`dev-Boot-ZRF8-label` section.
+#. Be sure that the :ref:`dev-Install-and-Deploy-with-DP-enabled-label` section has been implemented, specifically the **Populate the sd-card artifacts** step.
 
 #. Execute the :ref:`dev-Standalone-Mode-setup-label` section.
 
@@ -2581,7 +2488,7 @@ This process can be done in parallel. Open three different terminals and build a
 
    ``$ cd /home/user/opencpi/projects/core/components``
 
-   ``$ ocpidev build test --hdl-platform zrf8_48dr``
+   ``$ ocpidev build tests --hdl-platform zrf8_48dr``
 
 #. Build the component unit tests from project: **assets** (Takes several hours)
 
@@ -2593,7 +2500,7 @@ This process can be done in parallel. Open three different terminals and build a
 
    ``$ cd /home/user/opencpi/projects/assets/components/<sub-directory>/``
 
-   ``$ ocpidev build test --hdl-platform zrf8_48dr``
+   ``$ ocpidev build tests --hdl-platform zrf8_48dr``
 
 #. Build the component unit tests from project: **assets_ts** (Takes several hours)
 
@@ -2605,7 +2512,7 @@ This process can be done in parallel. Open three different terminals and build a
 
    ``$ cd /home/user/opencpi/projects/assets_ts/components/``
 
-   ``$ ocpidev build test --hdl-platform zrf8_48dr``
+   ``$ ocpidev build tests --hdl-platform zrf8_48dr``
 
 
 .. _dev-Run-the-Unit-Tests-(Sequentially)-on-the-Development-Host-label:
@@ -2613,19 +2520,14 @@ This process can be done in parallel. Open three different terminals and build a
 Run the Unit Tests (Sequentially) on the Development Host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. note::
-
-   #. **This section is very painstaking. In order to be certain, that each Component Unit
-      Test is performed, the user must traverse into each unit *\.test directory of each
+#. **This section is very painstaking. In order to be certain, that each Component Unit Test is performed, the user must traverse into each unit *\.test directory of each
       component library and to execute the unit test.**
 
-      - There alternative methods, but this is the most thorough to execute.
+   - There alternative methods, but this is the most thorough to execute.
 
-   #. **Some of these tests are known to fail or partically fail, per the their performance
-      on a FOSS supported OSP (i.e. zcu104).**
+#. **Some of these tests are known to fail or partically fail, per the their performance on a FOSS supported OSP.**
 
-   #. **A chart is provided in the** :ref:`dev-Component-Unit-Test-results-table-label` **section below
-      that outlines the expected outcome for each of these tests (as of v2.4.3).**
+#. **A chart is provided in the** :ref:`dev-Component-Unit-Test-results-table-label` **section below that outlines the expected outcome for each of these tests (as of v2.4.3).**
 
 #. Setup for :ref:`dev-Server-Mode-setup-label`
 
@@ -2646,279 +2548,6 @@ Run the Unit Tests (Sequentially) on the Development Host
    ``$ cd /home/user/opencpi/projects/assets_ts/components/<>.test``
 
    ``$ ocpidev run --only-platform zrf8_48dr --accumulate-errors``
-
-
-.. _dev-Enable-support-for-AD9361-label:
-
-Enable support for AD9361
--------------------------
-
-**BACKGROUND:**
-
-- While the ``AD9361`` IC is a dual channel transceiver, the ``ZRF8`` supports one RX only
-  and a Tx/RX interfaces.
-
-**GOAL:**
-
-- Add Device Workers to the ``Platform Worker`` that are required to support the ``AD9361``.
-
-- Build test assembly(ies) to prove that the interfaces to the ``AD9361`` are functional.
-
-**IMPLEMENTATION:**
-
-- Declare the Device Workers that support the ``AD9361`` to the ``ZRF8`` Platform Worker
-
-- Create/Update a XDC constraints file
-
-- Create HDL Assemblies and Containers XML files for testing the 1Tx/1Rx configuration
-
-   - i.e. ``fsk_modem``
-
-- Create HDL Assemblies and Containers XML files for testing the dual Rx configuration
-
-   .. warning::
-
-      A bug in FOSS version 2.2.0 does not allow for dual Rx applications to execute properly
-
-   ..
-
-- Run the applications to verify the above configurations and verifying the output file
-
-   - 1Tx/1Rx - fsk_modem_app
-
-   - Dual RX - **Not supported by FOSS v2.4.3**
-
-.. note::
-
-   **CODEBLOCK: The ``finalized`` code block of various files mentioned in this section are located
-   in the ocpi.osp.hitech-global repository and whose contents should be referenced for the
-   remainder of this section.**
-
-   ::
-
-      ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/
-
-      ocpi.osp.hitech-global/hdl/assemblies/fsk_modem/
-
-      ocpi.osp.hitech-global/hdl/applications/fsk_dig_radio_ctrlr/
-
-   ..
-
-..
-
-
-.. _dev-Update-HDL-Platform-Worker-to-declare-HDL-Device-Workers-label:
-
-Update HDL Platform Worker to declare HDL Device Workers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- Since the ``ZRF8`` does not implement a slot/card paradigm for the ``AD9361``, then **ALL** HDL
-  Device Workers that are required in support of the the ZRF8 **MUST** be declared in the HDL
-  ``Platform Worker``. **THEREFORE**, the data streaming protocol for the ZRF8 OSP is *limited* to
-  the protocol of the HDL Device Workers declared in the ``Platform Worker``. **Furthermore**, if
-  another protocol is desired, then protocol adapters must be implemented in the HDL Assembly.
-
-**IMPLEMENTATION:**
-
-#. Since the ``ocpi.ocp.e3xx`` supports the ``AD9361`` in a similar manner as the ``zrf8_48dr``, it will
-   be referenced in this section.
-
-#. Consolidated the appropriate constraints files ``zrf8_48dr.xdc`` and ``sidekiq_zrf8_48dr.xdc`` to support
-   the ``AD9361`` and the other various signals to support complete functionality of the ``ZRF8``.
-
-#. Create an HDL Assembly and Container XML in support of the ``fsk_modem``
-
-#. Build the bitstream for the ``fsk_modem``
-
-#. Create a DRC App Worker (``drc_zrf8_48dr.rcc``), by using the ``assets/hdl/cards/drc_fmcomms_2_3.rcc``
-   as a benchmark
-
-#. Run ``fsk_modem_app`` (any OCPI ``setup mode`` is possible: Standalone, Network, Server)
-
-.. _dev-Create-the-fsk_modem-HDL-Assembly-and-Container-XML-label:
-
-Create the fsk_modem HDL Assembly and Container XML
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- For better organizational purposes, an HDL Assembly directory and XML are created, named
-  ``fsk_modem`` and located in this ``projects/osps/ocpi.ocp.epiq_solutions``` repository. The
-  HDL Assembly XML (fsk_modem.xml) from the ``assets/hdl/assemblies/fsk_modem/fsk_modem.xml``
-  is simply copied into this directory.
-
-- The HDL Container XML and constraints files are created so that the zrf8_48dr is included within the
-  build of the fsk_modem HDL Assembly.
-
-- Additionally, the **e310** Container XML file for the fsk_modem is also referenced.
-
-**IMPLEMENTATION:**
-
-#. Clone the ``ocpi.osp.e3xx`` project
-
-   ``$ cd ~/Downloads``
-
-   ``$ git clone -b release-2.2.0 git@gitlab.com:opencpi/osp/ocpi.osp.e3xx.git``
-
-#. Create an assembly library
-
-   ``$ cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global``
-
-   ``$ ocpidev create hdl assembly fsk_modem``
-
-   ``$ cd hdl/assemblies/fsk_modem``
-
-#. Copy and edit files from ``ocpi.osp.e3xx/hdl/assemblies/fsk_modem/cnt.xml``
-
-   #. ``$ cp /home/user/Downloads/ocpi.osp.e3xx/hdl/assemblies/fsk_modem/cnt.xml ./cnt_1tx_1rx.xml``
-
-   #. Edit:
-
-      ::
-
-         only='zrf8_48dr'
-
-         constraints='zrf8_48dr.xdc'
-
-         Remove all card='*' attributes
-
-         Change interconnect='zynq' to 'zynq_ultra'
-
-      ..
-
-#. Create a ``Makefile`` to declare the Containers to build
-
-   ::
-
-      Containers=\
-              cnt_1tx_1rx.xml
-
-      DefaultContainers=
-      ExcludePlatforms=isim modelsim xsim
-      Libraries+=misc_prims util_prims dsp_prims comms_prims
-
-   ..
-
-#. Update the ``zrf8_48dr.xdc`` by examining the following file:
-
-   ::
-
-      ocpi.osp.e3xx/hdl/assemblies/fsk_modem/e31x_mimo_xcvr_data_src_qadc_ad9361_sub_data_sink_qdac_ad9361_sub_mode_2_cmos.xdc
-
-   ..
-
-   Integrate the relevant ``AD9361`` constraints into the ``hdl/platforms/zrf8_48dr/zrf8_48dr.xdc`` file.
-
-
-.. _dev-Build-the-fsk_modem-HDL-Assembly-and-Container-label:
-
-Build the fsk_modem HDL Assembly and Container
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-#. Building the fsk_modem HDL Assembly and Containers (bitstreams)
-
-   ``$ cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global``
-
-   ``$ ocpidev build --hdl-assembly fsk_modem --hdl-platform zrf8_48dr``
-
-
-.. _dev-Create-the-fsk-modem-Application-label:
-
-Create the fsk_modem Application
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- For better organizational purposes, a local copy of the ``assets/applications/fsk_dig_radio_ctrlr/``
-  is created within the ``projects/osps/ocpi.ocp.epiq_solutions`` repository and modified
-  modified as needed to support the ``ZRF8``.
-
-**IMPLEMENTATION:**
-
-#. Make a local copy of the ``fsk_dig_radio_ctrlr`` application directory
-
-   ``$ cd ocpi.osp.hitech-global``
-
-   ``$ cp -rf ../../assets/applications/fsk_dig_radio_ctrlr/ applications/``
-
-#. Edit the local ``fsk_modem_app.xml`` file to modify the target output filename to be more
-   generic:
-
-   From: ``fsk_dig_radio_ctrlr_fmcomms_2_3_txrx.bin``
-
-   To: ``odata.bin``
-
-
-.. _dev-Running-the-fsk_modem_app-label:
-
-Running the fsk_modem_app
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-#. Setup zrf8_48dr for :ref:`dev-Network-Mode-setup-label`
-
-   - i.e. customize the ``mynetsetup.sh`` to NFS mount to the development host's cdk/ and the various
-     projects containing necessary run-time artifacts
-
-   - Be sure that the ``mynetsetup.sh`` script has the following mount points that will now include
-     the ocpi.osp.hitech-global project::
-
-        mkdir -p /mnt/net
-        mount -t nfs -o udp,nolock,soft,intr $1:$2 /mnt/net  # second argument should be location of opencpi directory
-        mkdir -p /mnt/ocpi_core
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/core /mnt/ocpi_core
-        mkdir -p /mnt/ocpi_assets
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/assets /mnt/ocpi_assets
-        mkdir -p /mnt/ocpi_assets_ts
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/assets_ts /mnt/ocpi_assets_ts
-        mkdir -p /mnt/ocpi_zrf8_48dr
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/osps/ocpi.osp.hitech-global /mnt/ocpi_zrf8_48dr
-
-#. Change directories to the fsk_dig_radio_ctrlr application:
-
-   ``% cd /mnt/ocpi_zrf8_48dr/applications/fsk_dig_radio_ctrlr``
-
-#. Disable the OCPI_DMA_CACHE_MODE which have shown issues with the Zynq UltraScale+ family
-
-   .. warning::
-
-      Required for FOSS versions pre-2.2.0
-   ..
-
-   ``% export OCPI_DMA_CACHE_MODE=0``
-
-#. Setup artifacts search path
-
-::
-
-   % export OCPI_LIBRARY_PATH=/mnt/ocpi_zrf8_48dr/hdl/assemblies/fsk_modem:/mnt/ocpi_zrf8_48dr/hdl/devices:/mnt/ocpi_core/artifacts/ocpi.core.file_write.rcc.0.xilinx21_1_aarch64.so:/mnt/ocpi_core/artifacts/ocpi.core.file_read.rcc.0.xilinx21_1_aarch64.so:/mnt/ocpi_assets/artifacts/ocpi.assets.dsp_comps.Baudtracking_simple.rcc.0.xilinx21_1_aarch64.so:/mnt/ocpi_assets/artifacts/ocpi.assets.dsp_comps.real_digitizer.rcc.0.xilinx21_1_aarch64.so
-
-..
-
-#. Run app for enough time, -t, so that the entire data file (picture) can flow through the app
-
-   .. note::
-
-      **Intermittent issues have been seen when using the Network Mode setup to run the
-      fsk_modem_app.xml, if the picture below does not present itself, perform ``ocpihdl unload``
-      to ``unload`` the FPGA on the zrf8_48dr. Once unloaded, rerun the app (which will ``load`` the
-      FPGA with registers in a reset/initial state) and this should resolve the issue.**
-
-   ..
-
-   ``% ocpirun -v -d -x -t 15 fsk_modem_app.xml``
-
-#. On your development host:
-
-   - With the output file accessible or copied onto the development host:
-
-   ``$ cd <path>/odata.bin``
-
-   ``$ eog odata.bin``
-
-   - **SUCCESS** is defined as the expected picture being displayed in its entirety
-
 
 .. _dev-APPENDIX-label:
 
@@ -2952,17 +2581,17 @@ Petalinux Build
 
    #. :ref: `Configure PS for CP`
 
-      ``petalinux-create -t project --template zynqMP --name "plx_zrf8_48dr_cp"``
+      ``petalinux-create -t project --template zynqMP --name "petalinux_cp"``
 
    #. :ref: `Configure PS for DP`
 
-      ``petalinux-create -t project --template zynqMP --name "plx_zrf8_48dr_dp"``
+      ``petalinux-create -t project --template zynqMP --name "petalinux_dp"``
 
 #. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step during any of the three given sections above.
 
-   ``cd /home/user/plx_zrf8_48dr_xx``
+   ``cd /home/user/zrf8_48dr_xx/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_xx``
 
-   ``petalinux-config --get-hw-description=../zrf8_48dr_xx/pl_core/build/htg-zrf8_48dr-rev3/pl_core/``
+   ``petalinux-config --get-hw-description=../``
 
 #. Once the ``/misc/config`` System Configuration GUI is present in the terminal, continue with the default settings and press 'e' (EXIT) and 'y' (YES).
 
@@ -2987,9 +2616,6 @@ Petalinux Build
       The use of ``-fpga`` is not required if the desire is to not program the FPGA from u-boot. If you are using the ['Preset' Board Design Files (BDF)](#'preset'-board-design-files-(bdf)) method the '--fpga' option should not be used, as it does not contain a constraint file. This is due to issues seen when using Server Mode. When a bitstream IS loaded and packed into the BOOT.BIN, it is not possible to setup Server Mode.
 
 
-
-
-
 #. Place the BOOT.BIN and image.ub into a micro-SD card that is configured for FAT32 and has (1) partition. Be sure to move or remove the contents from within the micro-SD card to be sure that it is empty.
 
    :ref: `Format-microSD-card`
@@ -3002,11 +2628,11 @@ Petalinux Build
 
    ``sudo screen /dev/ttyUSB0 115200``
 
-   ``plx_zrf8_48dr_x login: root``
+   ``petalinux_x login: root``
 
    ``Password: root``
 
-   ``root@plx_zrf8_48dr_x:~``
+   ``root@petalinux_x:~``
 
 .. _dev-Format-SD-card-label:
 
@@ -3014,12 +2640,11 @@ Format SD card
 ^^^^^^^^^^^^^^
 
 **IMPLEMENTATION:**
+A valid SD-Card with a ``BOOT`` partition needs to be made.
 
-#. Install the microSD card
+#. Be sure to save off any important information on the SD card
 
-#. Be sure to save off any important information on the microSD card
-
-#. ``sudo umount /dev/sda1`` and/or ``sudo umount /dev/sda2``
+#. ``sudo umount /dev/sda1``
 
 #. ``sudo fdisk /dev/sda``
 
@@ -3033,44 +2658,22 @@ Format SD card
 
 #. Make the following selections to create two partitions
 
-   #. New ``n``, Primary ``p``, Partition number ``1``, First sector [enter] (default), Last sector [enter] (default)
+   #. New ``n``, Primary ``p``, Partition number ``1``, First sector [enter] (default),
+      Last sector size [enter] (default)
 
 #. Write table to disk and exit
 
    Command (m for help): ``w``
 
-#. Uninstall and reinstall the microSD card / USB drive
+#. Uninstall and reinstall the SD Card / USB drive
 
-#. ``sudo umount /dev/sda1`` and/or ``sudo umount /dev/sda2``
+#. ``sudo umount /dev/sda1``
 
-#. ``sudo mkfs.vfat -F 32 -n BOOT /dev/sda1``::
+#. ``sudo mkfs.vfat -F 32 -n BOOT /dev/sda1``
 
-      mke2fs 1.42.9 (28-Dec-2013)
-      Filesystem label=root
-      OS type: Linux
-      Block size=4096 (log=2)
-      Fragment size=4096 (log=2)
-      Stride=0 blocks, Stripe width=0 blocks
-      907536 inodes, 3627136 blocks
-      181356 blocks (5.00%) reserved for the super user
-      First data block=0
-      Maximum filesystem blocks=2151677952
-      111 block groups
-      32768 blocks per group, 32768 fragments per group
-      8176 inodes per group
-      Superblock backups stored on blocks:
-              32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208
+#. Uninstall and reinstall the microSD card
 
-      Allocating group tables: done
-      Writing inode tables: done
-      Creating journal (32768 blocks): done
-      Writing superblocks and filesystem accounting information: done
-
-   ..
-
-#. Uninstall and reinstall the microSD card / USB drive
-
-#. Check that both partitions have been made
+#. Check that the partition ``BOOT`` has been created
 
 
 
@@ -3191,27 +2794,26 @@ building the Matchstiq ZRF8 HDL Platform Worker and FSK assembly, respectively.
 #. ::
 
 
-    $ git diff /home/user/opencpi/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
-    WARNING: terminal is not fully functional
-    -  (press RETURN)
-    diff --git a/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml b/projects/assets/components/dsp_comps/index b872e84..4d644d0 100644
-    --- a/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
-    +++ b/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
-    @@ -1,8 +1,8 @@
-    -<HdlWorker Language="vhdl" Spec="dc_offset_filter-spec.xml" Version="2" DataWidth="32"
-    -          ExactParts='zynq:xc7z020-1-clg484
-    +<HdlWorker Language="vhdl" Spec="dc_offset_filter-spec.xml" Version="2" DataWidth="32">
-    +<!--      ExactParts='zynq:xc7z020-1-clg484
-                           zynq_ise:xc7z020_ise_alias-1-clg484
-                           virtex6:xc6vlx240t-1-ff1156
-    -                      stratix4:ep4sgx230k-c2-f40'>
-    +                      stratix4:ep4sgx230k-c2-f40'-->
+   $ git diff /home/user/opencpi/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
+   WARNING: terminal is not fully functional
+   -  (press RETURN)
+   diff --git a/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml b/projects/assets/components/dsp_comps/index b872e84..4d644d0 100644
+   --- a/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
+   +++ b/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
+   @@ -1,8 +1,8 @@
+   -<HdlWorker Language="vhdl" Spec="dc_offset_filter-spec.xml" Version="2" DataWidth="32"
+   -          ExactParts='zynq:xc7z020-1-clg484
+   +<HdlWorker Language="vhdl" Spec="dc_offset_filter-spec.xml" Version="2" DataWidth="32">
+   +<!--      ExactParts='zynq:xc7z020-1-clg484
+                          zynq_ise:xc7z020_ise_alias-1-clg484
+                          virtex6:xc6vlx240t-1-ff1156
+   -                      stratix4:ep4sgx230k-c2-f40'>
+   +                      stratix4:ep4sgx230k-c2-f40'-->
 
-       <Property Name="LATENCY_p" Type="uchar" Parameter="true" Default="1"
-                Description='Number of clock cycles between a valid input and a valid output'/>
+      <Property Name="LATENCY_p" Type="uchar" Parameter="true" Default="1"
+               Description='Number of clock cycles between a valid input and a valid output'/>
 
-..
-
+   ..
 
 .. _dev-Standalone-Mode-setup-label:
 
@@ -3224,8 +2826,6 @@ Standalone Mode setup
 
 **IMPLEMENTATION**
 
-#. If not already done, execute the :ref:`dev-Boot-ZRF8-label` section.
-
 TODO: This needs to be changed depeneding on the way the rootfs is constructed
 
 #. ``export OCPI_LOCAL_DIR=/home/root/opencpi``
@@ -3235,10 +2835,6 @@ TODO: This needs to be changed depeneding on the way the rootfs is constructed
 #. ``mount /media/sd-mmcblk0p1/opencpi/ opencpi/``
 
 #. ``cd /home/root/opencpi/``
-
-#. ``cp default_mysetup.sh ./mysetup.sh``
-
-#. Edit the ``mysetup.sh`` script to target the local bitstream that you want to use. (default ``testbias``)
 
 #. ``source /home/root/opencpi/mysetup.sh``
 
@@ -3300,131 +2896,6 @@ TODO: This needs to be changed depeneding on the way the rootfs is constructed
 
 ..
 
-.. _dev-Network-Mode-setup-label:
-
-Network Mode setup
-^^^^^^^^^^^^^^^^^^
-
-**GOAL**
-
-- The goal of this section is to enable the user with the ability to setup the Network Mode on the ZRF8. Success of this section is the ability to source the customized 'mynetsetup.sh" script that enables the Network Mode and provided the ability to load bitstreams from the Development Host (Computer) to the Platform Host (ZRF8).
-
-**IMPLEMENTATION**
-
-#. Configure the Development Host's ``/etc/exports.d/user.exports`` to allow the NFS mounting of the framework and it's projects, including the ``osp/``, for example. Restart the NFS server.
-
-   /home/user/opencpi 192.168.0.0/16(rw,sync,no_root_squash,crossmnt,fsid=38)
-
-#. Establish a serial connection from the Host to the ZRF8, open a terminal window:
-
-   ``sudo screen /dev/ttyUSB0 115200``
-
-#. Mount the OpenCPI filesystem
-
-   ``mkdir /home/root/opencpi``
-
-   ``mount /run/media/mmcblk0p1/opencpi /home/root/opencpi
-
-   ``cd opencpi/``
-
-#. Copy the mynetsetup.sh for editing
-
-   ``cp default_mynetsetup.sh ./mynetsetup.sh``
-
-   ``vi mynetsetup.sh``
-
-#. Edit the ``mynetsetup.sh`` per the configuration of the development host to access its
-   ``opencpi/``.
-   Under the section ``# Mount the opencpi development system as an NFS server, onto /mnt/net ...``.
-   add the following lines which are necessary for mount the core, platform, assets, and assets_ts
-   FOSS built-in projects.
-
-   ::
-
-        mkdir -p /mnt/net
-        mount -t nfs -o udp,nolock,soft,intr $1:$2 /mnt/net  # second argument should be location of opencpi directory
-        mkdir -p /mnt/ocpi_core
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/core /mnt/ocpi_core
-        mkdir -p /mnt/ocpi_platform
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/platform /mnt/ocpi_platform
-        mkdir -p /mnt/ocpi_assets
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/assets /mnt/ocpi_assets
-        mkdir -p /mnt/ocpi_assets_ts
-        mount -t nfs -o udp,nolock,soft,intr $1:/home/user/opencpi/projects/assets_ts /mnt/ocpi_assets_ts
-   ..
-
-#. Implement edits to automatically setup IP-Address
-
-   .. note::
-
-      NOT APPLICABLE!
-      At boot, the ZRF8 automatically configures its IP address to 192.168.0.15
-
-   ..
-
-#. Source the ``mynetsetup.sh`` script to enable OpenCPI Network Mode
-
-   #. root@zrf8_48dr~# ``cd opencpi/``
-
-   #. root@zrf8_48dr~/opencpi# ``export OCPI_LOCAL_DIR=/home/root/opencpi``
-
-   #. root@zrf8_48dr~/opencpi# ``source /home/root/opencpi/mynetsetup.sh <dev host IP address> /home/user/opencpi``
-
-      - Example: ``source /home/root/opencpi/mynetsetup.sh 192.168.0.20 /home/user/opencpi``
-
-    ::
-
-       root@/home/root/opencpi# source /home/root/opencpi/mynetsetup.sh 192.168.0.20 /home/user/opencpi
-       An IP address was detected.
-       My IP address is: 192.168.0.15, and my hostname is: zrf8_48dr
-       Attempting to set time from time.nist.gov
-       rdate: bad address 'time.nist.gov'
-       ====YOU HAVE NO NETWORK CONNECTION and NO HARDWARE CLOCK====
-       Set the time using the "date YYYY.MM.DD-HH:MM[:SS]" command.
-       Running login script.
-       OCPI_CDK_DIR is now /mnt/net/cdk.
-       OCPI_ROOT_DIR is now /mnt/net.
-       Executing /home/root/.profile
-       No reserved DMA memory found on the linux boot command line.
-       [  480.135392] opencpi: loading out-of-tree module taints kernel.
-       [  480.142325] opencpi: dma_set_coherent_mask failed for device ffffffc06cebcc00
-       [  480.149535] opencpi: get_dma_memory failed in opencpi_init, trying fallback
-       [  480.156544] NET: Registered protocol family 12
-       Driver loaded successfully.
-       OpenCPI ready for zynq.
-       Loading bitstream
-       Bitstream successfully loaded
-       Discovering available containers...
-       Available containers:
-       #  Model Platform            OS     OS-Version  Arch     Name
-       0  hdl   zrf8_48dr                                             PL:0
-       1  rcc   xilinx21_1_aarch64  linux  18_3        aarch64  rcc0
-       %
-
-   ..
-
-    ::
-
-       % pwd
-       /home/root/opencpi
-       %
-       % env | grep OCPI
-       OCPI_LOCAL_DIR=/home/root/opencpi
-       OCPI_ROOT_DIR=/mnt/net
-       OCPI_HDL_PLATFORM=
-       OCPI_LIBRARY_PATH=/mnt/net/project-registry/ocpi.core/exports/artifacts:/mnt/net/cdk/xilinx21_1_aarch64/artifacts:/mnt/net/projects/assets/artifacts:/home/root/opencpi/xilinx21_1_aarch64/artifacts
-       OCPI_TOOL_PLATFORM=xilinx21_1_aarch64
-       OCPI_RELEASE=opencpi-v2.1.0
-       OCPI_CDK_DIR=/mnt/net/cdk
-       OCPI_TOOL_DIR=xilinx21_1_aarch64
-       OCPI_SYSTEM_CONFIG=/home/root/opencpi/system.xml
-       OCPI_DEFAULT_HDL_DEVICE=pl:0
-       OCPI_ENABLE_HDL_SIMULATOR_DISCOVERY=0
-       OCPI_TOOL_OS=linux
-       %
-
-   ..
-
 .. _dev-Server-Mode-setup-label:
 
 Server Mode setup
@@ -3440,13 +2911,7 @@ Server Mode setup
 
 Enable the target platform for remote containers by ensuring its ``system.xml`` contains ``<remoteload='1'>`` and ``<socket load='1'>``. The ``system.xml`` can be found and changed in one of two places. Option 1 more robust than option 2, while option 2 is quicker to implement.
 
-**Option 1:**
-
-``/home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/sd_card/system.xml``
-
-   - If it does not match the code-block below, you will have to edit it and rebuild, reinstall and redeploy the platform.
-
-**Option 2:**
+**Be sure that the following file matches the code block below.**
 
 ``/home/user/opencpi/cdk/zrf8_48dr/system.xml``
 
@@ -3475,10 +2940,6 @@ Enable the target platform for remote containers by ensuring its ``system.xml`` 
 
 **Setup:**
 
-#. Server-side setup:
-
-   :ref:`dev-Boot-ZRF8-label`
-
 #. Client-side setup:
 
    #. Change into the OpenCPI directory:
@@ -3493,17 +2954,17 @@ Enable the target platform for remote containers by ensuring its ``system.xml`` 
 
       ``export OCPI_SERVER_ADDRESSES=<Valid ip-address>:<Valid port>``
 
-      - example: ``export OCPI_SERVER_ADDRESSES=10.3.10.78:12345``
+      - example: ``export OCPI_SERVER_ADDRESSES=10.100.1.20:12345``
 
       ``export OCPI_SOCKET_INTERFACE=<Valid socket>``
 
-      - example: ``export OCPI_SOCKET_INTERFACE=em1``
+      - example: ``export OCPI_SOCKET_INTERFACE=p1p1``
 
       - ``Valid socket`` is the name of the Ethernet interface of the development host which can communicate with the target platform
 
    #. Load ``sandbox`` onto the server:
 
-      ``ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr``
+      ``ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr -p <device-password>``
 
       Example of stdout:::
 
@@ -3523,11 +2984,11 @@ Enable the target platform for remote containers by ensuring its ``system.xml`` 
 
    #. Start the Server-Mode
 
-      ``ocpiremote start -b``
+      ``ocpiremote start -b -p <device-password>``
 
       Example of stdout:::
 
-         $ ocpiremote start -b -e OCPI_DMA_CACHE_MODE=0
+         $ ocpiremote start -b
          Executing remote configuration command: start -B
          Reloading kernel driver:
          Loading opencpi bitstream
@@ -3578,7 +3039,7 @@ Enable the target platform for remote containers by ensuring its ``system.xml`` 
 
       ``export OCPI_LIBRARY_PATH=../imports/ocpi.core/artifacts/:../../assets/artifacts/``
 
-      ``ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml``
+      ``ocpirun -v -P bias=zrf8_48dr -p bias=biasValue=0 testbias.xml``
 
    #. Output::
 
@@ -3609,519 +3070,150 @@ Enable the target platform for remote containers by ensuring its ``system.xml`` 
 
    If they have a matching ``md5sum`` then the application run successfully.
 
-
-.. _dev-Construct-the-opencpi/-directory-label:
-
-Construct the opencpi/ directory
-""""""""""""""""""""""""""""""""
-
-#. OPTION #1 - LESS manual, but MORE time
-
-   .. note::
-
-      **This step DOES require that the zcu104 HDL Platform to have been built, which takes many
-      hours to complete.**
-
-   ..
-
-   #. Complete the entire section of :ref:`dev-OpenCPI-Staging-label`
-
-   #. ``$ cp -rL cdk/zcu104/sdcard-xilinx21_1_aarch64/opencpi/ sd_card_opencpi/opencpi``
-
-   #. ``$ cd sd_card_opencpi/opencpi``
-
-   #. Edit release
-
-      - Change to ``opencpi-v2.4.3 xilinx21_1_aarch64 zrf8_48dr``
-
-   #. Copy and edit the Standalone Mode setup script
-
-      - ``$ cp default_mysetup.sh mysetup.sh``
-
-      - Edit by commenting out the section that loads the bitstream
-
-   #. Edit zynq_setup.sh by commenting out
-
-      - setting of the LD_LIBRARY_PATH
-
-      - loading the driver
-
-   #. Edit system.xml to include hdl... ``zrf8_48dr``
-
-      ::
-
-         <hdl load='1'>
-             <device name='PL:0' platform='zrf8_48dr'/>
-         </hdl>
-
-      ..
-
-#. OPTION #2 - MORE manual, but LESS time
-
-   .. note::
-
-      **This step DOES NOT require that the zcu104 HDL Platform to have been built, which takes
-      many hours to complete.**
-
-   ..
-
-   #. Complete (Install: xilinx21_1_aarch64 (an RCC platform)) of :ref:`dev-OpenCPI-Staging-label`
-
-   #. ``$ mkdir -p /home/user/sd_card_opencpi/opencpi``
-
-   #. ``$ cp -rL cdk/applications/ sd_card_opencpi/opencpi``
-
-   #. ``$ cp -rL cdk/runtime/opencpi-setup.sh sd_card_opencpi/opencpi/``
-
-   #. ``$ cp -rL cdk/runtime/scripts/ sd_card_opencpi/opencpi/``
-
-   #. ``$ cp -rL cdk/xilinx21_1_aarch64/ sd_card_opencpi/opencpi``
-
-   #. ``$ rm -f sd_card_opencpi/opencpi/kernel-headers.tgz``
-
-   #. ``$ cp -f platforms/zynq/{zynq_setup.sh, zynq_setup_common.sh} sd_card_opencpi/opencpi``
-
-   #. ``$ cp -f platforms/zynq/default-mysetup.sh sd_card_opencpi/opencpi/mysetup.sh``
-
-   #. Copy and edit
-
-      ``$ cp platforms/zynq/zynq_system.xml sd_card_opencpi/opencpi/system.xml``
-
-      sd_card_opencpi/opencpi/system.xml to include hdl... ``zrf8_48dr``
-
-      ::
-
-         <hdl load='1'>
-             <device name='PL:0' platform='zrf8_48dr'/>
-         </hdl>
-
-      ..
-
-   #. Copy and edit the Standalone Mode setup script
-
-      - ``$ cp default_mysetup.sh mysetup.sh``
-
-      - Edit by commenting out the section that loads the bitstream
-
-   #. Edit zynq_setup.sh by commenting out
-
-      - setting of the LD_LIBRARY_PATH
-
-      - loading the driver
-
-   #. Create and edit sd_card_opencpi/opencpi/release
-
-      - Edit to contain ``opencpi-v2.4.3 xilinx21_1_aarch64 zrf8_48dr``
-
-
-.. _dev-Run-on-the-ZRF8-label:
-
-Run on the ZRF8
-""""""""""""""
-
-#. Connect a microUSB/USB-A cable from the ZRF8 to Dev Host
-
-#. Connect USB-C/USB-A cable from ZRF8 to Dev Host. This will power-on the ZRF8.
-p
-#. From development host, open a screen session
-
-   $  ``sudo screen /dev/ttyUSB0 115000``
-
-#. After ZRF8 has successfully booted, from development host, verify the Ethernet connection:
-
-   #. Confirm that the Ethernet port has been created on the Dev Host with IP 192.168.0.20
-
-   #. Successfully execute ping of the ZRF8 (192.168.0.15)
-
-#. From development host, secure copy the opencpi/ to the ZRF8
-
-   ``$ scp -r sd_card_opencpi/opencpi/ sidekiq@192.168.0.15:/tmp``
-
-#. From screen session:
-
-   #. ``# sudo su -``
-
-   #. Create a /home/root directory
-
-      ``# mkdir /home/root/``
-
-   #. ``# mv /tmp/opencpi /home/root``
-
-   #. ``# chown -R root:root /home/root/opencpi``
-
-   #. ``# cd /home/root/opencpi``
-
-   #. ``# export OCPI_LOCAL_DIR=/home/root/opencpi``
-
-   #. ``# source /home/root/opencpi/mysetup.sh``
-
-   ::
-
-      root@zrf8_48dr:/home/root/opencpi# export OCPI_LOCAL_DIR=/home/root/opencpi
-      root@zrf8_48dr:/home/root/opencpi# source /home/root/opencpi/mysetup.sh
-      Attempting to set time from time.nist.gov
-      -su: rdate: command not found
-      ====YOU HAVE NO NETWORK CONNECTION and NO HARDWARE CLOCK====
-      Set the time using the "date YYYY.MM.DD-HH:MM[:SS]" command.
-      Running login script.
-      OCPI_CDK_DIR is now /home/root/opencpi.
-      OCPI_ROOT_DIR is now /home/root/opencpi/...
-      Executing /etc/profile.d/opencpi-persist.sh.
-      OpenCPI ready for zynq.
-      Discovering available containers...
-      [  118.579632] Synchronous External Abort: synchronous external abort (0x92000010) at 0x0000007fb0ed7000
-      OCPI( 2:606.0437): HDL Device 'PL:0' gets a bus error on probe:
-      OCPI( 2:606.0438): In HDL Container driver, got Zynq search error: bus error on probe
-      Available containers:
-      #  Model Platform            OS     OS-Version  Arch     Name
-      0  rcc   xilinx21_1_aarch64  linux  18_3        aarch64  rcc0
-
-   ..
-
-   ::
-
-      % env | grep OCPI
-      OCPI_LOCAL_DIR=/home/root/opencpi
-      OCPI_ROOT_DIR=/home/root/opencpi/..
-      OCPI_LIBRARY_PATH=/home/root/opencpi/xilinx21_1_aarch64/artifacts:/home/root/pencpi/artifacts
-      OCPI_TOOL_PLATFORM=xilinx21_1_aarch64
-      OCPI_RELEASE=opencpi-v2.4.3
-      OCPI_CDK_DIR=/home/root/opencpi
-      OCPI_TOOL_DIR=xilinx21_1_aarch64
-      OCPI_SYSTEM_CONFIG=/home/root/opencpi/system.xml
-      OCPI_DEFAULT_HDL_DEVICE=pl:0
-      OCPI_TOOL_OS=linux
-
-   ..
-
-#. Verify the execution of OpenCPI run-time utilities on the ``factory`` ZRF8, by simply executing
-   the tool without any arguements
-
-   #. ``$ ocpirun``
-
-   #. ``$ ocpihdl``
-
-#. Verify the execution of running an OpenCPI RCC **ONLY** application ``testbias"
-
-   #. ``$ cd /home/root/opencpi/applications``
-
-   #. ``$ ocpirun -v -d testbias.xml``
-
-   #. ``$ hexdump -n 10 test.output``
-
-   #. ``$ ocpirun -v -d -pbias=biasValue=0 testbias.xml``
-
-   ::
-
-      % ocpirun -v -d -pbias=biasValue=0 testbias.xml
-      [  250.229343] Synchronous External Abort: synchronous external abort (0x92000010) at 0x0000007f90693000
-      OCPI( 2:738.0086): HDL Device 'PL:0' gets a bus error on probe:
-      OCPI( 2:738.0087): In HDL Container driver, got Zynq search error: bus error on probe
-      Available containers are:  0: rcc0 [model: rcc os: linux platform: xilinx21_1_aarch64]
-      Actual deployment is:
-      Instance  0 file_read (spec ocpi.core.file_read) on rcc container 0: rcc0, using file_read in /home/root/opencpi/xil
-      inx18_3_aarch64/artifacts/ocpi.core.file_read.rcc.0.xilinx21_1_aarch64.so dated Mon Jul 12 14:19:00 2021
-      Instance  1 bias (spec ocpi.core.bias) on rcc container 0: rcc0, using bias_cc in /home/root/opencpi/xilinx21_1_aarch64/artifacts/ocpi.core.bias_cc.rcc.0.xilinx21_1_aarch64.so dated Mon Jul 12 14:19:00 2021
-      Instance  2 file_write (spec ocpi.core.file_write) on rcc container 0: rcc0, using file_write in /home/root/opencpi/xilinx21_1_aarch64/artifacts/ocpi.core.file_write.rcc.0.xilinx21_1_aarch64.so dated Mon Jul 12 14:19:00 2021
-      Application XML parsed and deployments (containers and artifacts) chosen [0 s 37 ms]
-      Application established: containers, workers, connections all created [0 s 2 ms]
-      Dump of all initial property values:
-      Property   0: file_read.fileName = "test.input" (cached)
-      Property   1: file_read.messagesInFile = "false" (cached)
-      Property   2: file_read.opcode = "0" (cached)
-      Property   3: file_read.messageSize = "16"
-      Property   4: file_read.granularity = "4" (cached)
-      Property   5: file_read.repeat = "false"
-      Property   6: file_read.bytesRead = "0"
-      Property   7: file_read.messagesWritten = "0"
-      Property   8: file_read.suppressEOF = "false"
-      Property   9: file_read.badMessage = "false"
-      Property  16: bias.biasValue = "0" (cached)
-      Property  20: bias.testws = "0"
-      Property  21: bias.param1 = "5" (parameter)
-      Property  22: bias.param2 = "6,7,8" (parameter)
-      Property  28: file_write.fileName = "test.output" (cached)
-      Property  29: file_write.messagesInFile = "false" (cached)
-      Property  30: file_write.bytesWritten = "0"
-      Property  31: file_write.messagesWritten = "0"
-      Property  32: file_write.stopOnEOF = "true" (cached)
-      Property  36: file_write.suppressWrites = "false"
-      Property  37: file_write.countData = "false"
-      Property  38: file_write.bytesPerSecond = "0"
-      Application started/running [0 s 1 ms]
-      Waiting for application to finish (no time limit)
-      Application finished [0 s 10 ms]
-      Dump of all final property values:
-      Property   0: file_read.fileName = "test.input" (cached)
-      Property   1: file_read.messagesInFile = "false" (cached)
-      Property   2: file_read.opcode = "0" (cached)
-      Property   3: file_read.messageSize = "16"
-      Property   4: file_read.granularity = "4" (cached)
-      Property   5: file_read.repeat = "false" (cached)
-      Property   6: file_read.bytesRead = "4000"
-      Property   7: file_read.messagesWritten = "250"
-      Property   8: file_read.suppressEOF = "false" (cached)
-      Property   9: file_read.badMessage = "false"
-      Property  16: bias.biasValue = "0" (cached)
-      Property  20: bias.testws = "0" (cached)
-      Property  28: file_write.fileName = "test.output" (cached)
-      Property  29: file_write.messagesInFile = "false" (cached)
-      Property  30: file_write.bytesWritten = "4000"
-      Property  31: file_write.messagesWritten = "250"
-      Property  32: file_write.stopOnEOF = "true" (cached)
-      Property  36: file_write.suppressWrites = "false" (cached)
-      Property  37: file_write.countData = "false" (cached)
-      Property  38: file_write.bytesPerSecond = "563309"
-
-   ..
-
-#. md5sum test.input test.output
-
-   ::
-
-      2934e1a7ae11b11b88c9b0e520efd978  test.input
-      2934e1a7ae11b11b88c9b0e520efd978  test.output
-
-   ..
-
-
-.. _dev-Clean-up-of-Standalone Mode-label:
-
-Clean up of Standalone Mode
-"""""""""""""""""""""""""""
-
-- To clean up OpenCPI artifacts used for Standalone Mode testing and to ensure that there is no
-  conflict with Network or Server Mode testing that is perform in later sections
-
-#. ``$ rm -f /etc/profile.d/opencpi-presist.sh``
-
-#. ``$ rm -rf /home/root/opencpi``
-
-
-.. _dev-Program-FPGA-with-OpenCPI-artifact-using-Epiqs-prog_fpga-utility-label:
-
-Program FPGA with OpenCPI artifact using Epiq's prog_fpga utility
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- If the OpenCPI run-time utilities have not yet been built, it is still possible to program the
-  FPGA with an OpenCPI bitstream using Epiq's prog_fpga utility. Based on the review of Epiq's
-  reference design, reprogramming is perform via device tree overlay. So, to employ this method,
-  the OpenCPIbitstream file must be converted to a .bin file. The following steps are used to
-  create the \*.bin file for leveraging Epiq's prog_fpga utility for reprogramming the FPGA.
-
-**IMPLEMENTATION:**
-
-#. ``$ cd ocpi.osp.hitech-global``
-
-#. ``$ touch pattern_capture_asm_zrf8_48dr_base.bit``
-
-#. ``edit pattern_capture_asm_zrf8_48dr_base.bit`` to include:
-
-   ::
-
-         all:
-         {
-                 pattern_capture_asm_zrf8_48dr_base.bit /``*`` Bitstream file name ``*``/
-         }
-
-   ..
-
-   #.
-
-   ::
-
-      $ cp /home/user/opencpi/projects/assets/hdl/assemblies/pattern_capture_asm
-      /container-pattern_capture_asm_zrf8_48dr_base/target-zynq_ultra/pattern_capture_asm_zrf8_48dr_base.bit .
-
-   ..
-
-   #.
-
-   ::
-
-      $ /opt/Xilinx/SDK/2018.3/bin/bootgen -image pattern_capture_asm_zrf8_48dr_base.bif -arch zynqmp-process_bitstream bin
-
-   ..
-
-#. Copy pattern_capture_asm_zrf8_48dr_base.bit.bin onto Matchstiq ZRF8
-
-   ::
-
-      $ scp /home/user/opencpi/projects/geon.osp.epiq_solutions /pattern_capture_asm_zrf8_48dr_base.bit.bin sidekiq@192.168.0.15:/tmp
-
-   ..
-
-#. On the Matchstiq ZRF8:
-
-   #. Use Epiq utility to program FPGA with OpenCPI bitstream
-
-      ``$ ./prog_fpga -c 0 -s /tmp/pattern_capture_asm_zrf8_48dr_base.bit.bin``
-
-   #. Used devmem/devmem2 to read the OpenCPI ``Magic Word``
-
-      ::
-
-         sidekiq@zrf8_48dr: sudo su -
-         root@zrf8_48dr:/# devmem 0xa8000000
-         0x4F70656E
-         root@zrf8_48dr:/# devmem 0xa8000004
-         0x43504900
-
-      ..
-
-
 .. _dev-Test-results-tables-label:
 
 Test results tables
 ^^^^^^^^^^^^^^^^^^^
-
-- zcu104
-
-  - **OpenCPI Version: v2.1.0**, Test Date:
-  - **OpenCPI Version: v2.4.3**, Test Date:
+TODO: Version Update here
 
 - zrf8_48dr
-
-  - **OpenCPI Version: v2.1.0**, Test Date: 07/13/2021
-  - **OpenCPI Version: v2.4.3**, Test Date: 01/18/2022
 
 - Table Key:
 
   - **P**: *PASS*
   - **F** or **case##.##**: *FAIL*
-  - **Excluded**: Test was *excluded* due to issues seen within the framework
+  - **Excluded**: FOSS Makefile limits building of this test and was *excluded*
 
+**Failed Cases**
+
+   - data_src - case01.06, case01.07, case01.22, case01.23, case01.30, case01.31, case01.38, case01.39, case01.46, case01.47, case01.54, case01.55, case01.62, case01.63, case01.70, case01.71, case01.78, case01.79
+
+   - **These cases ALSO failed when testing on the ZCU102. That's to say the ZRF8 is as successfull as the ZCU102**
 
 .. _dev-Component-Unit-Test-results-table-label:
 
 Component Unit Test results table
 """""""""""""""""""""""""""""""""
 
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| FOSS Version                      | v2.1.0                | v2.1.0                | v2.4.3                | v2.4.3                |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| Platform Under Test               | zcu104                | zrf8_48dr                   | zcu104                | zrf8_48dr                   |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       |                       |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| Component Library Under Test      |                       |                       |                       |                       |
-+===================================+=======================+=======================+=======================+=======================+
-| **core/components**               |                       |                       |                       |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| backpressure                      | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| bias                              | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| metadata_stressor                 | P                     | P                     | case00.00 -           | case00.00 -           |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       | case03.02             | case03.02             |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       |                       | Extra end bytes       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| **assets/components/comms_comps** |                       |                       |                       |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| mfsk_mapper                       | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| **assets/components/dsp_comps**   |                       |                       |                       |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cic_dec                           | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cic_int                           | case01.05,            | case01.05,            | ?,                    | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   | case01.10             | case01.10             |                       | Previous F excluded   |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| dc_offset_filter                  | P                     | P                     | P                     | P Makefile            |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       |                       | Change Req            |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| downsample_complex                | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| fir_complex_sse                   | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| fir_real_sse                      | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| iq_imbalance_fixer                | P                     | P                     | P                     | P Makefile            |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       |                       | Change Req            |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| phase_to_amp_cordic               | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| pr_cordic                         | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| rp_cordic                         | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| **assets/components/misc_comps**  |                       |                       |                       |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cdc_bits_tester                   | Excluded              | Excluded              | Excluded              | Excluded              |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cdc_count_up_tester               | Excluded              | Excluded              | Excluded              | Excluded              |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cdc_fifo_tester                   | Excluded              | Excluded              | Excluded              | Excluded              |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cdc_pulse_tester                  | Excluded              | Excluded              | Excluded              | Excluded              |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cdc_single_bit_tester             | Excluded              | Excluded              | Excluded              | Excluded              |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| csts_to_iqstream                  | N/A                   | N/A                   | ?                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cswm_to_iqstream                  | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| data_src                          | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| delay                             | P                     | P                     | case00.00 -           | F                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       | case00.03             | Extra 4 bytes         |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| iqstream_to_csts                  | N/A                   | N/A                   | ?                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| iqstream_to_cswm                  | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| iqstream_to_timeiq                | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| timeiq_to_iqstream                | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| **assets/components/util_comps**  |                       |                       |                       |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| agc_real                          | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| fifo                              | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| pattern_v2                        | P                     | P                     | P                     | case00.00,            |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       |                       | case01.00             |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| test_tx_event                     | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| timestamper                       | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| timestamper_scdcd                 | P                     | P                     | case00.00 -           | case00.00 -           |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       | case00.35             | case00.35             |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| timestamper_scdcd_csts            | N/A                   | N/A                   | ?                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| zero_pad                          | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| **assets_ts/components**          |                       |                       |                       |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| cic_dec_ts                        | P                     | P                     | case00.00 -           | F extra data captured |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       | case00.23             |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| complex_mixer_ts                  | Excluded              | Excluded              | Excluded              | Excluded              |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| dc_offset_filter_ts               | P                     | P                     | P                     | P                     |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| downsample_complex_ts             | P                     | P                     | case00.00 -           | F extra data captured |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       | case00.04             |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-| fir_complex_sse_ts                | P                     | P                     | case00.00 -           | F extra data captured |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
-|                                   |                       |                       | case00.02             |                       |
-+-----------------------------------+-----------------------+-----------------------+-----------------------+-----------------------+
++-----------------------------------+-----------------------+
+| FOSS Version                      |                       |
++-----------------------------------+-----------------------+
+| Platform Under Test               | zrf8_48dr             |
++-----------------------------------+-----------------------+
+|                                   |                       |
++-----------------------------------+-----------------------+
+| Component Library Under Test      | Pass / Fail           |
++===================================+=======================+
+| **core/components**               |                       |
++-----------------------------------+-----------------------+
+| backpressure                      | P                     |
++-----------------------------------+-----------------------+
+| bias                              | P                     |
++-----------------------------------+-----------------------+
+| metadata_stressor                 | P                     |
++-----------------------------------+-----------------------+
+|                                   |                       |
++-----------------------------------+-----------------------+
+| **assets/components/comms_comps** |                       |
++-----------------------------------+-----------------------+
+| mfsk_mapper                       | P                     |
++-----------------------------------+-----------------------+
+|                                   |                       |
++-----------------------------------+-----------------------+
+| **assets/components/dsp_comps**   |                       |
++-----------------------------------+-----------------------+
+| cic_dec                           | P                     |
++-----------------------------------+-----------------------+
+| cic_int                           | P                     |
++-----------------------------------+-----------------------+
+| complex_mixer                     | P                     |
++-----------------------------------+-----------------------+
+| dc_offset_filter                  | P                     |
++-----------------------------------+-----------------------+
+| downsample_complex                | P                     |
++-----------------------------------+-----------------------+
+| fir_complex_sse                   | P                     |
++-----------------------------------+-----------------------+
+| fir_real_sse                      | P                     |
++-----------------------------------+-----------------------+
+| iq_imbalance_fixer                | P                     |
++-----------------------------------+-----------------------+
+| phase_to_amp_cordic               | P                     |
++-----------------------------------+-----------------------+
+| pr_cordic                         | P                     |
++-----------------------------------+-----------------------+
+| rp_cordic                         | P                     |
++-----------------------------------+-----------------------+
+|                                   |                       |
++-----------------------------------+-----------------------+
+| **assets/components/misc_comps**  |                       |
++-----------------------------------+-----------------------+
+| cdc_bits_tester                   | Excluded              |
++-----------------------------------+-----------------------+
+| cdc_count_up_tester               | Excluded              |
++-----------------------------------+-----------------------+
+| cdc_fifo_tester                   | Excluded              |
++-----------------------------------+-----------------------+
+| cdc_pulse_tester                  | Excluded              |
++-----------------------------------+-----------------------+
+| cdc_single_bit_tester             | Excluded              |
++-----------------------------------+-----------------------+
+| csts_to_iqstream                  | P                     |
++-----------------------------------+-----------------------+
+| cswm_to_iqstream                  | Excluded              |
++-----------------------------------+-----------------------+
+| data_src                          | F                     |
++-----------------------------------+-----------------------+
+| delay                             | P                     |
++-----------------------------------+-----------------------+
+| iqstream_to_csts                  | P                     |
++-----------------------------------+-----------------------+
+| iqstream_to_cswm                  | P                     |
++-----------------------------------+-----------------------+
+| iqstream_to_timeiq                | P                     |
++-----------------------------------+-----------------------+
+| timeiq_to_iqstream                | P                     |
++-----------------------------------+-----------------------+
+|                                   |                       |
++-----------------------------------+-----------------------+
+| **assets/components/util_comps**  |                       |
++-----------------------------------+-----------------------+
+| agc_real                          | P                     |
++-----------------------------------+-----------------------+
+| fifo                              | P                     |
++-----------------------------------+-----------------------+
+| pattern_v2                        | P                     |
++-----------------------------------+-----------------------+
+| capture_v2                        |                       |
++-----------------------------------+-----------------------+
+| test_tx_event                     | P                     |
++-----------------------------------+-----------------------+
+| timestamper                       | P                     |
++-----------------------------------+-----------------------+
+| timestamper_scdcd                 | P                     |
++-----------------------------------+-----------------------+
+| timegate_csts                     | P                     |
++-----------------------------------+-----------------------+
+| timestamper_scdcd_csts            | P                     |
++-----------------------------------+-----------------------+
+| zero_pad                          | P                     |
++-----------------------------------+-----------------------+
+|                                   |                       |
++-----------------------------------+-----------------------+
+| **assets_ts/components**          |                       |
++-----------------------------------+-----------------------+
+| cic_dec_ts                        | P                     |
++-----------------------------------+-----------------------+
+| complex_mixer_ts                  | Excluded              |
++-----------------------------------+-----------------------+
+| dc_offset_filter_ts               |                       |
++-----------------------------------+-----------------------+
+| downsample_complex_ts             | P                     |
++-----------------------------------+-----------------------+
+| fir_complex_sse_ts                | P                     |
++-----------------------------------+-----------------------+
+|                                   |                       |
++-----------------------------------+-----------------------+
 
 
 .. _dev-Application-verification-results-table-label:
@@ -4129,20 +3221,18 @@ Component Unit Test results table
 Application verification results table
 """"""""""""""""""""""""""""""""""""""
 
-+-----------------------------------+---------------+---------------+---------------+---------------+
-| FOSS Version                      | v2.1.0        | v2.1.0        | v2.4.3        | v2.4.3        |
-+-----------------------------------+---------------+---------------+---------------+---------------+
-| Platform Under Test               | zcu104        | zrf8_48dr           | zcu104        | zrf8_48dr           |
-+-----------------------------------+---------------+---------------+---------------+---------------+
-|                                   |               |               |               |               |
-+-----------------------------------+---------------+---------------+---------------+---------------+
-| Application Under Test            |               |               |               |               |
-+===================================+===============+===============+===============+===============+
-| pattern_capture_asm               | P             | P             | P             | P             |
-+-----------------------------------+---------------+---------------+---------------+---------------+
-| testbias                          | P             | P             | P             | P             |
-+-----------------------------------+---------------+---------------+---------------+---------------+
-| FSK/filerw                        | P             | P             | P             | P             |
-+-----------------------------------+---------------+---------------+---------------+---------------+
-| fsk_drc/fsk_modem_app             | P             | P             | P             | P             |
-+-----------------------------------+---------------+---------------+---------------+---------------+
++-----------------------------------+---------------+
+| FOSS Version                      | v2.1.0        |
++-----------------------------------+---------------+
+| Platform Under Test               | zrf8_48dr     |
++-----------------------------------+---------------+
+|                                   |               |
++-----------------------------------+---------------+
+| Application Under Test            |               |
++===================================+===============+
+| pattern_capture_asm               | P             |
++-----------------------------------+---------------+
+| testbias                          | P             |
++-----------------------------------+---------------+
+| FSK/filerw                        |               |
++-----------------------------------+---------------+
