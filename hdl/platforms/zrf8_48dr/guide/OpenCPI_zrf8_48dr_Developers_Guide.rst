@@ -663,10 +663,6 @@ Configure PS for Control Plane
 
          I/O Configuration -> Low-Speed -> Processing Unit -> TTC -> TTC 3
 
-      #. **Disable GEM**
-
-         I/O Configuration -> High-Speed -> GEM -> GEM 3
-
       #. **Disable PL to PS Interrupts**
 
          PS-PL Configuration -> General -> Interrupts -> PL to PS -> IRQ0[0-7] -> 0
@@ -753,6 +749,21 @@ Create HDL Primitive for CP
    ``cd projects/osps/ocpi.osp.hitech-global``
 
    ``ocpidev create hdl primitive library zynq_ultra_zrf8_48dr``
+
+#. Create a ``primitives`` level Makefile
+
+   ``cd <ocpi.osp.hitech-global/hdl/primitives/``
+
+   ``cp /home/user/opencpi/projects/platform/hdl/primitives/Makefile .``
+
+TODO
+
+``rm -rf <ocpi.osp.hitech-global/hdl/primitives/primitives.xml``
+``rm -rf <ocpi.osp.hitech-global/hdl/primitives/primitives.rst``
+
+``rm -rf <ocpi.osp.hitech-global/project.xml``
+``rm -rf <ocpi.osp.hitech-global/project.rst``
+
 
 #. From the Vivado project modified in  :ref:`dev-Configure-PS-for-Control-Plane`, which is specific to using the vendor's reference design for configuring the PS core IP for the ``ZRF8``, browse to the generated artifacts directory, and copy them into the newly created OpenCPI HDL primitive library.
 
@@ -1255,7 +1266,8 @@ Petalinux workspace for Control Plane
 
 #. Package the ``BOOT.BIN`` image
 
-   **The BOOT.BIN must be packaged with the appropriate** ``pattern_capture_asm_zrf8_48dr_base.bit`` **file. This file was created during the** :ref:`Install-the-HDL-Platform-zrf8_48dr-for-CP` **section.**
+   - **The BOOT.BIN must be packaged with the appropriate** ``pattern_capture_asm_zrf8_48dr_base.bit`` **file. This file was created during the** :ref:`dev-Install-the-HDL-Platform-zrf8_48dr-for-CP` **section.**
+
 
    ``cd images/linux``
 
@@ -1406,9 +1418,39 @@ HDL CP Verification: OpenCPI Magic Word
 
 **GOAL:**
 
-- The ``Magic Word`` is a constant value that is located in the OpenCPI Scalable Control Plane infrastructure HDL module and spells out ``CPIxxOPEN`` in hexidecimal. Successfully reading this register value is the first verification step to determine if the OpenCPI HDL Control Plane is functioning correctly.
+- The ``Magic Word`` is a constant value that is located in the OpenCPI Scalable Control Plane infrastructure HDL module and spells out ``OPENCPIx`` in hexidecimal. Successfully reading this register value is the first verification step to determine if the OpenCPI HDL Control Plane is functioning correctly.
 
 - As this step only requires devmem/devmem2 to be available on the embedded image, it does not require that the OpenCPI run-time utilities to have been cross-compiled, thus greatly simplifying the level of effort required for verification.
+
+**IMPLEMENTATION:**
+
+#. Perform the :ref:`dev-Booting-the-zrf8_48dr` section in the Appendix to setup the ``zrf8_48dr`` device.
+
+#. Perform the following commands to verify that the Control Plane is successfully enabled:
+
+   ::
+
+      % devmem 0xa8000000
+      0x4F70656E
+      % devmem 0xa8000004
+      0x43504900
+      %
+
+   ..
+
+   ``0x4F70656E`` = Open
+
+   ``0x43504900`` = CPIx
+
+.. _dev-HDL-CP-Verification-Pattern-Capture-application:
+
+HDL CP Verification: Pattern Capture application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- Setup the zrf8_48dr with the OpenCPI runtime environment and run the ``canary`` Control Plane test
+  application ``pattern_capture``
 
 **IMPLEMENTATION:**
 
@@ -1436,123 +1478,70 @@ HDL CP Verification: OpenCPI Magic Word
 
    ..
 
-
 #. Execute the :ref:`dev-Standalone-Mode-setup` section.
 
-#. Perform the following commands to verify that the Control Plane is successfully enabled:
+#. Run the ``pattern_capture.xml`` application
 
-::
+   ``cd /home/root/opencpi/applications/
 
-   % devmem 0xa8000000
-   0x4F70656E
-   % devmem 0xa8000004
-   0x43504900
-   %
-
-.. _dev-HDL-CP-Verification-Pattern-Capture-application:
-
-HDL CP Verification: Pattern Capture application
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- Setup the zrf8_48dr with the OpenCPI runtime environment and run the ``canary`` Control Plane test
-  application ``pattern_capture``
-
-**IMPLEMENTATION:**
-
-TODO: Revise section
-
-#. Perform the
-
-#. Be sure that the :ref:`dev-Install-and-Deploy-with-CP-enabled` section has been implemented, specifically the **Populate the sd-card artifacts** step.
-
-#. Execute the :ref:`dev-Boot-ZRF8` section.
-
-#. To setup ``Standalone mode`` properly to target the ``pattern_capture_asm`` bitstream. For the next step (Execute the Standalone Mode setup section)  edit the ``mysetup.sh`` script as follows:
-
-   FROM:
+   ``ocpirun -v -x -d pattern_capture.xml``
 
    ::
 
-      echo Loading bitstream
-        if   ocpihdl load -d $OCPI_DEFAULT_HDL_DEVICE $OCPI_CDK_DIR/artifacts/testbias_$HDL_PLATFORM\_base.bitz; then
-          echo Bitstream loaded successfully
+      % ocpirun -v -x -d pattern_capture.xml
+      Available containers are:  0: PL:0 [model: hdl os:  platform: zrf8_48dr], 1: rcc0 [model: rcc os: linux platform: xilinx21_1_aarch64]
+      Actual deployment is:
+        Instance  0 pattern_v2 (spec ocpi.assets.util_comps.pattern_v2) on hdl container 0: PL:0, using pattern_v2/a/pattern_v2 in /media/sd-mmcblk0p1/opencpi/artifacts/pattern_capture_asm_zrf8_48dr_base.bitz dated Tue Jan 31 11:59:20 2023
+        Instance  1 capture_v2 (spec ocpi.assets.util_comps.capture_v2) on hdl container 0: PL:0, using capture_v2/a/capture_v2 in /media/sd-mmcblk0p1/opencpi/artifacts/pattern_capture_asm_zrf8_48dr_base.bitz dated Tue Jan 31 11:59:20 2023
+      Application XML parsed and deployments (containers and artifacts) chosen [0 s 53 ms]
+      Application established: containers, workers, connections all created [0 s 3 ms]
+      Dump of all initial property values:
+      Property   0: pattern_v2.dataRepeat = "true" (cached)
+      Property   1: pattern_v2.numMessagesMax = "0x5" (parameter)
+      Property   2: pattern_v2.messagesToSend = "0x5"
+      Property   3: pattern_v2.messagesSent = "0x0"
+      Property   4: pattern_v2.dataSent = "0x0"
+      Property   5: pattern_v2.numDataWords = "0xf" (parameter)
+      Property   6: pattern_v2.numMessageFields = "0x2" (parameter)
+      Property   7: pattern_v2.messages = "{0x4,0xfb},{0x8,0xfc},{0xc,0xfd},{0x10,0xfe},{0x14,0xff}" (cached)
+      Property   8: pattern_v2.data = "0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,0xa,0xb,0xc,0xd,0xe" (cached)
+      Property  20: capture_v2.stopOnFull = "true" (cached)
+      Property  21: capture_v2.metadataCount = "0x0"
+      Property  22: capture_v2.dataCount = "0x0"
+      Property  23: capture_v2.numRecords = "0x100" (parameter)
+      Property  24: capture_v2.numDataWords = "0x400" (parameter)
+      Property  25: capture_v2.numMetadataWords = "0x4" (parameter)
+      Property  26: capture_v2.metaFull = "false"
+      Property  27: capture_v2.dataFull = "false"
+      Property  28: capture_v2.stopZLMOpcode = "0x0" (cached)
+      Property  29: capture_v2.stopOnZLM = "false" (cached)
+      Property  30: capture_v2.stopOnEOF = "true" (cached)
+      Property  31: capture_v2.totalBytes = "0x0"
+      Property  32: capture_v2.metadata = "{0x0}"
+      Property  33: capture_v2.data = "0x0"
+      Application started/running [0 s 6 ms]
+      Waiting for application to finish (no time limit)
+      Application finished [0 s 0 ms]
+      Dump of all final property values:
+      Property   0: pattern_v2.dataRepeat = "true" (cached)
+      Property   2: pattern_v2.messagesToSend = "0x0"
+      Property   3: pattern_v2.messagesSent = "0x5"
+      Property   4: pattern_v2.dataSent = "0xf"
+      Property   7: pattern_v2.messages = "{0x4,0xfb},{0x8,0xfc},{0xc,0xfd},{0x10,0xfe},{0x14,0xff}" (cached)
+      Property   8: pattern_v2.data = "0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,0xa,0xb,0xc,0xd,0xe" (cached)
+      Property  20: capture_v2.stopOnFull = "true" (cached)
+      Property  21: capture_v2.metadataCount = "0x5"
+      Property  22: capture_v2.dataCount = "0xf"
+      Property  26: capture_v2.metaFull = "false"
+      Property  27: capture_v2.dataFull = "false"
+      Property  28: capture_v2.stopZLMOpcode = "0x0" (cached)
+      Property  29: capture_v2.stopOnZLM = "false" (cached)
+      Property  30: capture_v2.stopOnEOF = "true" (cached)
+      Property  31: capture_v2.totalBytes = "0x3c"
+      Property  32: capture_v2.metadata = "{0xfb000004,0xc6abce0,0xc6abce0,0x25b},{0xfc000008,0xc6abdb7,0xc6abdb7,0x25b},{0xfd00000c,0xc6abe8e,0xc6abdb7,0x25b},{0xfe000010,0xc6abf64,0xc6abe8e,0x25b},{0xff000014,0xc6ac03b,0xc6abf64,0x25b},{0x0}"
+      Property  33: capture_v2.data = "0x0,0x0,0x1,0x0,0x1,0x2,0x0,0x1,0x2,0x3,0x0,0x1,0x2,0x3,0x4,0x0"
 
    ..
-
-   TO:
-
-   ::
-
-      echo Loading bitstream
-        if   ocpihdl load -d $OCPI_DEFAULT_HDL_DEVICE $OCPI_CDK_DIR/artifacts/pattern_capture_asm_$HDL_PLATFORM\_base.bitz; then
-          echo Bitstream loaded successfully
-
-   ..
-
-#. Execute the :ref:`dev-Standalone-Mode-setup` section.
-
-#. ``% ocpirun -v -x -d pattern_capture.xml``
-
-::
-
-   % cd /home/root/opencpi/applications
-   % export OCPI_LIBRARY_PATH=../artifacts
-   % ocpirun -v -d pattern_capture.xml
-   Available containers are:  0: PL:0 [model: hdl os:  platform: zrf8_48dr], 1: rcc0 [model: rcc os: linux platform: xilinx21_1_aarch64]
-   Actual deployment is:
-     Instance  0 pattern_v2 (spec ocpi.assets.util_comps.pattern_v2) on hdl container 0: PL:0, using pattern_v2/a/pattern_v2 in ../artifacts/pattern_capture_asm_zrf8_48dr_base.bitz dated Mon Jul 12 13:53:15 2021
-     Instance  1 capture_v2 (spec ocpi.assets.util_comps.capture_v2) on hdl container 0: PL:0, using capture_v2/a/capture_v2 in ../artifacts/pattern_capture_asm_zrf8_48dr_base.bitz dated Mon Jul 12 13:53:15 2021
-   Application XML parsed and deployments (containers and artifacts) chosen [0 s 21 ms]
-   Application established: containers, workers, connections all created [0 s 9 ms]
-   Dump of all initial property values:
-   Property   0: pattern_v2.dataRepeat = "true" (cached)
-   Property   1: pattern_v2.numMessagesMax = "0x5" (parameter)
-   Property   2: pattern_v2.messagesToSend = "0x5"
-   Property   3: pattern_v2.messagesSent = "0x0"
-   Property   4: pattern_v2.dataSent = "0x0"
-   Property   5: pattern_v2.numDataWords = "0xf" (parameter)
-   Property   6: pattern_v2.numMessageFields = "0x2" (parameter)
-   Property   7: pattern_v2.messages = "{0x4,0xfb},{0x8,0xfc},{0xc,0xfd},{0x10,0xfe},{0x14,0xff}" (cached)
-   Property   8: pattern_v2.data = "0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,0xa,0xb,0xc,0xd,0xe" (cached)
-   Property  20: capture_v2.stopOnFull = "true" (cached)
-   Property  21: capture_v2.metadataCount = "0x0"
-   Property  22: capture_v2.dataCount = "0x0"
-   Property  23: capture_v2.numRecords = "0x100" (parameter)
-   Property  24: capture_v2.numDataWords = "0x400" (parameter)
-   Property  25: capture_v2.numMetadataWords = "0x4" (parameter)
-   Property  26: capture_v2.metaFull = "false"
-   Property  27: capture_v2.dataFull = "false"
-   Property  28: capture_v2.stopZLMOpcode = "0x0" (cached)
-   Property  29: capture_v2.stopOnZLM = "false" (cached)
-   Property  30: capture_v2.stopOnEOF = "true" (cached)
-   Property  31: capture_v2.totalBytes = "0x0"
-   Property  32: capture_v2.metadata = "{0xfb000004,0x2961212f,0x2961212f,0xfb},{0xfc000008,0x2961212f,0x2961212f,0xfb},{0xfd00000c,0x29612206,0x29612206,0xfb},{0xfe000010,0x296122dd,0x296122dd,0xfb},{0xff000014,0x296123b4,0x296123b4,0xfb},{0x0}"
-   Property  33: capture_v2.data = "0x0,0x0,0x1,0x0,0x1,0x2,0x0,0x1,0x2,0x3,0x0,0x1,0x2,0x3,0x4,0x0"
-   Application started/running [0 s 8 ms]
-   Waiting for application to finish (no time limit)
-   Application finished [0 s 0 ms]
-   Dump of all final property values:
-   Property   0: pattern_v2.dataRepeat = "true" (cached)
-   Property   2: pattern_v2.messagesToSend = "0x0"
-   Property   3: pattern_v2.messagesSent = "0x5"
-   Property   4: pattern_v2.dataSent = "0xf"
-   Property   7: pattern_v2.messages = "{0x4,0xfb},{0x8,0xfc},{0xc,0xfd},{0x10,0xfe},{0x14,0xff}" (cached)
-   Property   8: pattern_v2.data = "0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9,0xa,0xb,0xc,0xd,0xe" (cached)
-   Property  20: capture_v2.stopOnFull = "true" (cached)
-   Property  21: capture_v2.metadataCount = "0x5"
-   Property  22: capture_v2.dataCount = "0xf"
-   Property  26: capture_v2.metaFull = "false"
-   Property  27: capture_v2.dataFull = "false"
-   Property  28: capture_v2.stopZLMOpcode = "0x0" (cached)
-   Property  29: capture_v2.stopOnZLM = "false" (cached)
-   Property  30: capture_v2.stopOnEOF = "true" (cached)
-   Property  31: capture_v2.totalBytes = "0x3c"
-   Property  32: capture_v2.metadata = "{0xfb000004,0x403e8761,0x403e8761,0x13b},{0xfc000008,0x403e8838,0x403e8761,0x13b},{0xfd00000c,0x403e8838,0x403e8838,0x13b},{0xfe000010,0x403e890f,0x403e890f,0x13b},{0xff000014,0x403e8abc,0x403e89e6,0x13b},{0x0}"
-   Property  33: capture_v2.data = "0x0,0x0,0x1,0x0,0x1,0x2,0x0,0x1,0x2,0x3,0x0,0x1,0x2,0x3,0x4,0x0"
-
-..
 
 .. _dev-Enable-OpenCPI-HDL-Data-Plane:
 
@@ -2153,14 +2142,11 @@ This process can be done in parallel. Open three different terminals and build a
 Run the Unit Tests (Sequentially) on the Development Host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. **This section is very painstaking. In order to be certain, that each Component Unit Test is performed, the user must traverse into each unit *\.test directory of each
-      component library and to execute the unit test.**
+- This section is very painstaking. In order to be certain, that each Component Unit Test is performed, the user must traverse into each unit ``*\.test`` directory of each component library and to execute the unit test.
 
-   - There alternative methods, but this is the most thorough to execute.
+- Some of these tests are known to fail or partically fail, per the their performance on a FOSS supported OSP.
 
-#. **Some of these tests are known to fail or partically fail, per the their performance on a FOSS supported OSP.**
-
-#. **A chart is provided in the** :ref:`dev-Component-Unit-Test-results-table` **section below that outlines the expected outcome for each of these tests (as of v2.4.3).**
+-  A chart is provided in the** :ref:`dev-Component-Unit-Test-results-table` **section below that outlines the expected outcome for each of these tests (as of v2.4.3).
 
 #. Setup for :ref:`dev-Server-Mode-setup`
 
@@ -2226,13 +2212,13 @@ Untar these files for use in this section:
 
    ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/``
 
-   ``mkdir meta-zrf8``
+   ``mkdir -p meta-zrf8/recipes-bsp``
 
    ``cd petalinux-fix/``
 
-    ``cp -rf pmu-firmware/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8``
+    ``cp -rf conf/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8/``
 
-    ``cp -rf conf/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8``
+    ``cp -rf pmu-firmware/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8/recipes-bsp/``
 
 **Edit the config file**
 
@@ -2349,81 +2335,87 @@ Standalone Mode setup
 
 **IMPLEMENTATION**
 
-TODO: This needs to be changed depeneding on the way the rootfs is constructed
+``export OCPI_LOCAL_DIR=/home/root/opencpi``
 
-#. ``export OCPI_LOCAL_DIR=/home/root/opencpi``
+``mkdir opencpi``
 
-#. ``mkdir opencpi``
+``mount /media/sd-mmcblk0p1/opencpi/ /home/root/opencpi/``
 
-#. ``mount /media/sd-mmcblk0p1/opencpi/ opencpi/``
+``cd /home/root/opencpi/``
 
-#. ``cd /home/root/opencpi/``
+``cp default_mysetup.sh ./mysetup.sh``
 
-#. ``source /home/root/opencpi/mysetup.sh``
+``source /home/root/opencpi/mysetup.sh``
 
-   ::
+::
 
-      root@zrf8_48dr:~/opencpi# source /home/root/opencpi/mysetup.sh
-      Attempting to set time from time.nist.gov
-      rdate: bad address 'time.nist.gov'
-      ====YOU HAVE NO NETWORK CONNECTION and NO HARDWARE CLOCK====
-      Set the time using the "date YYYY.MM.DD-HH:MM[:SS]" command.
-      Running login script.
-      OCPI_CDK_DIR is now /home/root/opencpi
-      OCPI_ROOT_DIR is now /home/root/opencpi/..
-      Executing /home/root/.profile.
-      No reserved DMA memory found on the linux boot command line.
-      [  122.605311] opencpi: loading out-of-tree module taints kernel.
-      [  122.612708] opencpi: dma_set_coherent_mask failed for device ffffffc06d22c400
-      [  122.619921] opencpi: get_dma_memory failed in opencpi_init, trying fallback
-      [  122.626940] NET: Registered protocol family 12
-      Driver loaded successfully.
-      OpenCPI ready for zynq.
-      Loading bitstream
-      Bitstream loaded successfully
-      Discovering available containers...
-      Available containers:
-       #  Model Platform            OS     OS-Version  Arch     Name
-       0  hdl   zrf8_48dr                                            PL:0
-       1  rcc   xilinx21_1_aarch64  linux  18_3        aarch64  rcc0
+   root@zynqmp-generic:~/opencpi# source /home/root/opencpi/mysetup.sh
+   Attempting to set time from time.nist.gov
+   rdate: bad address 'time.nist.gov'
+   ====YOU HAVE NO NETWORK CONNECTION and NO HARDWARE CLOCK====
+   Set the time using the "date YYYY.MM.DD-HH:MM[:SS]" command.
+   Running login script.
+   OCPI_CDK_DIR is now /media/sd-mmcblk0p1/opencpi
+   OCPI_ROOT_DIR is now /media/sd-mmcblk0p1/opencpi/..
+   Executing /etc/profile.d/opencpi-persist.sh.
+   No reserved DMA memory found on the linux boot command line.
+   [  326.799030] opencpi: loading out-of-tree module taints kernel.
+   [  326.810069] ------------[ cut here ]------------
+   [  326.814709] opencpi ocpi=mem: rejecting DMA map of vmalloc memory
+   [  326.820874] WARNING: CPU: 1 PID: 549 at include/linux/dma-mapping.h:275 get_dma_memory+0x130/0x258 [opencpi]
+   [  326.830685] Modules linked in: opencpi(O+) uio_pdrv_genirq
+   [  326.836166] CPU: 1 PID: 549 Comm: insmod Tainted: G           O      5.10.0-xilinx-v2021.1 #1
+   [  326.844677] Hardware name: ZynqMP HTG-ZRF8 RevA (DT)
+   [  326.849627] pstate: 40000005 (nZcv daif -PAN -UAO -TCO BTYPE=--)
+   [  326.855627] pc : get_dma_memory+0x130/0x258 [opencpi]
+   [  326.860670] lr : get_dma_memory+0x130/0x258 [opencpi]
+   [  326.865709] sp : ffff800011cbba50
+   [  326.869007] x29: ffff800011cbba50 x28: 0000000000000013 
+   [  326.874310] x27: 0000000000000100 x26: ffff800008daa580 
+   [  326.879614] x25: 0000000000000000 x24: ffff0008009a7080 
+   [  326.884918] x23: ffff800008daa000 x22: 0000000000020000 
+   [  326.890221] x21: ffff800011815000 x20: ffff0008099d5000 
+   [  326.895525] x19: ffff800011cbbb08 x18: 0000000000000030 
+   [  326.900828] x17: 0000000000000000 x16: 0000000000000000 
+   [  326.906132] x15: ffff0008009a7498 x14: ffffffffffffffff 
+   [  326.911436] x13: ffff8000113b3de0 x12: 00000000000003cc 
+   [  326.916739] x11: 0000000000000144 x10: ffff8000113dfde0 
+   [  326.922042] x9 : 00000000fffff800 x8 : ffff8000113b3de0 
+   [  326.927346] x7 : ffff8000113dfde0 x6 : 0000000000000001 
+   [  326.932649] x5 : 0000000000000000 x4 : 0000000000000000 
+   [  326.937953] x3 : 0000000000000000 x2 : ffff00087f78d768 
+   [  326.943256] x1 : 86250eb4fe566300 x0 : 0000000000000000 
+   [  326.948560] Call trace:
+   [  326.950996]  get_dma_memory+0x130/0x258 [opencpi]
+   [  326.955691]  opencpi_init+0x2dc/0x1000 [opencpi]
+   [  326.960300]  do_one_initcall+0x54/0x1bc
+   [  326.964127]  do_init_module+0x54/0x240
+   [  326.967866]  load_module+0x1ec8/0x2500
+   [  326.971599]  __do_sys_finit_module+0xb8/0xfc
+   [  326.975852]  __arm64_sys_finit_module+0x24/0x30
+   [  326.980367]  el0_svc_common.constprop.0+0x94/0x1c0
+   [  326.985149]  do_el0_svc+0x44/0xb0
+   [  326.988448]  el0_svc+0x14/0x20
+   [  326.991485]  el0_sync_handler+0x1a4/0x1b0
+   [  326.995477]  el0_sync+0x174/0x180
+   [  326.998775] ---[ end trace 40bb5a20c5310879 ]---
+   [  327.003426] opencpi: dma_map_single failed
+   [  327.007518] opencpi: get_dma_memory failed in opencpi_init, trying fallback
+   [  327.014494] NET: Registered protocol family 12
+   Driver loaded successfully.
+   OpenCPI ready for zynq.
+   Loading bitstream
+   Bitstream loaded successfully
+   Discovering available containers...
+   Available containers:
+    #  Model Platform            OS     OS-Version  Arch     Name
+    0  hdl   zrf8_48dr                                       PL:0
+    1  rcc   xilinx21_1_aarch64  linux  21_1        aarch64  rcc0
 
-   ..
+..
 
-#. Run ``testbias`` application
+**The** ``No reserved DMA memory found on the linux boot command line.`` **warning messages can be ignored as they have not been found to create an issue.**
 
-   ``cd /home/root/opencpi/applications``
-
-   ``export OCPI_LIBRARY_PATH=../artifacts/:../xilinx19_2_aarch64/artifacts``
-
-   ``ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml``
-
-#. Output:
-
-   ::
-
-      % ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
-      Available containers are:  0: PL:0 [model: hdl os:  platform: zcu102], 1: rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64]
-      Actual deployment is:
-        Instance  0 file_read (spec ocpi.core.file_read) on rcc container 1: rcc0, using file_read in ../xilinx19_2_aarch64/artifacts/ocpi.core.file_read.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 16:09:46 2022
-        Instance  1 bias (spec ocpi.core.bias) on hdl container 0: PL:0, using bias_vhdl/a/bias_vhdl in ../artifacts//testbias_zcu102_base.bitz dated Tue Oct 25 16:09:46 2022
-        Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: rcc0, using file_write in ../xilinx19_2_aarch64/artifacts/ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 16:09:46 2022
-      Application XML parsed and deployments (containers and artifacts) chosen [0 s 50 ms]
-      Application established: containers, workers, connections all created [0 s 8 ms]
-      Application started/running [0 s 0 ms]
-      Waiting for application to finish (no time limit)
-      Application finished [0 s 20 ms]
-
-   ..
-
-#. Validate success:
-
-   ::
-
-      % md5sum test.*
-      2934e1a7ae11b11b88c9b0e520efd978  test.input
-      2934e1a7ae11b11b88c9b0e520efd978  test.output
-
-   ..
 
 .. _dev-Server-Mode-setup:
 

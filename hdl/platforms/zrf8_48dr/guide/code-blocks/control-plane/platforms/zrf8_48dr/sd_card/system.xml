@@ -1,0 +1,14 @@
+<opencpi>
+    <container>
+        <rcc load='1'/>
+        <remote load='1'/>
+        <hdl load='1'>
+            <device name='PL:0' platform='zrf8_48dr'/>
+        </hdl>
+    </container>
+    <transfer smbsize='128K'>
+        <pio load='1' smbsize='10M'/>
+        <dma load='1'/>
+        <socket load='1'/>
+    </transfer>
+</opencpi>

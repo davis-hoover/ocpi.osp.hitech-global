@@ -24,4 +24,4 @@ zrf8_48dr General Documentation
 .. toctree::
 
    zrf8_48dr/guide/OpenCPI_zrf8_48dr_Getting_Started_Guide.rst
-   zrf8_48dr/guide/OpenCPI_zrf8_48dr_OSP_Developers_Guide.rst
+   zrf8_48dr/guide/OpenCPI_zrf8_48dr_Developers_Guide.rst
