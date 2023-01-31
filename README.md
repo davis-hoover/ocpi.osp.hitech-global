@@ -5,7 +5,7 @@ OpenCPI is Open Source Software, licensed with the LGPL3. See LICENSE.txt.
 
 Build/View documentation
 ---
-cd ocpi.osp.epiq_solutions/
+cd ocpi.osp.hitech-global/
 
 ocpidoc build
 

@@ -32,7 +32,7 @@ Revision History
    :header: "Revision", "Description of Change", "Date"
    :widths: 20,20,20
 
-   "v1.0", "Initial Release", "1/2023"
+   "v1.0", "Initial Release", "2/2023"
 
 .. _Hitech-Global-Documentation:
 
