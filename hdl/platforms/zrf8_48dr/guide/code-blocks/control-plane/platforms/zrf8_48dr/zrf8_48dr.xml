@@ -10,7 +10,6 @@
   <device worker='time_server'>
     <property name='frequency' value='100e6'/>
   </device>
-  <specproperty name='sdp_width' value='2'/>
   <!--sdp name='zynq_ultra' master='true' count='4'/-->
   <!--Property name='axi_error' type='bool' arraylength='4' volatile='true'/-->
   <!--Property name='sdpDropCount' type='uchar' volatile='true'/-->

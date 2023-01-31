@@ -1,0 +1,18 @@
+diff --git a/lib/sw_services/xilfpga/src/interface/zynqmp/xilfpga_pcap.c b/lib/sw_services/xilfpga/src/interface/zynqmp/xilfpga_pcap.c
+index 9e897536aa..beb3c447c8 100644
+--- a/lib/sw_services/xilfpga/src/interface/zynqmp/xilfpga_pcap.c
++++ b/lib/sw_services/xilfpga/src/interface/zynqmp/xilfpga_pcap.c
+@@ -520,6 +520,13 @@ static u32 XFpga_WriteToPlPcap(XFpga *InstancePtr)
+ #endif
+ 	else {
+ 		BitstreamSize = (u32)InstancePtr->WriteInfo.Size;
++
++		/* MRH 01-14-21
++		* Short delay to allow time for PS_INIT_B line to go high before attempting
++		* to download bitstream to PCAP
++		*/
++		usleep(5000);
++		
+ 		Status = XFpga_WriteToPcap(BitstreamSize/WORD_LEN,
+ 				InstancePtr->WriteInfo.BitstreamAddr);
+ 		if (Status != XFPGA_SUCCESS) {

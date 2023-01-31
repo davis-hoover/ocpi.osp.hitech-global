@@ -45,7 +45,7 @@ This document provides installation information that is specific to the ``HiTech
    :header: "Document", "Source", "Location"
    :widths: 20,20,20
 
-   "ZRF8 Users-Guide", "HTG", "Request from http://www.hitechglobal.com/"
+   "ZRF8 Users-Guide", "HiTech Global", "Request from http://www.hitechglobal.com/"
    "OpenCPI Developer Guides", "OpenCPI", "https://opencpi.gitlab.io/releases/all/"
    "OpenCPI zrf8_48dr Getting Started Guide", "OpenCPI", "https://gitlab.com/opencpi/osp/ocpi.osp.hitech-global"
    "OpenCPI zrf8_48dr Developers Guide", "OpenCPI", "https://gitlab.com/opencpi/osp/ocpi.osp.hitech-global"
@@ -57,9 +57,9 @@ Software Setup
 
 The following Software suites need to be installed on the host system:
 
-   - **Xilinx 2021.1 Software Suite**
+   - **Vivado/SDK v2021.1 Software Suite**
 
-   - **Petalinux 2021.1 Software Suite**
+   - **Petalinux v2021.1 Software Suite**
 
 .. _Install the Framework:
 
@@ -337,9 +337,49 @@ Server Mode setup
 
    ``ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr``
 
+   ::
+
+      $ ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr
+      Preparing remote sandbox...
+      Fri Jan 27 10:53:27 UTC 2023
+      Creating server package...
+      Sending server package...
+      Server package sent successfully
+      Getting status (no server expected to be running):
+      Executing remote configuration command: status
+      No ocpiserve appears to be running: no pid file
+
+   ..
+
 #. Start the Server-Mode:
 
    ``ocpiremote start -b``
+
+   ::
+
+      $ ocpiremote start -b
+      Executing remote configuration command: start -B
+      The driver module is not loaded. No action was taken.
+      Reloading kernel driver: 
+      No reserved DMA memory found on the linux boot command line.
+      Driver loaded successfully.
+      Loading opencpi bitstream
+      PATH=/home/root/sandbox/xilinx21_1_aarch64/bin:/home/root/sandbox/xilinx21_1_aarch64/sdk/bin:/usr/bin:/bin
+      LD_LIBRARY_PATH=xilinx21_1_aarch64/sdk/lib
+      VALGRIND_LIB=
+      nohup ocpiserve -v -p 12345 > 20230127-105808.log
+      Server (ocpiserve) started with pid: 598.  Initial log is:
+      Discovery options:  discoverable: 0, loopback: 0, onlyloopback: 0
+      Container server at <ANY>:12345
+        Available TCP server addresses are:
+          On interface eth0: 10.100.1.20:12345
+      Artifacts stored/cached in the directory "artifacts", which will be retained on exit.
+      Containers offered to clients are:
+         0: PL:0, model: hdl, os: , osVersion: , platform: zrf8_48dr
+         1: rcc0, model: rcc, os: linux, osVersion: 21_1, platform: xilinx21_1_aarch64
+      --- end of server startup log success above
+
+   ..
 
 .. _Run-the-testbias-application-using-Server-Mode:
 
@@ -417,7 +457,6 @@ Setup the Software cross-compiler
 **IMPLEMENTATION:**
 
 The following commands are outlined in the `OpenCPI Installation Guide <https://opencpi.gitlab.io/releases/latest/docs/OpenCPI_Installation_Guide.pdf>`_
-
 
 #. Setup ``Xilinx/ZynqReleases/``
 

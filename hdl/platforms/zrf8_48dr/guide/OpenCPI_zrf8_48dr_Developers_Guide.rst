@@ -23,7 +23,7 @@
 OpenCPI zrf8_48dr Developers Guide
 ==================================
 
-.. _dev-Introduction-label:
+.. _dev-Introduction:
 
 Introduction
 ------------
@@ -38,27 +38,17 @@ The OSP supports the following minimum requirement:
 
 #. Several device/proxy workers to interface with devices that are external to the UltraScale+ RFSoC
 
-#. Since the Xilinx Zynq UltraScale+ RFSoC on the ``zrf8_48dr`` is similar to the ``zcu104`` platform, the ``zcu104`` OSP is referenced heavily in this guide.
-
-#. Understand the output artifacts of performing an OpenCPI ``install`` and ``deploy`` of the ``zcu104`` with ``xilinx21_1_aarch64``
-
-#. Review of the HDL primitive and HDL platform worker source code for implementing the ``zcu104``
-
 #. Benchmarking:
 
    #. Control Plane (CP) ONLY verification on the zcu104
 
-      #. CP reference application, i.e. ``pattern_capture``
+      - CP reference application, i.e. ``pattern_capture``
 
    #. Data Plane (DP) verification of the following on the zcu104
 
-      #. DP reference application, i.e. ``testbias``
+      - DP reference application, i.e. ``testbias``
 
-      #. FSK ``filerw``
-
-      #. All viable Component Unit Tests to establish their PASS/FAIL benchmarks
-
-.. _dev-Deliverables-label:
+.. _dev-Deliverables:
 
 Deliverables
 ^^^^^^^^^^^^
@@ -67,22 +57,24 @@ Deliverables
 
 #. One OpenCPI Board Support Package (OSP)
 
-   HDL Platform named ``zrf8_48dr``, with an RCC platform dependency on ``xilinx21_1_aarch64``
+   - HDL Platform named ``zrf8_48dr``, with an RCC platform dependency on ``xilinx21_1_aarch64``
 
-#. Supports the HDL Control Plane, HDL Data Plane, and interfaces to various other devices in a manner that is comparable with the vendor provided SDR
+#. Support of the HDL Control Plane, HDL Data Plane, and interfaces to various other devices in a manner that is comparable with the vendor provided SDR
 
 #. Documentation
 
-   #. OpenCPI zrf8_48dr Getting Started Guide
+   - OpenCPI zrf8_48dr Getting Started Guide
 
-.. _dev-Prerequisites-label:
+   - OpenCPI zrf8_48dr Developers Guide (This Guide)
+
+.. _dev-Prerequisites:
 
 Prerequisites
 ^^^^^^^^^^^^^
 
 #. **Knowledge**
 
-   #. A working knowledge of the OpenCPI framework is a must. Its documentation is located at https://opencpi.gitlab.io/releases/latest/. Close attention must be made to the following:
+   #. A working knowledge of the OpenCPI framework is a must. Its documentation is located at https://opencpi.gitlab.io/releases/. Close attention must be made to the following:
 
       - OpenCPI Platform Development Guide
 
@@ -100,56 +92,61 @@ Prerequisites
 
    #. Xilinx tools:
 
-      #. Vivado/SDK 2021.1
+      - Vivado/SDK 2021.1
 
-      #. PetaLinux: v2021.1
+      - Petalinux: v2021.1
 
    #. OpenCPI FOSS framework, https://gitlab.com/opencpi/opencpi.git
 
-      - Release v2.4.3
-
-.. _dev-Preview-of-the-concluding-directory-tree-label:
+.. _dev-Preview-of-the-concluding-directory-tree:
 
 Preview of the concluding directory tree
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This guide requires the creation of many directories. A summary of those directories are provided below:
 
-**Clone of OpenCPI FOSS framework**::
+**Clone of OpenCPI FOSS framework**:
 
-   /home/user/opencpi
+   ::
 
-..
+      /home/user/opencpi
+
+   ..
+
+**OpenCPI project repo directory for ZRF8**:
+
+   ::
+
+      /home/user/opencpi/projects/osps/ocpi.osp.hitech-global
+
+   ..
+
+**Vendor's reference design(s)**:
+
+   ::
+
+      /home/user/reference_design
+      /home/user/zrf8_48dr_cp
+      /home/user/zrf8_48dr_dp
+
+   ..
 
 
-**OpenCPI project repo directory for ZRF8**::
+**Petalinux directories**:
 
-   /home/user/opencpi/projects/osps/ocpi.osp.hitech-global
+   ::
 
-..
+      /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp
+      /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp
 
-**Vendor's reference design(s)**::
+   ..
 
-   /home/user/zrf8_48dr_ref
-   /home/user/zrf8_48dr_cp
-   /home/user/zrf8_48dr_dp
-
-..
-
-
-**Petalinux directories**::
-
-   /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp
-   /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp
-
-..
-
-.. _dev-Design-Staging-label:
+.. _dev-Design-Staging:
 
 Design Staging
 --------------
 
-.. _dev-Take-inventory-of-the-target-board-label:
+.. _dev-Take-inventory-of-the-target-board:
 
 Take inventory of the target board
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -160,15 +157,13 @@ Per the OpenCPI Platform Development Guide, the target board was examined to ide
 
 **GOAL:**
 
-#. Identify container(s)
+- Identify container(s)
 
-#. Identify interface(s)
+- Identify interface(s)
 
 These items were sorted into the following categories based on their current support within the OpenCPI framework: **Yes, No, Partial.** For items where there is partial or no support, a research phase was conducted to ascertain the amount of development that is required to understand the level of support that is needed by the target platform. The “level of support” varies based on the configuration for a given device versus the requirements of the target platform. For example, although the digital interface of the Analog Devices transceiver may support LVDS and CMOS electrical standards, the target platform may implement support of only the LVDS standard, and therefore it may not be necessary to also enable support for CMOS. However, implementing support for CMOS standard could be added at a later time. This also highlights any additional requirement(s) for developing support for new tooling or other features that must be integrated into the OpenCPI framework to properly target the devices, such as FPGA build tools or software cross-compilers. In many cases, this initial investigation into the platform can be accomplished from vendor provided documentation, such as,  the User’s guide, board schematics and wiring diagrams. In cases where this documentation is insufficient, analysis must be performed with access to the board directly. However, it is also possible that not enough information can be gathered to successfully develop an OSP, but this should be determined upon the completion of the phases described above.
 
 **IMPLEMENTATION:**
-
-TODO: This may need to be updated
 
 +---------------------------------+-------------------------------+------------------------------------+
 | Tool/Device/Interface/Function  | Description                   | Framework Support (Yes/No/Partial) |
@@ -200,107 +195,69 @@ TODO: This may need to be updated
 | I: GPIO                         | General Purpose I/O           | Existing (May require mods)        |
 +---------------------------------+-------------------------------+------------------------------------+
 
-.. _dev-Review-Vendor's-Reference-Design-Package-label:
+.. _dev-Review-Vendor's-Reference-Design-Package:
 
 Review Vendor's Reference Design Package
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- Allow the user to become familiar with the target board and its reference design package. By working through the reference design package, the user becomes comfortable with various tools, modifying source code, understanding the build flow (Vivado, PetaLinux), creating a microSD card, loading the FPGA and running an application. The build flow steps captured during the review are heavily relied upon throughout much of this guide and its lessons-learned are used during the integration with OpenCPI.
+- Allow the user to become familiar with the target board and its reference design package. By working through the reference design package, the user becomes comfortable with various tools, modifying source code, understanding the build flow (Vivado, Petalinux), creating a microSD card, loading the FPGA and running an application. The build flow steps captured during the review are heavily relied upon throughout much of this guide and its lessons-learned are used during the integration with OpenCPI.
 
    - Review its documentation and work though the reference designs that targets the processor and/or the FPGA.
 
-   - (OPTIONAL) Verify that the reference design can be modified and rebuilt so that a value of a register is set at build-time and readback during run-time. Then build the bitstream, create an image via PetaLinux, install on the ZRF8 and readback the value from the custom register.
+   - (OPTIONAL) Verify that the reference design can be modified and rebuilt so that a value of a register is set at build-time and readback during run-time. Then build the bitstream, create an image via Petalinux, install the artifacts onto the ZRF8 and readback the custom register value.
 
 **IMPLEMENTATION:**
 
-#. Install and build reference design package:
-
-   #. Create a reference design directory
-
-      ``cd /home/user``
-
-      ``mkdir zrf8_48dr_ref``
-
-   #. Download the ``GEON_2022_10_12_icr.zip``
-
-#. Unzip the initial file and then the subsequent ``pl_core.zip`` embedded zip file into your ``~/Downloads`` folder
-
-      ``cd Downloads``
-
-      ``unzip GEON_2022_10_12_icr.zip``
-
-      ``cd 2022_10_12``
-
-      ``unzip pl_core.zip``
-
-   #. Copy the unzipped contents into your reference design directory
-
-      ``cp -rf ~/Downloads/2022_10_12/* ~/zrf8_48dr_ref/``
-
-      ``cd /home/user/zrf8_48dr_ref``
-
-#. Source Vivado 2021.1
-
-   ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
-
-#.  Follow the top-level ``readme.txt`` (Step 1 Complete) ::
-
-      1. extract the zip file in a folder
-
-      2. change to the following directory:
-              cd <folder>/pl_core/build/htg-zrf8_48dr-rev3/
-
-      3. create the FPGA project:
-              vivado -mode batch -source create_project.tcl
-
-      4. after project creation and initial build, open the project file in vivado
-              vivado <folder>/pl_core/build/htg-zrf8_48dr-rev3/pl_core/pl_core.xpr
-
-      the above has been tested with Vivado 2021.1
-
-TODO: Add documents if provided:
+#. Install and build reference design package
 
 #. Review the vendor provided documentation, such as, but not limited to:
 
    #. HiTech-Global ZRF8 Users Guide
 
+cpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr
    #. HiTech-Global ZRF8 Schematic
 
 #. Run the various examples application(s)
 
 #. Explore all that has been provided and make note of any special build or run time steps, which may be reused in the OpenCPI development flow:
 
-   #. Build the bitstream
+   #. Building the bitstream
 
-   #. Booting the into ZRF8
+   #. Building the petalinux project
+
+   #. Booting the ZRF8
 
    #. Setting up the microSD card
 
    #. Loading of the FPGA
 
-   #. Run Application(s)
+   #. Runing Application(s)
 
 #. (OPTIONAL) Once you have become familiar with the out-of-the-box reference design, convince yourself that you can edit the design by including a register for readback, which supports read/write or has a constant value. The details are left to the reader.
 
-.. _dev-OpenCPI-Staging-label:
+.. _dev-OpenCPI-Staging:
 
 OpenCPI Staging
 ---------------
 
-.. _dev-Install-the-OpenCPI-framework-label:
+.. _dev-Install-the-framework:
 
 Install the OpenCPI framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- Install the OpenCPI ``v2.4.3`` Framework
+- Install the OpenCPI Framework to use for development of the OSP
 
 **IMPLEMENTATION:**
 
-Download the ``v2.4.3`` tag of OpenCPI from the provided link, then run the default installation that targets the host OS, which in this case is ``centos7``.
+This Guide uses the following Framework branch and commit ID
+
+   - `3420-support-for-rcc-platform-xilinx21_1_aarch64 <https://gitlab.com/opencpi/opencpi/-/tree/3420-support-for-rcc-platform-xilinx21_1_aarch64>`_
+
+   - git commit ID - **cbcd6fa7fa477e72031181c997a5a666487b0eb9**
 
 #. Clone the OpenCPI framework
 
@@ -310,17 +267,15 @@ Download the ``v2.4.3`` tag of OpenCPI from the provided link, then run the defa
 
    ``cd opencpi``
 
-   ``git checkout tags/v2.4.3``
+   ``git checkout cbcd6fa7fa477e72031181c997a5a666487b0eb9``
 
-#. Complete the steps in the :ref:`dev-Bug-Fixes-to-the-framework-label` section of the APPENDIX
-
-#. Install the framework  (Duration 30 min)
+#. Install the framework
 
    ``cd /home/user/opencpi/``
 
    ``./scripts/install-opencpi.sh --minimal``
 
-.. _dev-Configure-a-host-terminal-for-OpenCPI-development-label:
+.. _dev-Configure-a-host-terminal-for-OpenCPI-development:
 
 Configure a host terminal for OpenCPI development
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -341,8 +296,6 @@ Configure a host terminal for OpenCPI development
 
    ``export OCPI_XILINX_VIVADO_VERSION=2021.1``
 
-   ``export OCPI_XILINX_LICENSE_FILE=2100@r420``
-
    ``env | grep OCPI``
 
    ::
@@ -357,46 +310,38 @@ Configure a host terminal for OpenCPI development
       OCPI_TOOL_OS=linux
       OCPI_TOOL_PLATFORM_DIR=/home/user/opencpi/project-registry/ocpi.core/exports/rcc/platforms/centos7
       OCPI_TOOL_ARCH=x86_64
-      OCPI_XILINX_LICENSE_FILE=2100@r420
       OCPI_TOOL_DIR=centos7
 
   ..
 
-.. _dev-Modifications-to-the-Install-and-Deploy-scripts-label:
+.. _dev-Modifications-to-the-Install-and-Deploy-scripts:
 
 Modifications to the Install and Deploy scripts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-By default, the ``testbias`` HDL assembly (Control + Data Plane) is built as part of the installation process for a given OSP, and this bitstream is included in the deployment of said OSP. The purpose of these modifications are to replace the ``testbias`` HDL assembly, so that, the ``canary`` Control Plane HDL assembly ``pattern_capture`` and its bitstream are built, and application (``pattern_capture.xml``) are deployed, thus making it the ``new`` default assembly and app for assessing the behavior of the Control Plane.
+- By default, the ``testbias`` (Control Plane + Data Plane) HDL assembly is built as part of the installation process for a given OSP, and this bitstream is included in the deployment of said OSP. The purpose of these modifications are to replace the ``testbias`` HDL assembly with the ``pattern_capture`` (Control Plane **ONLY**) HDL assembly  so that its bitstream is built, and the ``pattern_capture.xml`` application is deployed, thus making it the ``new`` default assembly and application for assessing the behavior of the Control Plane.
 
 **IMPLEMENTATION:**
 
-#. So that the ``canary`` Control Plane app (``pattern_capture.xml``) is included in the list of OASs that are exported to ``/home/user/opencpi/cdk/<rcc-platform>/sd*/opencpi/applications``, create a symbolic link within the ``/home/user/opencpi/projects/assets/applications/`` to ``pattern_capture.xml``
+#. So that the Control Plane application (``pattern_capture.xml``) is included in the list of OASs that are exported to ``/home/user/opencpi/cdk/<rcc-platform>/sdcard*/opencpi/applications``, create a symbolic link within the ``/home/user/opencpi/projects/assets/applications/`` to ``pattern_capture.xml``
 
    ``cd /home/user/opencpi/projects/assets/applications/``
 
    ``ln -s pattern_capture/pattern_capture.xml ./pattern_capture.xml``
 
-#. Edit the following scripts to target the assembly ``pattern_capture_asm``, rather than the ``testbias`` assembly:::
-
-
-   1. It is recommended to perform a ``Find and Replace`` for all occurances of ``testbias`` with ``pattern_capture`` in the files listed below. A syntax error in these files can be difficult to diagnose, therefore it is NOT recommended to simply comment out and replace the lines when making these edits.
-
-   2. In a later section** (:ref:`dev-undo-edits-made-to-validate-hdl-control-plane-label`), **these edits will be reverted back to their original state, so that, the ``testbias`` will be installed/deployed in support of enabling the Data Plane.
-
-..
+#. Edit the following scripts to target the assembly ``pattern_capture_asm``, rather than the ``testbias`` assembly:
 
    #. Edit the ``/home/user/opencpi/tools/scripts/export-platform-to-framework.sh`` to target ``pattern_capture_asm``
 
-      FROM:::
+      FROM::
 
          tbz=projects/assets/exports/artifacts/ocpi.assets.testbias_${platform}_base.hdl.0.${platform}.bitz
 
       ..
 
-      TO:::
+      TO::
 
          tbz=projects/assets/exports/artifacts/ocpi.assets.pattern_capture_asm_${platform}_base.hdl.0.${platform}.bitz
 
@@ -404,13 +349,13 @@ By default, the ``testbias`` HDL assembly (Control + Data Plane) is built as par
 
    #. Edit the ``/home/user/opencpi/tools/scripts/ocpiadmin.sh`` to target ``pattern_capture_asm``
 
-      FROM:::
+      FROM::
 
          ocpidev -d projects/assets build --hdl-platform=$platform hdl ${minimal:+--workers-as-needed} assembly testbias
 
       ..
 
-      TO:::
+      TO::
 
          ocpidev -d projects/assets build --hdl-platform=$platform hdl ${minimal:+--workers-as-needed} assembly pattern_capture_asm
 
@@ -418,13 +363,13 @@ By default, the ``testbias`` HDL assembly (Control + Data Plane) is built as par
 
       **AND**
 
-      FROM:::
+      FROM::
 
          echo "HDL platform \"$platform\" built, with one HDL assembly (testbias) built for testing."
 
       ..
 
-      TO:::
+      TO::
 
          echo "HDL platform \"$platform\" built, with one HDL assembly (pattern_capture_asm) built for testing."
 
@@ -432,7 +377,7 @@ By default, the ``testbias`` HDL assembly (Control + Data Plane) is built as par
 
    #. Edit the ``/home/user/opencpi/tools/scripts/deploy-platform.sh`` to target ``pattern_capture_asm``
 
-      FROM:::
+      FROM::
 
          cp $verbose -L ../projects/assets/hdl/assemblies/testbias/container-testbias_${hdl_platform}_base/target-*/*.bitz \
             $sd/opencpi/artifacts
@@ -440,14 +385,14 @@ By default, the ``testbias`` HDL assembly (Control + Data Plane) is built as par
 
       ..
 
-      TO:::
+      TO::
 
          cp $verbose -L ../projects/assets/hdl/assemblies/pattern_capture_asm/container-pattern_capture_asm_${hdl_platform}_base/target-*/*.bitz \
             $sd/opencpi/artifacts
 
       ..
 
-.. _dev-Setup-the-Software-cross-compiler-label:
+.. _dev-Setup-the-Software-cross-compiler:
 
 Setup the Software cross-compiler
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -480,191 +425,73 @@ The following commands are outlined in the `OpenCPI Installation Guide <https://
 
    ``sudo chown -R <user>:users /opt/Xilinx/ZynqReleases``
 
-      - Example: ``sudo chown -R smith:users /opt/Xilinx/ZynqReleases``
+   - Example: ``sudo chown -R smith:users /opt/Xilinx/ZynqReleases``
 
-      - Note: This may require adjusting the permissions for ``/opt/Xilinx/ZynqReleases`` or its subdirectories
+   - Note: This may require adjusting the permissions for ``/opt/Xilinx/ZynqReleases`` or its subdirectories
 
 #. Setup ``Xilinx/git/``
 
-   #. ``sudo mkdir -p /opt/Xilinx/git``
+   ``sudo mkdir -p /opt/Xilinx/git``
 
    #. Download ``linux-xlnx``
 
-      #. ``cd ~/Downloads``
+      ``cd ~/Downloads``
 
-      #. ``git clone https://github.com/Xilinx/linux-xlnx.git``
+      ``git clone https://github.com/Xilinx/linux-xlnx.git``
 
-      #. ``cd linux-xlnx``
+      ``sudo cp -rf linux-xlnx /opt/Xilinx/git``
 
-      #. ``git checkout -b xilinx-v2021.1``
-
-      #. ``cd ../``
-
-      #. ``sudo cp -rf linux-xlnx /opt/Xilinx/git``
-
+      ``sudo chown -R <user>:users /opt/Xilinx/git``
 
    #. Download ``u-boot-xlnx``
 
-      #. ``cd ~/Downloads``
+      ``cd ~/Downloads``
 
-      #. ``git clone https://github.com/Xilinx/u-boot-xlnx.git``
+      ``git clone https://github.com/Xilinx/u-boot-xlnx.git``
 
-      #. ``cd u-boot-xlnx``
+      ``sudo cp -rf u-boot-xlnx /opt/Xilinx/git``
 
-      #. ``git checkout -b xilinx-v2021.1``
+      ``sudo chown -R <user>:users /opt/Xilinx/git``
 
-      #. ``cd ../``
+.. _dev-Install-xilinx21_1_aarch64-RCC-Platfrom:
 
-      #. ``sudo cp -rf u-boot-xlnx /opt/Xilinx/git``
-
-   #. ``sudo chown -R <user>:users /opt/Xilinx/git``
-
-      - Example: ``sudo chown -R smith:users /opt/Xilinx/git``
-
-      - Note: This may require adjusting the permissions for ``/opt/Xilinx/git`` or its subdirectories
-
-.. _dev-Create/Install-xilinx21_1_aarch64-RCC-Platfrom-label:
-
-Create/Install xilinx21_1_aarch64 RCC Platform
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL**
-
-- The ``zrf8_48dr`` HDL Platform requires the use of the RCC platform ``xilinx21_1_aarch64``. Since the ``xilinx21_1_aarch64`` RCC Platform is not implemented in this version (v2.4.3) of OpenCPI, the user must create the RCC Platform for building the OpenCPI run-time utilities against ``xilinx21_1_aarch64``.
-
-**IMPLEMENTATION:**
-
-#. **Create new RCC Platform:** ``xilinx21_1_aarch64`` **to target the ZRF8**
-
-   #. ``cd /home/user/opencpi/projects/core/rcc/platforms/``
-
-   #. Copy the core RCC platform ``xilinx19_2_aarch64`` directory and rename it ``xilinx21_1_aarch64``
-
-      ``cp -rf xilinx19_2_aarch64/ ./xilinx21_1_aarch64`` #. ``cd xilinx21_1_aarch64/``
-
-   #. Ensure that the newly created ``xilinx21_1_aarch64/`` is void of old artifacts, i.e. remove ``gen/`` and ``lib/`` that may have been copied from ``xilinx19_2_aarch64``
-
-   #. Change file names in ``xilinx21_1_aarch64/`` from ``19_2`` to ``21_1``
-
-   #. Edit the contents of ``xilinx21_1_aarch64.mk`` per the below:::
-
-
-         #OcpiXilinxLinuxRepoTag:=xilinx-v2021.1
-
-         include $(OCPI_CDK_DIR)/include/xilinx/xilinx-rcc-platform-definition.mk
-         OcpiCXXFlags+=-fno-builtin-memset -fno-builtin-memcpy -Wtype-limits
-         OcpiCFlags+=-fno-builtin-memset -fno-builtin-memcpy -Wtype-limits
-         OcpiPlatformOs:=linux
-         OcpiPlatformOsVersion:=21_1
-         OcpiPlatformArch:=aarch64
-
-   ..
-
-   #. Unregister and reregister the project:
-
-      ``cd /home/user/opencpi/projects/core``
-
-      ``ocpidev unregister project``
-
-      ``ocpidev register project``
-
-#. Verify that the ``xilinx21_1_aarch64`` project has been registered:
-
-      ``cd /home/user/opencpi``
-
-      ``ocpidev show platforms``
-
-#. **Install: xilinx21_1_aarch64 (an RCC platform)**
-
-   #. Downgrade the ``uboot-tools`` package to avoid any errors
-
-      ``sudo yum downgrade uboot-tools 2018.09``
-
-   #. Install the RCC platform
-
-      ``ocpiadmin install platform xilinx21_1_aarch64``
-
-      #. Error - Driver Build:::
-
-         /bin/bash: scripts/mod/modpost: No such file or directory
-         make[4]: *** [/home/jpalmer/projects/opencpi/releases/opencpi/os/linux/driver/Module.symvers] Error 1
-         make[3]: *** [modules] Error 2
-         make[2]: *** [__sub-make] Error 2
-         make[2]: Leaving directory `/home/jpalmer/projects/opencpi/releases/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64/lib/kernel-headers'
-         make[1]: *** [target-xilinx21_1_aarch64/opencpi-5.10.0-xilinx-v2021.1-v2021.1.ko] Error 2
-         make[1]: Leaving directory `/home/jpalmer/projects/opencpi/releases/opencpi/os/linux/driver'
-         make: *** [driver] Error 2
-
-      ..
-
-
-         - There is an error with the modpost script not existing in the kernel headers when the OpenCPI build tooling goes to build the data plane driver. I think OpenCPI is supposed to go and create these on the kernel if its not already there but its clearly not.
-
-         - Essentially you go into the ``cd projects/core/rcc/platforms/xilinx21_1_aarch64/lib/kernel-headers`` directory and run these three commands, the first two will produce an ``Error 2``.::
-
-            % make prepare V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-            % make modules_prepare V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-            % make scripts V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-
-         ..
-
-   #. Reinstall the RCC platform after implementing bug fix
-
-   ``cd /home/user/opencpi``
-
-   ``ocpiadmin install platform xilinx21_1_aarch64``
-
-.. _dev-Install-zcu104-HDL-Platform-label:
-
-Install zcu104 HDL Platform
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL**
-
-- To install for a build-in HDL platform that targets the same Xilinx device family as the ``ZRF8``. This will ensure that all of the HDL assets are built for the correct target device family (``zynq_ultra``).
-
-**IMPLEMENTATION:**
-
-#. **Install: zcu104 (an HDL platform)**
-
-   ``cd /home/user/opencpi/
-
-   ``ocpiadmin install platform zcu104 --minimal``
-
-
-.. _dev-Deploy-platforms-zcu104-xilinx21_1_aarch64-label:
-
-Deploy platforms: zcu104, xilinx21_1_aarch64
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install and Deployment
+^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- ``Known good`` HDL and RCC platforms are installed and deployed to aid in the development of the OSP for the ``ZRF8``. They are used to validate the installation of the framework and to ensure that the run-time utilities perform on the ``zcu104`` as expected prior to enabling the ``ZRF8``.
+- To install and deploy the RCC Platform ``xilinx21_1_aarch64`` and the HDL Platform ``zcu104``
 
 **IMPLEMENTATION:**
 
-.. note::
+**Install: xilinx21_1_aarch64 (an RCC platform)**
 
-   The zrf8_48dr HDL platform will not be installed here as it has not yet been developed.
+   ``cd opencpi/``
 
-..
+   ``ocpiadmin install platform xilinx21_1_aarch64 --minimal``
 
-#. **Deploy: zcu104 with xilinx21_1_aarch64**
+**Install: zcu104 (an HDL platform)**
+
+   ``cd opencpi/``
+
+   ``ocpiadmin install platform zcu104 --minimal``
+
+**Deploy: zcu104 with xilinx21_1_aarch64**
 
    ``ocpiadmin deploy platform xilinx21_1_aarch64 zcu104``
 
-.. _dev-Benchmark-testing-the-OpenCPI-zcu104-OSP-label:
+.. _dev-Benchmark-testing-the-OpenCPI-zcu104-OSP:
 
 Benchmark testing the OpenCPI zcu104 OSP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- Gain a benchmark understanding of build-time and run-time utilities, as they are performed for the OpenCPI ``zcu104`` HDL platform when paired with SW RCC platform ``xilinx21_1_aarch64``.
+- Gain a benchmark understanding of the build-time and run-time utilities as they are performed for the HDL platform ``zcu104`` when paired with the RCC platform ``xilinx21_1_aarch64``.
 
 **IMPLEMENTATION:**
 
-#. Build ``known good`` HDL and RCC platforms to aid in the development of the OSP. *There is a calculated risk using a new RCC platform for this step.*
+#. Build ``known good`` HDL and RCC platforms to aid in the development of the OSP.
 
 #. Understand the impact of the contents of the ``zcu104.exports`` file by reviewing the outputs of install/deploy of the ``zcu104``
 
@@ -672,9 +499,9 @@ Benchmark testing the OpenCPI zcu104 OSP
 
 #. Build the ``canary`` **Data Plane** (DP) HDL bitstreams and run its application
 
-#. Build the Component Unit Tests and run them on the ``zcu104`` to obtain benchmark performance metrics. These benchmark performance metrics for the ``zcu104`` are outlined in the :ref:`dev-Component-Unit-Test-results-table-label` section.
+#. Build the Component Unit Tests and run them on the ``zcu104`` to obtain benchmark performance metrics.
 
-.. _dev-Create-an-OpenCPI-project-for-the-ZRF8-label:
+.. _dev-Create-an-OpenCPI-project-for-the-ZRF8:
 
 Create an OpenCPI project for the ZRF8
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -693,23 +520,37 @@ Create an OpenCPI project for the ZRF8
 
    ``cd ocpi.osp.hitech-global``
 
-#. Create ``Project.mk``:::
+#. Create a ``Makefile``:
 
-   PackageName=osp.hitech-global
-   PackagePrefix=ocpi
-   ProjectDependencies=ocpi.platform ocpi.assets
-   ComponentLibraries+=misc_comps util_comps dsp_comps comms_comps
+  ::
 
-..
+      $(if $(realpath $(OCPI_CDK_DIR)),,\
+        $(error The OCPI_CDK_DIR environment variable is not set correctly.))
+        # This is the Makefile for the ocpi.osp.xilinx project.
+      include $(OCPI_CDK_DIR)/include/project.mk
+
+  ..
+
+#. Create a ``Project.mk`` file:
+
+   ::
+
+      PackageName=osp.hitech-global
+      PackagePrefix=ocpi
+      ProjectDependencies=ocpi.platform ocpi.assets
+      ComponentLibraries+=misc_comps util_comps dsp_comps comms_comps
+
+   ..
 
 #. Register the project
 
    ``ocpidev register project``
 
-
 #. Confirm that the ``ocpi.osp.hitech-global`` project is registered
 
-   ``ocpidev show registry``::
+   ``ocpidev show registry``
+
+   ::
 
       -----------------------------------------------------------------------------------------------------
       | Project Package-ID       | Path to Project                                         | Valid/Exists |
@@ -724,19 +565,47 @@ Create an OpenCPI project for the ZRF8
 
    ..
 
-.. _dev-Enable-OpenCPI-HDL-Control-Plane-label:
+#. Implement the ``zrf8_48dr`` part number ``xczu48dr`` in the ``/home/user/opencpi/tools/include/hdl/hdl-targets.xml`` file::
+
+     <family name='zynq_ultra' toolset='vivado' default='xczu3cg-2-sbva484e'
+              parts='xczu28dr xczu9eg xczu7ev xczu3cg xczu48dr'/>
+
+   ..
+
+#. The ``fmc_plus.xml`` card-spec has been provided in the ``ocpi.osp.hitech-global`` `repository <https://gitlab.com/opencpi/osp/ocpi.osp.hitech-global>`_. The ``fmc_plus.xml`` card-spec is located in the ``ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/guide``. Implement the ``fmc_plus.xml`` card-spec within the ``projects/core/hdl/cards/specs/`` directory.
+
+   ``cp fmc_plus.xml /home/user/opencpi/projects/core/hdl/cards/specs``
+
+   ``cd /home/user/opencpi/projects/core``
+
+   ``ocpidev unregister project``
+
+   ``ocpidev register project``
+
+
+
+
+
+
+
+
+
+
+
+
+.. _dev-Enable-OpenCPI-HDL-Control-Plane:
 
 Enable OpenCPI HDL Control Plane
 -------------------------------
 
-.. _dev-Configure-PS-for-CP-label:
+.. _dev-Configure-PS-for-Control-Plane:
 
-Configure PS for CP
-^^^^^^^^^^^^^^^^^^
+Configure PS for Control Plane
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- Obtain a **Processing System** (PS) core IP which is precisely configured for the ``ZRF8``, that will be wrapped or normalized into OpenCPI signaling and made available to be instanced in the Platform Worker. The steps to acheive this goal start by leveraging the ``ZRF8`` vendor reference design to isolate the Processing System (PS) core IP's source code.
+- Obtain a **Processing System** (PS) core IP which is precisely configured for the ``zrf8_48dr``, that will be wrapped and normalized for OpenCPI signaling and made available to be instanced in the Platform Worker. The steps to acheive this goal start by leveraging the ``zrf8_48dr`` vendor reference design to isolate the Processing System (PS) core IP's source code.
 
 - Configure the PS core IP to enable and configure signals/ports, per the requirements of the OpenCPI HDL Control Plane control software for the Zynq UltraScale+ RFSoC devices:
 
@@ -748,19 +617,21 @@ Configure PS for CP
 
 - The product of this section is the PS core IP HDL primitive that supports the Control Plane.
 
-#. Be sure to have the Reference Design built and installed from the :ref:`dev-Review-Vendor's-Reference-Design-Package-label`
+**IMPLEMENTATION:**
 
-#. Create a copy of the reference design ``zrf8_48dr_ref`` and create a ``Control-Plane`` only version ``zrf8_48dr_cp``
+#. Be sure to have the Reference Design built and installed from the :ref:`dev-Review-Vendor's-Reference-Design-Package` section.
+
+#. Create a copy of the reference design and create a ``Control-Plane`` only version ``zrf8_48dr_cp``
 
    ``cd /home/user``
 
-   ``cp -rf zrf8_48dr_ref ./zrf8_48dr_cp``
+   ``cp -rf <reference_design>/ ./zrf8_48dr_cp``
 
 #. Open the ``zrf8_48dr_cp`` vivado project
 
    ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8_48dr-rev3/pl_core/``
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/``
 
    ``vivado pl_core.xpr``
 
@@ -776,7 +647,7 @@ Configure PS for CP
 
    #. Remove all modules except the Zynq UltraScale+ RFSoC IP ``zynq_ultra_ps_e_0``
 
-   #. Remove all connections
+   #. Remove all signals
 
    #. Edit the PS core IP (Double Click ``zynq_ultra_ps_e_0``):
 
@@ -792,7 +663,6 @@ Configure PS for CP
 
          I/O Configuration -> Low-Speed -> Processing Unit -> TTC -> TTC 3
 
-      TODO: Check this -> We left this in
       #. **Disable GEM**
 
          I/O Configuration -> High-Speed -> GEM -> GEM 3
@@ -805,7 +675,7 @@ Configure PS for CP
 
          PS-PL Configuration -> PS-PL Interfaces -> Master Interface -> AXI HPM1 FPD
 
-      #. **Configure the Master Interface AXI HPMO FPD for 32 bit** -> Does OpenCPI support 64/128?
+      #. **Configure the Master Interface AXI HPMO FPD for 32 bit**
 
          PS-PL Configuration -> PS-PL Interfaces -> Master Interface -> AXI HPM0 FPD -> AX0 HPM1 FPD Data Width -> 32
 
@@ -831,169 +701,27 @@ Configure PS for CP
 
       #. Perform ``Flow Navigator window`` -> ``IP INTEGRATOR`` -> ``Generate Block Design`` -> ``Generate``
 
-#. In the ``Sources`` tab and ``Hierarchy`` view, expand the ``design_1_wrapper`` and right mouse click the ``design_1_i`` design and click ``Create HDL Wrapper`` -> OK
+   #. In the ``Sources`` tab and ``Hierarchy`` view, expand the ``design_1_wrapper`` and right mouse click the ``design_1_i`` design and click ``Create HDL Wrapper`` -> OK
 
-#. Export an ``.xsa`` file
+   #. Export an ``.xsa`` file
 
-   - File -> Export -> Export Hardware...-> Next -> Pre-synthesis -> Finish
+      - File -> Export -> Export Hardware...-> Next -> Pre-synthesis -> Finish
 
-   - Leave the default export location ``pl_core``
+      - Leave the default export location ``pl_core``
 
 #. Close Vivado
 
-TODO: Implement CP Block Design Picture
 #. The Block Design should look as follows:
 
 .. figure:: figures/zrf8_48dr_cp.png
-   :alt: ZRF8 PS CP Block Design
+   :alt: ZRF8 PS Control Plane Block Design
    :align: center
 
-   ZRF8 PS CP Block Design
+   ZRF8 PS Control Plane Block Design
 
 ..
 
-
-
-PetaLinux workspace for Control Plane
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- The following `PetaLinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked".
-
-- Successful completion of this section is a bootable SD-card image utilizing the Petalinux utility
-
-**IMPLEMENTATION:**
-
-#. Source Petalinux 2021.1
-
-   ``source /opt/Xilinx/Petalinux/2021.1/settings.sh``
-
-#. Create a petalinux project directory for Control-Plane (cp)
-
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/``
-
-   ``petalinux-create -t project --template zynqMP --name "petalinux_cp"``
-
-#. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step.
-
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/``
-
-   ``petalinux-config --get-hw-description=../``
-
-#. Once the ``/misc/config`` System Configuration GUI is present in the terminal, continue with the following edits
-
-   #. ``Yocto Settings`` -> ``[*] Enable Buildtools Extended``
-
-   #. Exit -> Yes
-
-   #. If you are presented with: ``ERROR: Failed to generate meta-plnx-generated layer``, this can be fixed with the following command:
-
-      ``sudo sysctl -n -w fs.inotify.max_user_watches=524288``
-
-#. Build the project **You may need to run ``petalinux-build`` twice to get passed some erroneous errors**
-
-   ``petalinux-build``
-
-#. Package the ``BOOT.BIN`` image
-
-   ``cd images/linux``
-
-   ``petalinux-package --boot --fsbl --u-boot --force``
-
-   There should now be a ``BOOT.BIN`` in the ``images/linux`` directory
-
-Create CP Boot Artifacts
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-Create Control-Plane boot artifacts for the framework to leverage when the Platform is deployed
-
-**IMPLEMENTATION**
-
-#. Create ``2021.1-zrf8_48dr-release`` directory to store boot artifacts
-
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/images/linux``
-
-   ``mkdir 2021.1-zrf8_48dr-release``
-
-#. Copy the boot artifacts into the directory and create a ``ZynqReleases`` tar
-
-   ``cp BOOT.BIN image.ub boot.scr rootfs.tar.gz 2021.1-zrf8_48dr-release``
-
-   ``tar cvfz 2021.1-zrf8_48dr-release.tar.xz 2021.1-zrf8_48dr-release``
-
-   ``sudo cp 2021.1-zrf8_48dr-release.tar.xz /opt/Xilinx/ZynqReleases/2021.1``
-
-   ``sudo chown -R <user>:users /opt/Xilinx/ZynqReleases/2021.1``
-
-       - Example: ``sudo chown -R smith:users /opt/Xilinx/ZynqReleases``
-
-       - Note: This may require adjusting the permissions for ``/opt/Xilinx/ZynqReleases`` or its subdirectories
-
-Reinstall RCC Platform ``xilinx21_1_aarch64``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Reinstall RCC Platform ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr-release.tar.xz`` boot artifacts can be implemented into the framework
-
-   #. Remove the old ``xilinx21_1_aarch64`` from ``cdk``
-
-      ``cd /home/user/opencpi/cdk``
-
-      ``rm -rf xilinx21_1_aarch64``
-
-   #. Clean out stale build artifacts from ``core/rcc/platforms/xilinx21_1_aarch64``
-
-      ``cd /home/user/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64``
-
-      ``rm -rf /gen /lib``
-
-   #. Unregister/Re-register project
-
-      ``cd /home/user/opencpi/projects/core``
-
-      ``ocpidev unregister project``
-
-      ``ocpidev register project``
-
-   #. Reinstall the RCC platform
-
-      ``cd /home/user/opencpi``
-
-      ``ocpiadmin install platform xilinx21_1_aarch64``
-
-      #. Error - Driver Build:::
-
-         /bin/bash: scripts/mod/modpost: No such file or directory
-         make[4]: *** [/home/jpalmer/projects/opencpi/releases/opencpi/os/linux/driver/Module.symvers] Error 1
-         make[3]: *** [modules] Error 2
-         make[2]: *** [__sub-make] Error 2
-         make[2]: Leaving directory `/home/jpalmer/projects/opencpi/releases/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64/lib/kernel-headers'
-         make[1]: *** [target-xilinx21_1_aarch64/opencpi-5.10.0-xilinx-v2021.1-v2021.1.ko] Error 2
-         make[1]: Leaving directory `/home/jpalmer/projects/opencpi/releases/opencpi/os/linux/driver'
-         make: *** [driver] Error 2
-
-      ..
-
-
-         - There is an error with the modpost script not existing in the kernel headers when the OpenCPI build tooling goes to build the data plane driver. I think OpenCPI is supposed to go and create these on the kernel if its not already there but its clearly not.
-
-         - Essentially you go into the ``cd projects/core/rcc/platforms/xilinx21_1_aarch64/lib/kernel-headers`` directory and run these three commands, the first two will produce an ``Error 2``.::
-
-            % make prepare V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-            % make modules_prepare V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-            % make scripts V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-
-         ..
-
-   #. Reinstall the RCC platform after implementing bug fix
-
-   ``cd /home/user/opencpi``
-
-   ``ocpiadmin install platform xilinx21_1_aarch64``
-
-.. _dev-Create-HDL-Primitive-for-CP-label:
+.. _dev-Create-HDL-Primitive-for-CP:
 
 Create HDL Primitive for CP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1004,13 +732,13 @@ Create HDL Primitive for CP
 
 **IMPLEMENTATION:**
 
-TODO: Implement Code-Blocks for the Control-Plane Section
+**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:
 
-**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
+   ::
 
-   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/control-plane/primitives/
+      ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/control-plane/primitives/
 
-..
+   ..
 
 #. Setup terminal for OpenCPI development
 
@@ -1026,16 +754,11 @@ TODO: Implement Code-Blocks for the Control-Plane Section
 
    ``ocpidev create hdl primitive library zynq_ultra_zrf8_48dr``
 
-#. From the Vivado project modified in  :ref:`dev-Configure-PS-for-CP-label`, which is specific to using the vendor's reference design for configuring the PS core IP for the ``ZRF8``, browse to the generated artifacts directory, and copy them into the newly created OpenCPI HDL primitive library.
+#. From the Vivado project modified in  :ref:`dev-Configure-PS-for-Control-Plane`, which is specific to using the vendor's reference design for configuring the PS core IP for the ``ZRF8``, browse to the generated artifacts directory, and copy them into the newly created OpenCPI HDL primitive library.
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8_48dr-rev3/pl_core/pl_core.gen/sources_1/bd/design_1/ip``
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/pl_core.gen/sources_1/bd/design_1/ip``
 
    ``cp -rf design_1_zynq_ultra_ps_e_0_0/ <ocpi.osp.hitech-global>/hdl/primitives/zynq_ultra_zrf8_48dr``
-
-#. Copy the ``design_1_zynq_ultra_ps_e_0_0.xci`` into the proper location
-
-   ``cp /home/user/icr_cp/pl_core/build/htg-zrf8_48dr-rev3/pl_core/pl_core.srcs/sources_1/bd/design_1/ip/design_1_zynq_ultra_ps_e_0_0/design_1_zynq_ultra_ps_e_0_0.xci ./design_1_zynq_ultra_ps_e_0_0/``
-
 
 #. Since the ``zrf8_48dr`` is very similar to the ``zcu104``, simply copy and rename a couple files from the ``platform/hdl/primitive/zynq_ultra`` HDL primitive library into the ``zynq_ultra_zrf8_48dr`` and edit as needed.
 
@@ -1044,11 +767,6 @@ TODO: Implement Code-Blocks for the Control-Plane Section
    ``cp zynq_ultra_pkg.vhd  <ocpi.osp.hitech-global>/hdl/primitives/zynq_ultra_zrf8_48dr/zynq_ultra_zrf8_48dr_pkg.vhd``
 
    ``cp zynq_ultra_ps.cpp_vhd <ocpi.osp.hitech-global>/hdl/primitives/zynq_ultra_zrf8_48dr/zynq_ultra_zrf8_48dr_ps.vhd``
-
-   .. note::
-
-      **This guide does not perform the C++ preprocessing on the zynq_ultra_ps.cpp_vhd, that is described in the platform/hdl/primitives/zynq_ultra/Makefile. All C++ preprocessing will be removed in subsequent steps.**
-   ..
 
 #. Edit the HDL package ``zynq_ultra_zrf8_48dr_pkg.vhd``
 
@@ -1172,7 +890,7 @@ TODO: Implement Code-Blocks for the Control-Plane Section
 
 #. Create the primitive library's ``Makefile`` to specify all of the dependencies:
 
-   ``/home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/primitives/zynq_ultra_zrf8_48dr/Makefile``
+   ``ocpi.osp.hitech-global/hdl/primitives/zynq_ultra_zrf8_48dr/Makefile``
 
    ::
 
@@ -1189,7 +907,7 @@ TODO: Implement Code-Blocks for the Control-Plane Section
 
    ..
 
-.. _dev-Build-HDL-Primitive-with-CP-label:
+.. _dev-Build-HDL-Primitive-with-CP:
 
 Build HDL Primitive with CP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1231,7 +949,7 @@ Build HDL Primitive with CP
       Installing target-zynq_ultra/zynq_ultra_zrf8_48dr into ../lib/zynq_ultra_zrf8_48dr/zynq_ultra
 
 
-.. _dev-Create-HDL-Platform-Worker-for-CP-label:
+.. _dev-Create-HDL-Platform-Worker-for-CP:
 
 Create HDL Platform Worker for CP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1244,7 +962,7 @@ Create HDL Platform Worker for CP
 
 #. Create HDL Platform Worker
 
-   ``cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global``
+   ``cd opencpi/projects/osps/ocpi.osp.hitech-global``
 
    ``ocpidev create hdl platform zrf8_48dr``
 
@@ -1329,74 +1047,67 @@ Create HDL Platform Worker for CP
 
    ..
 
-      .. warning::
-
-         **Signal paths may be different if the HDL dependency modules are based on
-         VHDL vs Verilog**
-
-      ..
-
 #. Copy the ``zcu104/Makefile`` to ``zrf8_48dr/Makefile`` and edit it such that its contents match the provided CODE BLOCK
 
-   ``cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr``
+   ``cd ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr``
 
-   ``cp /home/user/opencpi/projects/platform/hdl/platform/zcu104/Makefile ./``
+   ``cp opencpi/projects/platform/hdl/platform/zcu104/Makefile ./``
 
-   Code-Block:::
+      ::
 
-      # The zrf8_48dr platform.
-      Libraries=zynq_ultra_zrf8_48dr axi sdp
-      Configuration=base
-      OnlyTargets=zynq_ultra
+         # The zrf8_48dr platform.
+         Libraries=zynq_ultra_zrf8_48dr axi sdp
+         Configuration=base
+         OnlyTargets=zynq_ultra
 
-      include $(OCPI_CDK_DIR)/include/hdl/hdl-platform.mk
+         include $(OCPI_CDK_DIR)/include/hdl/hdl-platform.mk
 
-   ..
+      ..
 
 
 #. Copy/rename the ``zcu104/zcu104.mk`` to ``zrf8_48dr/zrf8_48dr.mk`` and edit it such that its contents match the provided CODE BLOCK
 
    ``cp /home/user/opencpi/projects/platforms/hdl/platforms/zcu104/zcu104.mk ./zrf8_48dr.mk``
 
-   Code-Block:::
+      ::
 
-      HdlPart_zrf8_48dr=xczu48dr-2-ffvg1517e
-      HdlRccPlatform_zrf8_48dr=xilinx21_1_aarch64
+         HdlPart_zrf8_48dr=xczu48dr-2-ffvg1517e
+         HdlRccPlatform_zrf8_48dr=xilinx21_1_aarch64
 
-   ..
+      ..
 
 #. Copy/rename the ``zcu104/zcu104.exports`` to ``zrf8_48dr/zrf8_48dr.exports`` and edit it such that its contents match the provided CODE BLOCK
 
    ``cp /home/user/opencpi/projects/platforms/hdl/platforms/zcu104/zcu104.exports ./zrf8_48dr.exports``
 
-   Code-Block:::
+      ::
 
-      # Development files for building for this platform
-      +<platform_dir>/zrf8_48dr.xdc
-      +<platform_dir>/zrf8_48dr_bit.xdc
-      =<platform_dir>/sd_card/system.xml
+         # Development files for building for this platform
+         +<platform_dir>/zrf8_48dr.xdc
+         +<platform_dir>/zrf8_48dr_bit.xdc
+         =<platform_dir>/sd_card/system.xml
 
-      # Udev rules for runtime on dev host
-      # They are always placed in the udev-rules subdir in the runtime packages
-      =<platform-dir>/98-zrf8_48dr.rules udev-rules/
+         # Udev rules for runtime on dev host
+         # They are always placed in the udev-rules subdir in the runtime packages
+         =<platform-dir>/98-zrf8_48dr.rules udev-rules/
 
-      # Assume that all the boot files are in the software platforms for now
-      @<platform-dir>/sd_card/system.xml opencpi/
-      @<platform-dir>/sd_card/artifacts/image.ub /
-      @<platform-dir>/sd_card/artifacts/rootfs.tar.gz /
+         # Assume that all the boot files are in the software platforms for now
+         @<platform-dir>/sd_card/system.xml opencpi/
+         @<platform-dir>/sd_card/artifacts/image.ub /
+         @<platform-dir>/sd_card/artifacts/rootfs.tar.gz /
 
-   ..
+      ..
 
 
 #. Copy/rename the ``zcu104/98-zcu104.rules`` to ``zrf8_48dr/98-zrf8_48dr.rules`` and edit such that its contents match the provided CODE BLOCK
 
    ``cp /home/user/opencpi/projects/platforms/hdl/platforms/zcu104/98-zcu104.rules ./98-zrf8_48dr.rules``
 
-   Code-Block:::
+      ::
 
-      UBSYSTEM=="tty" ATTRS{product}=="Cypress-USB2UART-*" SYMLINK+="z3u%n" MODE:="0666"
+         UBSYSTEM=="tty" ATTRS{product}=="Cypress-USB2UART-*" SYMLINK+="z3u%n" MODE:="0666"
 
-   ..
+      ..
 
 #. Create a ``zrf8_48dr_bit.xdc``, which is to remain empty.
 
@@ -1431,7 +1142,7 @@ Create HDL Platform Worker for CP
 
    ..
 
-.. _dev-Build-HDL-Platform-Worker-with-CP-enabled-label:
+.. _dev-Build-HDL-Platform-Worker-with-CP-enabled:
 
 Build HDL Platform Worker with CP enabled
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1467,25 +1178,21 @@ Build HDL Platform Worker with CP enabled
 
    ..
 
+.. _dev-Install-the-HDL-Platform-zrf8_48dr-for-CP:
 
-.. _dev-Install-and-Deploy-with-CP-enabled-label:
-
-Install and Deploy with CP enabled
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install the HDL Platform zrf8_48dr for CP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- The goal of this section is to **install** and **deploy** the zrf8_48dr.
+- The goal of this section is to **install** the ``zrf8_48dr`` HDL Platform.
 
 - Installation of the ``ZRF8`` includes building the HDL Container (i.e. bitstream) for verifying
   the Control Plane.
 
-- Deploying the ``ZRF8`` involves targeting a specific RCC Platform, which results in the gathering
-  artifacts into a directory that can be copied onto the microSD card.
-
 **IMPLEMENTATION:**
 
-With all previous _dev-Enable-OpenCPI-HDL-Control-Plane-label: section complete, the platform can now be installed and deployed.
+With all previous :ref:`dev-Enable-OpenCPI-HDL-Control-Plane` sections complete, the ``zrf8_48dr`` HDL and ``xilinx21_1_aarch64``  RCC platform can now be installed and deployed.
 
 #. Browse to top of the OpenCPI directory
 
@@ -1497,35 +1204,202 @@ With all previous _dev-Enable-OpenCPI-HDL-Control-Plane-label: section complete,
 
    ``export OCPI_XILINX_VIVADO_VERSION=2021.1``
 
-#. **Install**: zrf8_48dr (an HDL platform)
+#. **Install: zrf8_48dr (an HDL platform)**
 
-   ``ocpiadmin install platform zrf8_48dr``
+   ``ocpiadmin install platform zrf8_48dr --minimal``
 
-   .. note::
+.. _dev-Petalinux-workspace-for-Control-Plane:
 
-      Assuming the zcu104 has gone through the *install* process, this step is estimated to take ~30 minutes.
+Petalinux workspace for Control Plane
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   ..
+**GOAL:**
 
-#. **Deploy**: zrf8_48dr with xilinx21_1_aarch64
+- The following `Petalinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked".
 
-   ``ocpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr``
+- Successful completion of this section is a bootable SD-card image utilizing the Petalinux utility
 
-#. **Populate the sd-card artifacts**
+**IMPLEMENTATION:**
 
-   #. Be sure that the :ref:`dev-Format-microSD-card-label` section is complete.
+#. Source Petalinux 2021.1
 
-   #. ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64``
+   ``source /opt/Xilinx/Petalinux/2021.1/settings.sh``
 
-   #. ``sudo rm -rf /run/media/<user>/BOOT/*``
+#. Create a petalinux project directory for Control-Plane (cp)
 
-   #. ``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/``
 
-   #. ``sudo cp -RLp opencpi/ /run/media/<user>/BOOT/``
+   ``petalinux-create -t project --template zynqMP --name "petalinux_cp"``
 
-   #. ``umount /dev/sda1``
+#. **Complete the** :ref:`dev-Petalinux-Fix-for-ZRF8` **section**
 
-.. _dev-HDL-CP-Verification-OpenCPI-Magic-Word-label:
+#. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step.
+
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/``
+
+   ``petalinux-config --get-hw-description=../``
+
+#. Once the ``/misc/config`` System Configuration GUI is present in the terminal, continue by: Exit -> Yes
+
+   #. If you are presented with: ``Error: Incompatible SDK installer! Your host gcc version is 4.8 and this SDK was built by gcc higher version.``, this can be fixed with the following
+
+       ``Yocto Settings`` -> ``[*] Enable Buildtools Extended``
+
+   #. If you are presented with: ``ERROR: Failed to generate meta-plnx-generated layer``, this can be fixed with the following command:
+
+         ``sudo sysctl -n -w fs.inotify.max_user_watches=524288``
+
+#. Build the project:
+
+   ``petalinux-build``
+
+#. Package the ``BOOT.BIN`` image
+
+   **The BOOT.BIN must be packaged with the appropriate** ``pattern_capture_asm_zrf8_48dr_base.bit`` **file. This file was created during the** :ref:`Install-the-HDL-Platform-zrf8_48dr-for-CP` **section.**
+
+   ``cd images/linux``
+
+   ``petalinux-package --boot --fsbl --fpga /home/user/opencpi/projects/assets/hdl/assemblies/pattern_capture_asm/container-pattern_capture_asm_zrf8_48dr_base/target-zynq_ultra/pattern_capture_asm_zrf8_48dr_base.bit --u-boot --force``
+
+   There should now be a ``BOOT.BIN`` in the ``images/linux`` directory
+
+.. _dev-Create-Control-Plane-Boot-Artifacts:
+
+Create Control Plane Boot Artifacts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+ - Create Control-Plane boot artifacts for the framework to leverage when the Platform is deployed
+
+**IMPLEMENTATION**
+
+#. Create ``2021.1-zrf8_48dr-release`` directory to store boot artifacts
+
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/images/linux``
+
+   ``mkdir 2021.1-zrf8_48dr-release``
+
+#. Copy the boot artifacts into the directory and create a ``ZynqReleases`` tar
+
+   ``cp BOOT.BIN boot.scr 2021.1-zrf8_48dr-release``
+
+   ``tar cvfz 2021.1-zrf8_48dr-release.tar.xz 2021.1-zrf8_48dr-release``
+
+   ``cp 2021.1-zrf8_48dr-release.tar.xz /opt/Xilinx/ZynqReleases/2021.1``
+
+   ``sudo chown -R <user>:users /opt/Xilinx/ZynqReleases/2021.1``
+
+       - Example: ``sudo chown -R smith:users /opt/Xilinx/ZynqReleases``
+
+       - Note: This may require adjusting the permissions for ``/opt/Xilinx/ZynqReleases`` or its subdirectories
+
+.. _dev-Install-the-RCC-Platform-xilinx21_1_aarch64-for-CP:
+
+Install the RCC Platform xilinx21_1_aarch64 for CP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- The goal of this section is to **install** the ``xilinx21_1_aarch64`` RCC Platform
+
+**IMPLEMENTATION:**
+
+#. Browse to top of the OpenCPI directory
+
+   ``cd /home/user/opencpi``
+
+#. Setup terminal for OpenCPI development
+
+   ``source ./cdk/opencpi-setup.sh -s``
+
+   ``export OCPI_XILINX_VIVADO_VERSION=2021.1``
+
+
+#. **Reinstall RCC Platform** ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr-release.tar.xz`` boot artifacts can be implemented into the framework.
+
+   #. Remove the old ``xilinx21_1_aarch64`` from ``cdk``
+
+      ``cd /home/user/opencpi/cdk``
+
+      ``rm -rf xilinx21_1_aarch64``
+
+   #. Clean out stale build artifacts from ``core/rcc/platforms/xilinx21_1_aarch64``
+
+      ``cd /home/user/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64``
+
+      ``rm -rf gen/ lib/``
+
+   #. Unregister/Re-register project
+
+      ``cd /home/user/opencpi/projects/core``
+
+      ``ocpidev unregister project``
+
+      ``ocpidev register project``
+
+   #. Reinstall the RCC platform
+
+      ``cd /home/user/opencpi``
+
+      ``ocpiadmin install platform xilinx21_1_aarch64 --minimal``
+
+.. _dev-Deploy-the-Platforms-for-CP:
+
+Deploy the Platforms for CP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- To deploy the the HDL Platfrom ``zrf8_48dr`` with the RCC Platform ``xilinx21_1_aarch64`` to create SD-Card artifacts for the ``zrf8_48dr`` device.
+
+**IMPLEMENTATION:**
+
+``ocpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr``
+
+.. _dev-Populate-the-SD-Card-Artifacts-for-Control-Plane:
+
+Populate the SD-Card Artifacts for Control Plane
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- To populate the SD-Card Artifacts from the Control-Plane implementation onto a properly formatted SD-Card
+
+**IMPLEMENTATION:**
+
+Be sure that the :ref:`dev-Format-SD-card` section is complete.
+
+``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/``
+
+``sudo rm -rf /run/media/<user>/BOOT/*``
+
+``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
+
+``cp -RLp opencpi/ /run/media/<user>/BOOT/``
+
+``umount /dev/sda1``
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. _dev-HDL-CP-Verification-OpenCPI-Magic-Word:
 
 HDL CP Verification: OpenCPI Magic Word
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1538,11 +1412,9 @@ HDL CP Verification: OpenCPI Magic Word
 
 **IMPLEMENTATION:**
 
-#. Be sure that the :ref:`dev-Install-and-Deploy-with-CP-enabled-label` section has been implemented, specifically the **Populate the sd-card artifacts** step.
+#. Perform the :ref:`dev-Booting-the-zrf8_48dr` section in the Appendix to setup the ``zrf8_48dr`` device.
 
-#. Execute the :ref:`dev-Boot-ZRF8-label` section.
-
-#. To setup ``Standalone mode`` properly to target the ``pattern_capture_asm`` bitstream. For the next step (Execute the Standalone Mode setup section)  edit the ``mysetup.sh`` script as follows:
+#. During the next step (Execute the Standalone Mode setup section) implement the ``mysetup.sh`` script to target the ``pattern_capture_asm`` bitstream, rather than the ``testbias`` bitream.
 
    FROM:
 
@@ -1565,7 +1437,7 @@ HDL CP Verification: OpenCPI Magic Word
    ..
 
 
-#. Execute the :ref:`dev-Standalone-Mode-setup-label` section.
+#. Execute the :ref:`dev-Standalone-Mode-setup` section.
 
 #. Perform the following commands to verify that the Control Plane is successfully enabled:
 
@@ -1577,7 +1449,7 @@ HDL CP Verification: OpenCPI Magic Word
    0x43504900
    %
 
-.. _dev-HDL-CP-Verification-Pattern-Capture-application-label:
+.. _dev-HDL-CP-Verification-Pattern-Capture-application:
 
 HDL CP Verification: Pattern Capture application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1593,9 +1465,9 @@ TODO: Revise section
 
 #. Perform the
 
-#. Be sure that the :ref:`dev-Install-and-Deploy-with-CP-enabled-label` section has been implemented, specifically the **Populate the sd-card artifacts** step.
+#. Be sure that the :ref:`dev-Install-and-Deploy-with-CP-enabled` section has been implemented, specifically the **Populate the sd-card artifacts** step.
 
-#. Execute the :ref:`dev-Boot-ZRF8-label` section.
+#. Execute the :ref:`dev-Boot-ZRF8` section.
 
 #. To setup ``Standalone mode`` properly to target the ``pattern_capture_asm`` bitstream. For the next step (Execute the Standalone Mode setup section)  edit the ``mysetup.sh`` script as follows:
 
@@ -1619,7 +1491,7 @@ TODO: Revise section
 
    ..
 
-#. Execute the :ref:`dev-Standalone-Mode-setup-label` section.
+#. Execute the :ref:`dev-Standalone-Mode-setup` section.
 
 #. ``% ocpirun -v -x -d pattern_capture.xml``
 
@@ -1680,27 +1552,21 @@ TODO: Revise section
    Property  32: capture_v2.metadata = "{0xfb000004,0x403e8761,0x403e8761,0x13b},{0xfc000008,0x403e8838,0x403e8761,0x13b},{0xfd00000c,0x403e8838,0x403e8838,0x13b},{0xfe000010,0x403e890f,0x403e890f,0x13b},{0xff000014,0x403e8abc,0x403e89e6,0x13b},{0x0}"
    Property  33: capture_v2.data = "0x0,0x0,0x1,0x0,0x1,0x2,0x0,0x1,0x2,0x3,0x0,0x1,0x2,0x3,0x4,0x0"
 
+..
 
-
-
-
-
-
-
-.. _dev-Enable-OpenCPI-HDL-Data-Plane-label:
+.. _dev-Enable-OpenCPI-HDL-Data-Plane:
 
 Enable OpenCPI HDL Data Plane
 -----------------------------
 
-
-.. _dev-Configure-PS-for-DP-label:
+.. _dev-Configure-PS-for-DP:
 
 Configure PS for DP
 ^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- Modify the PS core IP from the :ref:`dev-Enable-OpenCPI-HDL-Control-Plane-label` section, to add the ports necessary to support enabling the OpenCPI Data Plane
+- Modify the PS core IP from the :ref:`dev-Enable-OpenCPI-HDL-Control-Plane` section, to add the ports necessary to support enabling the OpenCPI Data Plane
 
 - Re-generate the PS core IP output products
 
@@ -1710,7 +1576,7 @@ Configure PS for DP
 
 **IMPLEMENTATION:**
 
-#. These steps continue with the completion of the :ref:`dev-Configure-PS-for-CP-label` section.
+#. These steps continue with the completion of the :ref:`dev-Configure-PS-for-CP` section.
 
 #. ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
 
@@ -1759,12 +1625,14 @@ Configure PS for DP
 
 ..
 
-PetaLinux workspace for Data Plane
+.. _dev-Petalinux-workspace-for-Data-Plane:
+
+Petalinux workspace for Data Plane
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- The following `PetaLinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked". 
+- The following `Petalinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked". 
 
 - Successful completion of this section is a bootable SD-card image utilizing the Petalinux utility
 
@@ -1781,6 +1649,8 @@ TODO: Include Integrating buildtools-extended into Petalinux picture for GCC Err
    ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/``
 
    ``petalinux-create -t project --template zynqMP --name "petalinux_dp"``
+
+#. **Be sure that the** :ref:`dev-Petalinux-Fix-for-ZRF8` **section was completed.**
 
 #. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step.
 
@@ -1870,36 +1740,7 @@ Reinstall RCC Platform ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr
 
       ``ocpiadmin install platform xilinx21_1_aarch64``
 
-      #. Error - Driver Build:::
-
-         /bin/bash: scripts/mod/modpost: No such file or directory
-         make[4]: *** [/home/jpalmer/projects/opencpi/releases/opencpi/os/linux/driver/Module.symvers] Error 1
-         make[3]: *** [modules] Error 2
-         make[2]: *** [__sub-make] Error 2
-         make[2]: Leaving directory `/home/jpalmer/projects/opencpi/releases/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64/lib/kernel-headers'
-         make[1]: *** [target-xilinx21_1_aarch64/opencpi-5.10.0-xilinx-v2021.1-v2021.1.ko] Error 2
-         make[1]: Leaving directory `/home/jpalmer/projects/opencpi/releases/opencpi/os/linux/driver'
-         make: *** [driver] Error 2
-
-      ..
-
-         - There is an error with the modpost script not existing in the kernel headers when the OpenCPI build tooling goes to build the data plane driver. I think OpenCPI is supposed to go and create these on the kernel if its not already there but its clearly not.
-
-         - Essentially you go into the ``cd projects/core/rcc/platforms/xilinx21_1_aarch64/lib/kernel-headers`` directory and run these three commands, the first two will produce an ``Error 2``.::
-
-            % make prepare V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-            % make modules_prepare V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-            % make scripts V=2 ARCH=arm64 CROSS_COMPILE=/opt/Xilinx/Vitis/2021.1/gnu/aarch64/lin/aarch64-linux/bin/aarch64-linux-gnu-
-
-         ..
-
-   #. Reinstall the RCC platform after implementing bug fix
-
-   ``cd /home/user/opencpi``
-
-   ``ocpiadmin install platform xilinx21_1_aarch64``
-
-.. _dev-Configure-HDL-Primitive-for-DP-label:
+.. _dev-Configure-HDL-Primitive-for-DP:
 
 Configure HDL Primitive for DP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1929,7 +1770,7 @@ Configure HDL Primitive for DP
 
    ``rm -rf design_1_zynq_ultra_ps_e_0_0``
 
-#. From :ref:`dev-Configure-PS-for-DP-label`, copy the updated ``design_1_zynq_ultra_ps_e_0_0`` directory into the ``ocpi.osp.hitech-global`` HDL primitive directory
+#. From :ref:`dev-Configure-PS-for-DP`, copy the updated ``design_1_zynq_ultra_ps_e_0_0`` directory into the ``ocpi.osp.hitech-global`` HDL primitive directory
 
    ``cd /home/user/zrf8_48dr_dp/
 
@@ -1953,7 +1794,7 @@ Configure HDL Primitive for DP
    #. Uncomment the ``gs: for i in 0 to C_S_AXI_HP_COUNT-1 generate`` code block
 
 
-.. _dev-Build-HDL-Primitive-with-DP-label:
+.. _dev-Build-HDL-Primitive-with-DP:
 
 Build HDL Primitive with DP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1992,7 +1833,7 @@ Build HDL Primitive with DP
       Installing target-zynq_ultra/zynq_ultra_zrf8_48dr into ../lib/zynq_ultra_zrf8_48dr/zynq_ultra
 
 
-.. _dev-Configure-HDL-Platform-Worker-for-DP-label:
+.. _dev-Configure-HDL-Platform-Worker-for-DP:
 
 Configure HDL Platform Worker for DP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2038,7 +1879,7 @@ Configure HDL Platform Worker for DP
       commented out
 
 
-.. _dev-Build-HDL-Platform-Worker-with-DP-enabled-label:
+.. _dev-Build-HDL-Platform-Worker-with-DP-enabled:
 
 Build HDL Platform Worker with DP enabled
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2050,7 +1891,7 @@ Build HDL Platform Worker with DP enabled
    ``$ ocpidev build --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64``
 
 
-.. _dev-Undo-edits-made-to-validate-HDL-Control-Plane-label:
+.. _dev-Undo-edits-made-to-validate-HDL-Control-Plane:
 
 Undo edits made to validate HDL Control Plane
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2072,8 +1913,7 @@ Undo edits made to validate HDL Control Plane
 
 #. ``$ git checkout tools/scripts/ocpiadmin.sh``
 
-
-.. _dev-Install-and-Deploy-with-DP-enabled-label:
+.. _dev-Install-and-Deploy-with-DP-enabled:
 
 Install and Deploy with DP enabled
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2095,7 +1935,7 @@ Install and Deploy with DP enabled
 
 #. Setup the Software cross-compiler
 
-   #. For this step, section :ref:`dev-Install-and-Deploy-with-CP-enabled-label` performed all that was
+   #. For this step, section :ref:`dev-Install-and-Deploy-with-CP-enabled` performed all that was
       necessary.
 
       .. note::
@@ -2117,20 +1957,15 @@ Install and Deploy with DP enabled
 
 #. **Install**: zrf8_48dr (an HDL platform)
 
-   .. note::
-
-      Estimated time ~30 minutes**
-   ..
-
    ``$ ocpiadmin install platform zrf8_48dr``
 
-#. **Deploy**: zrf8_48dr with xilinx21_1_aarch64
+#. **Deploy: zrf8_48dr with xilinx21_1_aarch64**
 
    ``$ ocpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr``
 
 #. **Populate the sd-card artifacts**
 
-   #. Be sure that the :ref:`dev-Format-microSD-card-label` section is complete.
+   #. Be sure that the :ref:`dev-Format-microSD-card` section is complete.
 
    #. ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64``
 
@@ -2142,7 +1977,7 @@ Install and Deploy with DP enabled
 
    #. ``umount /dev/sda1``
 
-.. _dev-HDL-DP-Verification-testbias-application-label:
+.. _dev-HDL-DP-Verification-testbias-application:
 
 HDL DP Verification: testbias application
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2153,15 +1988,15 @@ HDL DP Verification: testbias application
 
 .. note::
 
-   **The** :ref:`dev-Component-Unit-Test-results-table-label` **section in the APPENDIX contains the verfication test results of the zrf8_48dr board.**
+   **The** :ref:`dev-Component-Unit-Test-results-table` **section in the APPENDIX contains the verfication test results of the zrf8_48dr board.**
 
 ..
 
 **IMPLEMENTATION:**
 
-#. Be sure that the :ref:`dev-Install-and-Deploy-with-DP-enabled-label` section has been implemented, specifically the **Populate the sd-card artifacts** step.
+#. Be sure that the :ref:`dev-Install-and-Deploy-with-DP-enabled` section has been implemented, specifically the **Populate the sd-card artifacts** step.
 
-#. Execute the :ref:`dev-Standalone-Mode-setup-label` section.
+#. Execute the :ref:`dev-Standalone-Mode-setup` section.
 
 #. Run DP application: ``testbias``
 
@@ -2259,219 +2094,17 @@ HDL DP Verification: testbias application
 
 ..
 
-
-.. _dev-HDL-DP-Verification-FSK-application-filerw-mode-label:
-
-HDL DP Verification: FSK application filerw mode
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- (OPTIONAL) Execute another standard application which relies upon the HDL Data Plane
-
-**IMPLEMENTATION:**
-
-.. note::
-
-   **The** :ref:`dev-Component-Unit-Test-results-table-label` **section in the
-   appendix contains the verification test results of the ZRF8 board.**
-
-..
-
-This section is outlined in the following location:
-
-   ``/home/user/opencpi/projects/assets/application/FSK/doc/FSK_app.tex``.
-
-This document covers the FSK ``txrx`` execution mode however, the ``filerw`` execution mode will be
-used in this section to validate the implementation of the Data Plane. To retrieve the contents
-of the ``FSK_app.tex`` file install **rubber** and run the following command:
-
-``$ rubber -d FSK_App_Getting_Started_Guide.tex``
-
-``$ envince FSK_App_Getting_Started_Guide.pdf``
-
-The following is a step-by-step set of instructions for executing the FSK application in ``filerw``
-mode:
-
-.. note::
-
-   #. **$ indicates the command is performed on the Development Host**
-
-   #. **% indicates the command is performed on the Target-platform**
-
-..
-
-#. **Build the FSK Application executable and copy it into the microSD card**
-
-   ``$ cd /home/user/opencpi/projects/assets/applications/FSK``
-
-   ``$ ocpidev build --rcc-platform xilinx21_1_aarch64``
-
-   ::
-
-      Xilinx RCC platform is: xilinx21_1_aarch64. Version is: 18_3. Architecture is: aarch64
-      Compiling source file: FSK.cxx for platform xilinx21_1_aarch64
-      Creating executable for "FSK" running on platform xilinx21_1_aarch64 from target-xilinx21_1_aarch64/FSK.o
-      ./scripts/gen_rrcos_taps.py 128 0.95 `echo "1/64000" | bc -l` `echo "64000*39" | bc -l` 4096 idata/tx_rrcos_taps.dat
-      ('\n', '********************************************************************************')
-      *** Python: Generate Root-Raised Cosine taps ***
-      1.2588365809784572
-      [  85   96  105  111  115  116  114  109  100   88   72   53   31    6
-      -21  -50  -81 -113 -145 -177 -207 -235 -259 -280 -295 -305 -307 -302
-      -287 -263 -229 -184 -128  -60   20  112  217  334  462  602  752  912
-      1081 1257 1441 1629 1821 2015 2209 2402 2593 2779 2958 3130 3292 3443
-      3581 3705 3814 3906 3981 4038 4076 4096 4096 4076 4038 3981 3906 3814
-      3705 3581 3443 3292 3130 2958 2779 2593 2402 2209 2015 1821 1629 1441
-      1257 1081  912  752  602  462  334  217  112   20  -60 -128 -184 -229
-      -263 -287 -302 -307 -305 -295 -280 -259 -235 -207 -177 -145 -113  -81
-      -50  -21    6   31   53   72   88  100  109  114  116  115  111  105
-      96   85]
-      127862
-      31.21630859375
-      ./scripts/gen_rrcos_taps.py 128 0.95 `echo "1/64000" | bc -l` `echo "64000*39" | bc -l` 4096 idata/rx_rrcos_taps.dat
-      ('\n', '********************************************************************************')
-      *** Python: Generate Root-Raised Cosine taps ***
-      1.2588365809784572
-      [  85   96  105  111  115  116  114  109  100   88   72   53   31    6
-      -21  -50  -81 -113 -145 -177 -207 -235 -259 -280 -295 -305 -307 -302
-      -287 -263 -229 -184 -128  -60   20  112  217  334  462  602  752  912
-      1081 1257 1441 1629 1821 2015 2209 2402 2593 2779 2958 3130 3292 3443
-      3581 3705 3814 3906 3981 4038 4076 4096 4096 4076 4038 3981 3906 3814
-      3705 3581 3443 3292 3130 2958 2779 2593 2402 2209 2015 1821 1629 1441
-      1257 1081  912  752  602  462  334  217  112   20  -60 -128 -184 -229
-      -263 -287 -302 -307 -305 -295 -280 -259 -235 -207 -177 -145 -113  -81
-      -50  -21    6   31   53   72   88  100  109  114  116  115  111  105
-      96   85]
-      127862
-      31.21630859375
-
-   ``$ cd /home/user/opencpi/projects/assets/applications``
-
-   ``$ cp -rf FSK/ /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/applications``
-
-#. **Build the fsk_filerw HDL Container (i.e. bitstream) and copy it into the microSD card**
-
-   ``$ cd /home/user/opencpi/projects/assets/hdl/assemblies/fsk_filerw``
-
-   ``$ ocpidev build --hdl-platform zrf8_48dr``
-
-   ``$ cd container-fsk_filerw_zrf8_48dr_base/target-zynq_ultra``
-
-   ``$ cp fsk_filerw_zrf8_48dr_base.bitz /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/artifacts``
-
-#. Implement missing .so files into the microSD card xilinx21_1_aarch64 artifacts directory
-
-   .. note::
-
-      The following files are needed based off of the **/home/user/opencpi/projects/assets/
-      applications/FSK/app_fsk_filerw.xml** file under RCC Components. The ocpi.core.file_read is
-      already given but the **ocpi.assets.dsp_comps.baudTracking** and **ocpi.assets.dsp_comps.real_
-      digitizer** components need to be supplemented. Check the **/home/user/opencpi/cdk/zrf8_48dr
-      /sdcard-xilinx21_1_aarch64/opencpi/xilinx21_1_aarch64/artifacts** to see what is included
-   ..
-
-   #. Copy the Baudtracking_simple.so into the microSD card xilinx21_1_aarch64 artifacts directory
-
-      ::
-
-         $ cd /home/user/opencpi/projects/assets/components/dsp_comps/Baudtracking_simple.rcc/target-xilinx21_1_aarch64
-
-      ..
-
-      ::
-
-         $ cp Baudtracking_simple.so /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/xilinx21_1_aarch64/artifacts/
-
-      ..
-
-   #. Copy the real_digitizer.so into the microSD card xilinx21_1_aarch64 artifacts directory
-
-      ::
-
-         $ cd /home/user/opencpi/projects/assets/components/dsp_comps/real_digitizer.rcc/target-xilinx21_1_aarch64
-
-      ..
-
-      ::
-
-         $ cp real_digitizer.so /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/xilinx21_1_aarch64/artifacts/
-
-      ..
-
-#. Copy the newly implemented file onto the microSD card
-
-   ::
-
-      $ cp -RLp /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/ /run/media/<user>/root/home/root/
-
-   ..
-
-#. Execute the :ref:`dev-Boot-ZRF8-label` section
-
-#. Execute the :ref:`dev-Standalone-mode-setup-label` section
-
-#. Setup the library path to the artifacts:
-
-   ::
-
-      % cd /home/root/opencpi/applications/FSK
-      % export OCPI_LIBRARY_PATH=/home/root/opencpi/artifacts:/home/root/opencpi/xilinx21_1_aarch64/artifacts
-      % export OCPI_DMA_CACHE_MODE=0
-
-   ..
-
-#. Run application: FSK filerw:
-
-   ``% ./target-xilinx21_1_aarch64/FSK filerw``
-
-   ::
-
-      % ./target-xilinx21_1_aarch64/FSK filerw
-      Application properties are found in XML file: app_fsk_filerw.xml
-      App initialized.
-      App started.
-      Waiting for done signal from file_write.
-      real_digitizer: sync pattern 0xFACE found
-      App stopped/finished.
-      Bytes to file : 8950
-      TX FIR Real Peak       = 4696
-      Phase to Amp Magnitude = 20000
-      RP Cordic Magnitude    = 19481
-      RX FIR Real Peak       = 13701
-      Application complete
-
-   ..
-
-#. In order to confirm that the output file is correct, it must be copied back to the development
-   host so that the graphical display utility can be executed.
-
-   - Copy/move the ``/home/root/opencpi/applications /FSK/odata/out_app_fsk_filerw.bin`` to the
-     development host.
-
-#. View the results of the output file
-
-   ``$ eog \<path>/out_app_fsk_filerw.bin``
-
-.. figure:: figures/oriole.png
-   :alt: Oriole
-   :align: center
-
-   Oriole
-
-..
-
-
-.. _dev-Component-Unit-Testing-label:
+.. _dev-Component-Unit-Testing:
 
 Component Unit Testing
 ----------------------
 
 **GOAL:**
 
-- To build, run and capture the results for each of the Component Unit Tests provided with the OpenCPI framework. The ``PASS`` (P) or ``FAIL`` (F), results for each test are captured in the :ref:`dev-Component-Unit-Test-results-table-label` section. The table compares the ``PASS and FAIL`` results to the FOSS supported zcu104. Refer to this table to ensure that testing behavior is consistent.
+- To build, run and capture the results for each of the Component Unit Tests provided with the OpenCPI framework. The ``PASS`` (P) or ``FAIL`` (F), results for each test are captured in the :ref:`dev-Component-Unit-Test-results-table` section. The table compares the ``PASS and FAIL`` results to the FOSS supported zcu104. Refer to this table to ensure that testing behavior is consistent.
 
 
-.. _dev-Build-the-Unit-Tests-(in-parallel)-on-the-Development-Host-label:
+.. _dev-Build-the-Unit-Tests-(in-parallel)-on-the-Development-Host:
 
 Build the Unit Tests (in parallel) on the Development Host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2515,7 +2148,7 @@ This process can be done in parallel. Open three different terminals and build a
    ``$ ocpidev build tests --hdl-platform zrf8_48dr``
 
 
-.. _dev-Run-the-Unit-Tests-(Sequentially)-on-the-Development-Host-label:
+.. _dev-Run-the-Unit-Tests-(Sequentially)-on-the-Development-Host:
 
 Run the Unit Tests (Sequentially) on the Development Host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2527,9 +2160,9 @@ Run the Unit Tests (Sequentially) on the Development Host
 
 #. **Some of these tests are known to fail or partically fail, per the their performance on a FOSS supported OSP.**
 
-#. **A chart is provided in the** :ref:`dev-Component-Unit-Test-results-table-label` **section below that outlines the expected outcome for each of these tests (as of v2.4.3).**
+#. **A chart is provided in the** :ref:`dev-Component-Unit-Test-results-table` **section below that outlines the expected outcome for each of these tests (as of v2.4.3).**
 
-#. Setup for :ref:`dev-Server-Mode-setup-label`
+#. Setup for :ref:`dev-Server-Mode-setup`
 
 #. Run the component unit tests from project: **core**
 
@@ -2549,97 +2182,98 @@ Run the Unit Tests (Sequentially) on the Development Host
 
    ``$ ocpidev run --only-platform zrf8_48dr --accumulate-errors``
 
-.. _dev-APPENDIX-label:
+.. _dev-APPENDIX:
 
 APPENDIX
 --------
 
-Petalinux Build
-^^^^^^^^^^^^^^^
+.. _dev-Petalinux-Fix-for-ZRF8:
 
-**GOAL:**
+Petalinux Fix for ZRF8
+^^^^^^^^^^^^^^^^^^^^^^
 
-- The following Petalinux reference guide describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked". `PetaLinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_
+**GOAL**
 
-- Successful completion of this section is a bootable SD-card image utilizing the Petalinux utility in conjunction with resources provided in each of the following sections:
+- Fix Read-Only SD-Card issues seen when testing default petalinux sd-card artifacts on the ZRF8
 
-   #. :ref: `Conigure PS for CP`
+- Fix Network issues seen when testting default petalinux sd-card artifacts on the ZRF8.
 
-   #. :ref: `Configure PS for DP`
+**IMPLEMENTATION**
 
-.. note::
+In order to overcome the Read-Only and Networking issues seen when utilizing the default petalinux sd-card artifacts on the ZRF8 the following items will need to be implmented into the Petalinux project.
 
-   - As you progress through the guide this section will be utilized to create a 'petalinux project' in 2 different directories, one for each of the sections mentioned above. This will give the user the flexability to move between sections if needed. These directories are provided in the :ref: `Preview of the concluding directory tree` section.
+These files are located in the ``ocpi.osp.hitech-global`` `repository <https://gitlab.com/opencpi/osp/ocpi.osp.hitech-global>`_
 
-   - Each time you finish a petalinux build and want to incorporate changes into the ``ZynqReleases`` directory so that the deployment artifacts are accurately implemented, you must clean stale ``xilinx21_1_aarch64`` data. This can be accomplished by reviewing the [Install and Deploy the HDL Platform with Control Plane enabled](#install-and-deploy-the-hdl-platform-with-control-plane-enabled) section. Step 2 'Clean stale data in xilinx21_1_aarch64 (rcc-platform)' followed by a reinstallation of the xilinx21_1_aarch64 rcc-platform will implement accurate boot artifacts during a deployment.
+   ``/home/user/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/guide/petalinux-fix.tar.xz``
 
-#. Source Petalinux 2021.1
+Untar these files for use in this section:
 
-   ``source /opt/Xilinx/Petalinux/2021.1/settings.sh``
+   ``tar xvf petalinux-fix.tar.xz``
 
-#. Create a petalinux project directory depending on section
+**Read-Only Fix**
 
-   #. :ref: `Configure PS for CP`
+   This issue presents itself once the user mounts the OpenCPI directory onto the ``/home/root/`` filesystem of the device and attempts to create a file.
 
-      ``petalinux-create -t project --template zynqMP --name "petalinux_cp"``
+   ``cd petalinux-fix/``
 
-   #. :ref: `Configure PS for DP`
+   ``cp htg-zrf8.dtsi system-user.dtsi /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-user/recipes-bsp/device-tree/files``
 
-      ``petalinux-create -t project --template zynqMP --name "petalinux_dp"``
+   ``cp device-tree.bbappend /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-user/recipes-bsp/device-tree/``
 
-#. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step during any of the three given sections above.
+**Network Fix**
 
-   ``cd /home/user/zrf8_48dr_xx/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_xx``
+   This issue presents itself when attempting to to ``run`` Component Units tests on the device using ``Server-Mode``. The device will intermittently lose connection to the host and fail subsequent Component Unit tests.
 
-   ``petalinux-config --get-hw-description=../``
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/``
 
-#. Once the ``/misc/config`` System Configuration GUI is present in the terminal, continue with the default settings and press 'e' (EXIT) and 'y' (YES).
+   ``mkdir meta-zrf8``
 
-   If you are presented with: ``ERROR: Failed to generate meta-plnx-generated layer``, this can be fixed with the following command:::
+   ``cd petalinux-fix/``
 
-      ``sudo sysctl -n -w fs.inotify.max_user_watches=524288``
+    ``cp -rf pmu-firmware/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8``
 
-#. Build the project
+    ``cp -rf conf/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8``
 
-   ``petalinux-build``
+**Edit the config file**
 
-#. Package the ``BOOT.BIN`` image
+   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/configs/``
 
-   ``cd images/linux``
+   #. Edit the ``config`` file to include the ``petalinux-image-minimal`` line under the ``Image Packaging Configuration``:
 
-   ``petalinux-package --boot --fsbl --fpga --u-boot --force``
+      ::
 
-   There should now be a ``BOOT.BIN`` in the ``images/linux`` directory
+         CONFIG_SUBSYSTEM_INITRAMFS_IMAGE_NAME="petalinux-image-minimal"
 
-   .. note::
-
-      The use of ``-fpga`` is not required if the desire is to not program the FPGA from u-boot. If you are using the ['Preset' Board Design Files (BDF)](#'preset'-board-design-files-(bdf)) method the '--fpga' option should not be used, as it does not contain a constraint file. This is due to issues seen when using Server Mode. When a bitstream IS loaded and packed into the BOOT.BIN, it is not possible to setup Server Mode.
+      ..
 
 
-#. Place the BOOT.BIN and image.ub into a micro-SD card that is configured for FAT32 and has (1) partition. Be sure to move or remove the contents from within the micro-SD card to be sure that it is empty.
+   #. Edit the ``config`` file to include the ``User Layers`` lines at the bottom of the file:
 
-   :ref: `Format-microSD-card`
+      ::
 
-   ``cp BOOT.BIN image.ub /run/media/<user>/<sd-card>/``
+         #
+         # User Layers
+         #
+         CONFIG_USER_LAYER_0="../project-spec/meta-zrf8"
+         CONFIG_USER_LAYER_1=""
 
-   Unmount SD card from the computer
+      ..
 
-#. Install the SD card into the ``ZRF8``, power on the ``ZRF8``, and open a serial connection to observe the petalinux boot process.
+- Return to :ref:`dev-Petalinux-workspace-for-Control-Plane` section.
 
-   ``sudo screen /dev/ttyUSB0 115200``
+- Return to :ref:`dev-Petalinux-workspace-for-Data-Plane` section.
 
-   ``petalinux_x login: root``
-
-   ``Password: root``
-
-   ``root@petalinux_x:~``
-
-.. _dev-Format-SD-card-label:
+.. _dev-Format-SD-card:
 
 Format SD card
 ^^^^^^^^^^^^^^
 
+**GOAL**
+
+- To correctly format the SD-Card for OpenCPI use.
+
 **IMPLEMENTATION:**
+
 A valid SD-Card with a ``BOOT`` partition needs to be made.
 
 #. Be sure to save off any important information on the SD card
@@ -2658,8 +2292,8 @@ A valid SD-Card with a ``BOOT`` partition needs to be made.
 
 #. Make the following selections to create two partitions
 
-   #. New ``n``, Primary ``p``, Partition number ``1``, First sector [enter] (default),
-      Last sector size [enter] (default)
+   #. New ``n``, Primary ``p``, Partition number ``1``, First sector ``[enter]`` (default),
+      Last sector size ``[enter]`` (default)
 
 #. Write table to disk and exit
 
@@ -2675,152 +2309,41 @@ A valid SD-Card with a ``BOOT`` partition needs to be made.
 
 #. Check that the partition ``BOOT`` has been created
 
+.. _dev-Booting-the-zrf8_48dr:
 
+Booting the zrf8_48dr
+^^^^^^^^^^^^^^^^^^^^^
 
+**GOAL:**
 
+- To properly setup the ``zrf8_48dr`` device hardware.
 
+- To properly initialize a boot sequence.
 
+**Implementation**
 
+#. Remove power from the ``zrf8_48dr`` unit
 
+#. With contents provided in either the :ref:`dev-Populate-the-SD-Card-Artifacts-for-Control-Plane` section or the :ref:`dev-Populate-the-SD-Card-Artifacts-for-Data-Plane` section, insert the micro SD-Card into the ``zrf8_48dr`` micro SD-Card slot.
 
+#. Attach a micro-USB serial port from the ``zrf8_48dr`` to the host (Needed for both ``Standalone-Mode`` and ``Server-Mode``)
 
+#. Attach an ethernet cable from the ``zrf8_48dr`` to the host (Only needed for ``Server-Mode``)
 
+#. Establish a serial connection
 
+   ``sudo screen /dev/ttyUSB0 115200``
 
+#. Apply Power and monitor the screen serial connection.
 
+   - This will successfully boot the OpenCPI system image artifacts that are located on the microSD card.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.. _dev-Bug-Fixes-to-the-framework-label:
-
-Bug Fixes to the framework
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-In support of building and installing the ZRF8, the following bug fixes are required **PRIOR** to
-building the Matchstiq ZRF8 HDL Platform Worker and FSK assembly, respectively.
-
-#.
-
-   ::
-
-      $ git diff tools/include/hdl/hdl-targets.xml
-      diff --git a/tools/include/hdl/hdl-targets.xml b/tools/include/hdl/hdl-targets.xml
-      index 15c0c0e62..873794421 100644
-      --- a/tools/include/hdl/hdl-targets.xml
-      +++ b/tools/include/hdl/hdl-targets.xml
-      @@ -69,7 +69,7 @@ necessarily the "part ordering number" in data sheets etc.
-               Zynq UltraScale+ chips require full part to be specified
-               The default is based on the zcu104 dev board, which is the cheapest, and supported by webpack. -->
-           <family name='zynq_ultra' toolset='vivado' default='xczu3cg-2-sbva484e'
-      -           parts='xczu28dr xczu9eg xczu7ev xczu3cg'/>
-      +           parts='xczu28dr xczu9eg xczu7ev xczu3cg xczu48dr'/>
-         </vendor>
-         <!-- currently the only attribute per tool set is whether it is a simulator -->
-         <toolset name='isim' tool='ISE' simulator='true'/>
-
-   ..
-
-#. Comment out the following path::
-
-   $ git diff runtime/hdl-support/xilinx/importXilinxRelease.sh
-   diff --git a/runtime/hdl-support/xilinx/importXilinxRelease.sh b/runtime/hdl-support/xilinx/importXilinxRelease.sh
-   index d7da9be..2e9a4bf 100755
-   --- a/runtime/hdl-support/xilinx/importXilinxRelease.sh
-   +++ b/runtime/hdl-support/xilinx/importXilinxRelease.sh
-   @@ -91,7 +91,7 @@ done
-    # Prepend "local_repo" directories to avoid problems with
-    # locally-installed commands that would otherwise conflict.
-    #
-   -PATH=$local_repo/-boot-xlnx/tools:$local_repo/linux-xlnx/scripts/dtc:$PATH
-   +#PATH=$local_repo/u-boot-xlnx/tools:$local_repo/linux-xlnx/scripts/dtc:$PATH
-    echo PATH is: $PATH
-    for d in $dir/*; do
-        plat=$(basename $d)
-
-..
-
-#. Move the ``#include <sys/sysctl.h>`` library::
-
-   git diff os/linux/src/OsEther.cc
-   diff --git a/os/linux/src/OsEther.cc b/os/linux/src/OsEther.cc
-   index 7a46299..db3b102 100644
-   --- a/os/linux/src/OsEther.cc
-   +++ b/os/linux/src/OsEther.cc
-   @@ -27,13 +27,13 @@
-    #include <netdb.h>
-    #include <sys/ioctl.h>
-    #include <sys/socket.h>
-   -#include <sys/sysctl.h>
-    #include <stdio.h>
-    #include <unistd.h>
-    #include <algorithm>
-    #include <vector>
-    #include "ocpi-config.h"
-    #ifdef OCPI_OS_macos
-   +#include <sys/sysctl.h>
-    #include <arpa/inet.h>
-    #include <net/ethernet.h>
-    #include <net/if.h>
-
-..
-
-#. ::
-
-
-   $ git diff /home/user/opencpi/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
-   WARNING: terminal is not fully functional
-   -  (press RETURN)
-   diff --git a/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml b/projects/assets/components/dsp_comps/index b872e84..4d644d0 100644
-   --- a/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
-   +++ b/projects/assets/components/dsp_comps/dc_offset_filter.hdl/dc_offset_filter.xml
-   @@ -1,8 +1,8 @@
-   -<HdlWorker Language="vhdl" Spec="dc_offset_filter-spec.xml" Version="2" DataWidth="32"
-   -          ExactParts='zynq:xc7z020-1-clg484
-   +<HdlWorker Language="vhdl" Spec="dc_offset_filter-spec.xml" Version="2" DataWidth="32">
-   +<!--      ExactParts='zynq:xc7z020-1-clg484
-                          zynq_ise:xc7z020_ise_alias-1-clg484
-                          virtex6:xc6vlx240t-1-ff1156
-   -                      stratix4:ep4sgx230k-c2-f40'>
-   +                      stratix4:ep4sgx230k-c2-f40'-->
-
-      <Property Name="LATENCY_p" Type="uchar" Parameter="true" Default="1"
-               Description='Number of clock cycles between a valid input and a valid output'/>
-
-   ..
-
-.. _dev-Standalone-Mode-setup-label:
+.. _dev-Standalone-Mode-setup:
 
 Standalone Mode setup
 ^^^^^^^^^^^^^^^^^^^^^
 
-**GOAL**
+**GOAL:**
 
 - The goal of this section is to enable the user with with ability to setup the Standalone Mode on the ZRF8. Success of this section is the ability to source the ``mysetup.sh`` script that enables  the Standalone Mode and provides the ability for the Platform Host (ZRF8) to load the local bitstream.
 
@@ -2874,29 +2397,35 @@ TODO: This needs to be changed depeneding on the way the rootfs is constructed
 
    ``ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml``
 
-#. Output::
+#. Output:
 
-   % ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
-   Available containers are:  0: PL:0 [model: hdl os:  platform: zcu102], 1: rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64]
-   Actual deployment is:
-     Instance  0 file_read (spec ocpi.core.file_read) on rcc container 1: rcc0, using file_read in ../xilinx19_2_aarch64/artifacts/ocpi.core.file_read.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 16:09:46 2022
-     Instance  1 bias (spec ocpi.core.bias) on hdl container 0: PL:0, using bias_vhdl/a/bias_vhdl in ../artifacts//testbias_zcu102_base.bitz dated Tue Oct 25 16:09:46 2022
-     Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: rcc0, using file_write in ../xilinx19_2_aarch64/artifacts/ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 16:09:46 2022
-   Application XML parsed and deployments (containers and artifacts) chosen [0 s 50 ms]
-   Application established: containers, workers, connections all created [0 s 8 ms]
-   Application started/running [0 s 0 ms]
-   Waiting for application to finish (no time limit)
-   Application finished [0 s 20 ms]
+   ::
 
-#. Validate success::
+      % ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
+      Available containers are:  0: PL:0 [model: hdl os:  platform: zcu102], 1: rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64]
+      Actual deployment is:
+        Instance  0 file_read (spec ocpi.core.file_read) on rcc container 1: rcc0, using file_read in ../xilinx19_2_aarch64/artifacts/ocpi.core.file_read.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 16:09:46 2022
+        Instance  1 bias (spec ocpi.core.bias) on hdl container 0: PL:0, using bias_vhdl/a/bias_vhdl in ../artifacts//testbias_zcu102_base.bitz dated Tue Oct 25 16:09:46 2022
+        Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: rcc0, using file_write in ../xilinx19_2_aarch64/artifacts/ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 16:09:46 2022
+      Application XML parsed and deployments (containers and artifacts) chosen [0 s 50 ms]
+      Application established: containers, workers, connections all created [0 s 8 ms]
+      Application started/running [0 s 0 ms]
+      Waiting for application to finish (no time limit)
+      Application finished [0 s 20 ms]
 
-   % md5sum test.*
-   2934e1a7ae11b11b88c9b0e520efd978  test.input
-   2934e1a7ae11b11b88c9b0e520efd978  test.output
+   ..
 
-..
+#. Validate success:
 
-.. _dev-Server-Mode-setup-label:
+   ::
+
+      % md5sum test.*
+      2934e1a7ae11b11b88c9b0e520efd978  test.input
+      2934e1a7ae11b11b88c9b0e520efd978  test.output
+
+   ..
+
+.. _dev-Server-Mode-setup:
 
 Server Mode setup
 ^^^^^^^^^^^^^^^^^
@@ -2908,8 +2437,6 @@ Server Mode setup
 - Success of this section is the ability to utilize the ocpiremote utility that enables the Server Mode and provides the ability to load bitstreams from the Client-side (Host) to the Server-side (embedded device).
 
 **IMPLEMENTATION:**
-
-Enable the target platform for remote containers by ensuring its ``system.xml`` contains ``<remoteload='1'>`` and ``<socket load='1'>``. The ``system.xml`` can be found and changed in one of two places. Option 1 more robust than option 2, while option 2 is quicker to implement.
 
 **Be sure that the following file matches the code block below.**
 
@@ -2938,81 +2465,88 @@ Enable the target platform for remote containers by ensuring its ``system.xml`` 
 
    ..
 
-**Setup:**
+**Device Setup**
 
-#. Client-side setup:
+#. Establish a screen connection to the device
 
-   #. Change into the OpenCPI directory:
+   ``sudo screen /dev/ttyUSB0 115200``
 
-      ``cd /home/user/opencpi``
+#. Setup the IP Address
 
-   #. Source OpenCPI
+   ``ifconfig eth0 down``
 
-      ``source cdk/opencpi-setup.sh -s``
+   ``ifconfig eth0 add <Valid ip-address> netmask 255.255.255.0``
 
-   #. Setup the OpenCPI enviornment variables that support remote containers. The ``Valid ip-address`` is the ip-address of the server (``zrf8_48dr``).
+   ``ifconfig eth up``
 
-      ``export OCPI_SERVER_ADDRESSES=<Valid ip-address>:<Valid port>``
+**Host Setup**
 
-      - example: ``export OCPI_SERVER_ADDRESSES=10.100.1.20:12345``
+#. Source the OpenCPI environment
 
-      ``export OCPI_SOCKET_INTERFACE=<Valid socket>``
+   ``cd opencpi/``
 
-      - example: ``export OCPI_SOCKET_INTERFACE=p1p1``
+   ``source cdk/opencpi-setup.sh -s``
 
-      - ``Valid socket`` is the name of the Ethernet interface of the development host which can communicate with the target platform
+#. Export the Device IP Address and valid Port
 
-   #. Load ``sandbox`` onto the server:
+   ``export OCPI_SERVER_ADDRESSES=<Valid ip-address>:<Valid port>``
 
-      ``ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr -p <device-password>``
+#. Export a valid socket interface
 
-      Example of stdout:::
+   ``export OCPI_SOCKET_INTERFACE=<Valid Socket>``
 
-         $ ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr
-         Preparing remote sandbox...
-         Tue Jul 13 12:17:24 UTC 2021
-         Creating server package...
-         Sending server package...
-         Server package sent successfully.
-         Getting status (no server expected to be running):
-         Executing remote configuration command: status
-         No ocpiserve appears to be running: no pid file
+#. Load the ``sandbox`` onto the server (device):
 
-      ..
+   ``ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr``
 
-      - You can also unload the sandbox server with ``ocpiremote unload``
+   ::
 
-   #. Start the Server-Mode
+      $ ocpiremote load -s xilinx21_1_aarch64 -w zrf8_48dr
+      Preparing remote sandbox...
+      Fri Jan 27 10:53:27 UTC 2023
+      Creating server package...
+      Sending server package...
+      Server package sent successfully
+      Getting status (no server expected to be running):
+      Executing remote configuration command: status
+      No ocpiserve appears to be running: no pid file
 
-      ``ocpiremote start -b -p <device-password>``
+   ..
 
-      Example of stdout:::
+#. Start the Server-Mode:
 
-         $ ocpiremote start -b
-         Executing remote configuration command: start -B
-         Reloading kernel driver:
-         Loading opencpi bitstream
-         The driver module was successfully unloaded.
-         No reserved DMA memory found on the linux boot command line.
-         Driver loaded successfully.
-         PATH=/home/root/sandbox/xilinx21_1_aarch64/bin:/home/root/sandbox/xilinx21_1_aarch64/sdk/bin:/usr/bin:/bin
-         LD_LIBRARY_PATH=xilinx21_1_aarch64/sdk/lib
-         VALGRIND_LIB=
-         nohup ocpiserve -v -p 12345 > 20210713-121855.log
-         Server (ocpiserve) started with pid: 2416.  Initial log is:
-         Discovery options:  discoverable: 0, loopback: 0, onlyloopback: 0
-         Container server at <ANY>:12345
-         Available TCP server addresses are:
-             On interface br0: 192.168.0.15:12345
-         Artifacts stored/cached in the directory "artifacts", which will be retained on exit.
-         Containers offered to clients are:
+   ``ocpiremote start -b``
+
+   ::
+
+      $ ocpiremote start -b
+      Executing remote configuration command: start -B
+      The driver module is not loaded. No action was taken.
+      Reloading kernel driver: 
+      No reserved DMA memory found on the linux boot command line.
+      Driver loaded successfully.
+      Loading opencpi bitstream
+      PATH=/home/root/sandbox/xilinx21_1_aarch64/bin:/home/root/sandbox/xilinx21_1_aarch64/sdk/bin:/usr/bin:/bin
+      LD_LIBRARY_PATH=xilinx21_1_aarch64/sdk/lib
+      VALGRIND_LIB=
+      nohup ocpiserve -v -p 12345 > 20230127-105808.log
+      Server (ocpiserve) started with pid: 598.  Initial log is:
+      Discovery options:  discoverable: 0, loopback: 0, onlyloopback: 0
+      Container server at <ANY>:12345
+        Available TCP server addresses are:
+          On interface eth0: 10.100.1.20:12345
+      Artifacts stored/cached in the directory "artifacts", which will be retained on exit.
+      Containers offered to clients are:
          0: PL:0, model: hdl, os: , osVersion: , platform: zrf8_48dr
-         1: rcc0, model: rcc, os: linux, osVersion: 18_3, platform: xilinx21_1_aarch64
-         --- end of server startup log success above
+         1: rcc0, model: rcc, os: linux, osVersion: 21_1, platform: xilinx21_1_aarch64
+      --- end of server startup log success above
 
-      ..
+   ..
 
-      If you are presented with the following error while attempting to run any of the Unit-Tests or applications, you may need to disable or reconfigure your firewall:::
+
+   - If you are presented with the following error while attempting to run any of the Unit-Tests or applications, you may need to disable or reconfigure your firewall:
+
+      ::
 
          OCPI( 2:991.0828): Exception during application shutdown: error reading from container server "": EOF on socket read
          Exiting for exception: error reading from container server "": EOF on socket read
@@ -3021,76 +2555,73 @@ Enable the target platform for remote containers by ensuring its ``system.xml`` 
 
       How to disable your firewall:
 
-         #. ``sudo firewall-cmd --state``
+         ``sudo firewall-cmd --state``
 
-         #. ``sudo systemctl stop firewalld``
+         ``sudo systemctl stop firewalld``
 
-         #. ``sudo firewall-cmd --state``
+         ``sudo firewall-cmd --state``
 
-         #. ``sudo systemctl disable firewalld``
+         ``sudo systemctl disable firewalld``
 
-         #. ``sudo systemctl mask --now firewalld``
+         ``sudo systemctl mask --now firewalld``
 
-         #. ``sudo systemctl status firewalld``
+         ``sudo systemctl status firewalld``
 
-   #. Run ``testbias`` application
+#. Run ``testbias`` application
 
-      ``cd /home/user/opencpi/projects/assets/applications/``
+   ``cd /home/user/opencpi/projects/assets/applications/``
 
-      ``export OCPI_LIBRARY_PATH=../imports/ocpi.core/artifacts/:../../assets/artifacts/``
+   ``export OCPI_LIBRARY_PATH=../imports/ocpi.core/artifacts/:../../assets/artifacts/``
 
-      ``ocpirun -v -P bias=zrf8_48dr -p bias=biasValue=0 testbias.xml``
+   ``ocpirun -v -P bias=zrf8_48dr -p bias=biasValue=0 testbias.xml``
 
-   #. Output::
+::
 
-      $ ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
-      Received server information from "10.3.10.66:12345".  Available containers are:
-        10.3.10.66:12345/PL:0                platform zcu102, model hdl, os , version , arch , build 
-          Transports: ocpi-dma-pio,00:0a:35:00:22:01,0,0,0x41,0x101|ocpi-socket-rdma, ,1,0,0x42,0x41|
-        10.3.10.66:12345/rcc0                platform xilinx19_2_aarch64, model rcc, os linux, version 19_2, arch aarch64, build 
-          Transports: ocpi-dma-pio,00:0a:35:00:22:01,1,0,0x103,0x103|ocpi-smb-pio,00:0a:35:00:22:01,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
-      Available containers are:  0: 10.3.10.66:12345/PL:0 [model: hdl os:  platform: zcu102], 1: 10.3.10.66:12345/rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
-      Actual deployment is:
-        Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Oct 25 13:35:05 2022
-        Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Oct 25 16:07:24 2022
-        Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 15:25:11 2022
-      Application XML parsed and deployments (containers and artifacts) chosen [0 s 160 ms]
-      Application established: containers, workers, connections all created [0 s 102 ms]
-      Application started/running [0 s 1 ms]
-      Waiting for application to finish (no time limit)
-      Application finished [0 s 20 ms]
+    $ ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
+    Received server information from "10.3.10.66:12345".  Available containers are:
+      10.3.10.66:12345/PL:0                platform zcu102, model hdl, os , version , arch , build 
+        Transports: ocpi-dma-pio,00:0a:35:00:22:01,0,0,0x41,0x101|ocpi-socket-rdma, ,1,0,0x42,0x41|
+      10.3.10.66:12345/rcc0                platform xilinx19_2_aarch64, model rcc, os linux, version 19_2, arch aarch64, build 
+        Transports: ocpi-dma-pio,00:0a:35:00:22:01,1,0,0x103,0x103|ocpi-smb-pio,00:0a:35:00:22:01,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
+    Available containers are:  0: 10.3.10.66:12345/PL:0 [model: hdl os:  platform: zcu102], 1: 10.3.10.66:12345/rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
+    Actual deployment is:
+      Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Oct 25 13:35:05 2022
+      Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Oct 25 16:07:24 2022
+      Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 15:25:11 2022
+    Application XML parsed and deployments (containers and artifacts) chosen [0 s 160 ms]
+    Application established: containers, workers, connections all created [0 s 102 ms]
+    Application started/running [0 s 1 ms]
+    Waiting for application to finish (no time limit)
+    Application finished [0 s 20 ms]
 
-   ..
+..
 
 #. Validate success
 
    ``md5sum test.input``
 
-   ``md5sum test.output`` **On server at ``/home/root/sandbox/test.output``**
+   ``md5sum test.output`` (**On server at ``/home/root/sandbox/test.output``**)
 
    If they have a matching ``md5sum`` then the application run successfully.
 
-.. _dev-Test-results-tables-label:
+.. _dev-Test-results-tables:
 
 Test results tables
 ^^^^^^^^^^^^^^^^^^^
-TODO: Version Update here
 
-- zrf8_48dr
+**P**: *PASS*
 
-- Table Key:
+**F**: *FAIL*
 
-  - **P**: *PASS*
-  - **F** or **case##.##**: *FAIL*
-  - **Excluded**: FOSS Makefile limits building of this test and was *excluded*
+**Excluded**: FOSS Makefile limits building of this test and was *excluded*
 
 **Failed Cases**
 
-   - data_src - case01.06, case01.07, case01.22, case01.23, case01.30, case01.31, case01.38, case01.39, case01.46, case01.47, case01.54, case01.55, case01.62, case01.63, case01.70, case01.71, case01.78, case01.79
+data_src - case01.06, case01.07, case01.22, case01.23, case01.30, case01.31, case01.38, case01.39, case01.46, case01.47, case01.54, case01.55, case01.62, case01.63, case01.70, case01.71, case01.78, case01.79
 
-   - **These cases ALSO failed when testing on the ZCU102. That's to say the ZRF8 is as successfull as the ZCU102**
+- **These cases ALSO failed when testing on the ZCU102. That's to say the ZRF8 is as successfull as the ZCU102**
 
-.. _dev-Component-Unit-Test-results-table-label:
+.. _dev-Component-Unit-Test-results-table:
 
 Component Unit Test results table
 """""""""""""""""""""""""""""""""
@@ -3215,8 +2746,7 @@ Component Unit Test results table
 |                                   |                       |
 +-----------------------------------+-----------------------+
 
-
-.. _dev-Application-verification-results-table-label:
+.. _dev-Application-verification-results-table:
 
 Application verification results table
 """"""""""""""""""""""""""""""""""""""
@@ -3233,6 +2763,4 @@ Application verification results table
 | pattern_capture_asm               | P             |
 +-----------------------------------+---------------+
 | testbias                          | P             |
-+-----------------------------------+---------------+
-| FSK/filerw                        |               |
 +-----------------------------------+---------------+

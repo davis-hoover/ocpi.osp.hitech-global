@@ -29,4 +29,3 @@
 @<platform-dir>/sd_card/system.xml opencpi/
 @<platform-dir>/sd_card/artifacts/image.ub /
 @<platform-dir>/sd_card/artifacts/rootfs.tar.gz /
-
