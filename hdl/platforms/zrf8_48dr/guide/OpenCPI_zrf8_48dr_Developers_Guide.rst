@@ -754,15 +754,19 @@ Create HDL Primitive for CP
 
    ``cd <ocpi.osp.hitech-global/hdl/primitives/``
 
-   ``cp /home/user/opencpi/projects/platform/hdl/primitives/Makefile .``
+   ``cp /home/user/opencpi/projects/platform/hdl/primitives/Makefile ./``
 
-TODO
+#. Clean up the following files
 
-``rm -rf <ocpi.osp.hitech-global/hdl/primitives/primitives.xml``
-``rm -rf <ocpi.osp.hitech-global/hdl/primitives/primitives.rst``
+    ``cd <ocpi.osp.hitech-global>/``
 
-``rm -rf <ocpi.osp.hitech-global/project.xml``
-``rm -rf <ocpi.osp.hitech-global/project.rst``
+   ``rm -rf hdl/primitives/primitives.xml``
+
+   ``rm -rf hdl/primitives/primitives.rst``
+
+   ``rm -rf project.xml``
+
+   ``rm -rf project.rst``
 
 
 #. From the Vivado project modified in  :ref:`dev-Configure-PS-for-Control-Plane`, which is specific to using the vendor's reference design for configuring the PS core IP for the ``ZRF8``, browse to the generated artifacts directory, and copy them into the newly created OpenCPI HDL primitive library.
