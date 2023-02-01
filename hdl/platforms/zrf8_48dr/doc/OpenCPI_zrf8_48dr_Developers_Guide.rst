@@ -1103,8 +1103,6 @@ Create HDL Platform Worker for CP
 
          # Assume that all the boot files are in the software platforms for now
          @<platform-dir>/sd_card/system.xml opencpi/
-         @<platform-dir>/sd_card/artifacts/image.ub /
-         @<platform-dir>/sd_card/artifacts/rootfs.tar.gz /
 
       ..
 
@@ -1115,7 +1113,7 @@ Create HDL Platform Worker for CP
 
       ::
 
-         UBSYSTEM=="tty" ATTRS{product}=="Cypress-USB2UART-*" SYMLINK+="z3u%n" MODE:="0666"
+         UBSYSTEM=="tty" ATTRS{product}=="Cypress-USB2UART-*" SYMLINK+="zrf8_48dr%n" MODE:="0666"
 
       ..
 

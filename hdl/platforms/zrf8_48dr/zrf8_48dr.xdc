@@ -314,26 +314,18 @@
 
 set_property PACKAGE_PIN AP21    [get_ports {FMC_PL_CLK0_M2C_N}];
 set_property PACKAGE_PIN AN21    [get_ports {FMC_PL_CLK0_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_CLK0_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_CLK0_M2C_P}];
 
 #set_property PACKAGE_PIN E34     [get_ports {FMC_PL_DP0_C2M_N}];
 #set_property PACKAGE_PIN E33     [get_ports {FMC_PL_DP0_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP0_C2M_P}];
 
 set_property PACKAGE_PIN F37     [get_ports {FMC_PL_DP0_M2C_N}];
 set_property PACKAGE_PIN F36     [get_ports {FMC_PL_DP0_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP0_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP0_M2C_P}];
 
 #set_property PACKAGE_PIN H32     [get_ports {FMC_PL_DP1_C2M_N}];
 #set_property PACKAGE_PIN H31     [get_ports {FMC_PL_DP1_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP1_C2M_P}];
 
 set_property PACKAGE_PIN J39     [get_ports {FMC_PL_DP1_M2C_N}];
 set_property PACKAGE_PIN J38     [get_ports {FMC_PL_DP1_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP1_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP1_M2C_P}];
 
 #set_property PACKAGE_PIN G34     [get_ports {FMC_PL_DP2_C2M_N}];
 #set_property PACKAGE_PIN G33     [get_ports {FMC_PL_DP2_C2M_P}];
@@ -341,250 +333,156 @@ set_property DIFF_TERM 1         [get_ports {FMC_PL_DP1_M2C_P}];
 
 set_property PACKAGE_PIN H37     [get_ports {FMC_PL_DP2_M2C_N}];
 set_property PACKAGE_PIN H36     [get_ports {FMC_PL_DP2_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP2_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP2_M2C_P}];
 
 #set_property PACKAGE_PIN F32     [get_ports {FMC_PL_DP3_C2M_N}];
 #set_property PACKAGE_PIN F31     [get_ports {FMC_PL_DP3_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP3_C2M_P}];
 
 set_property PACKAGE_PIN G39     [get_ports {FMC_PL_DP3_M2C_N}];
 set_property PACKAGE_PIN G38     [get_ports {FMC_PL_DP3_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP3_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP3_M2C_P}];
 
 #set_property PACKAGE_PIN C34     [get_ports {FMC_PL_DP4_C2M_N}];
 #set_property PACKAGE_PIN C33     [get_ports {FMC_PL_DP4_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP4_C2M_P}];
 
 set_property PACKAGE_PIN D37     [get_ports {FMC_PL_DP4_M2C_N}];
 set_property PACKAGE_PIN D36     [get_ports {FMC_PL_DP4_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP4_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP4_M2C_P}];
 
 #set_property PACKAGE_PIN A34     [get_ports {FMC_PL_DP5_C2M_N}];
 #set_property PACKAGE_PIN A33     [get_ports {FMC_PL_DP5_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP5_C2M_P}];
 
 set_property PACKAGE_PIN B37     [get_ports {FMC_PL_DP5_M2C_N}];
 set_property PACKAGE_PIN B36     [get_ports {FMC_PL_DP5_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP5_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP5_M2C_P}];
 
 #set_property PACKAGE_PIN B32     [get_ports {FMC_PL_DP6_C2M_N}];
 #set_property PACKAGE_PIN B31     [get_ports {FMC_PL_DP6_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP6_C2M_P}];
 
 set_property PACKAGE_PIN C39     [get_ports {FMC_PL_DP6_M2C_N}];
 set_property PACKAGE_PIN C38     [get_ports {FMC_PL_DP6_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP6_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP6_M2C_P}];
 
 #set_property PACKAGE_PIN D32     [get_ports {FMC_PL_DP7_C2M_N}];
 #set_property PACKAGE_PIN D31     [get_ports {FMC_PL_DP7_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP7_C2M_P}];
 
 set_property PACKAGE_PIN E39     [get_ports {FMC_PL_DP7_M2C_N}];
 set_property PACKAGE_PIN E38     [get_ports {FMC_PL_DP7_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP7_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_DP7_M2C_P}];
 
 set_property PACKAGE_PIN T32     [get_ports {FMC_PL_GBTCLK0_M2C_N}];
 set_property PACKAGE_PIN T31     [get_ports {FMC_PL_GBTCLK0_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_GBTCLK0_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_GBTCLK0_M2C_P}];
 
 set_property PACKAGE_PIN M32     [get_ports {FMC_PL_GBTCLK1_M2C_N}];
 set_property PACKAGE_PIN M31     [get_ports {FMC_PL_GBTCLK1_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_GBTCLK1_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_GBTCLK1_M2C_P}];
 
-set_property PACKAGE_PIN AR18    [get_ports {FMC_PL_LA00_CC_N}];
-set_property PACKAGE_PIN AP18    [get_ports {FMC_PL_LA00_CC_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA00_CC_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA00_CC_P}];
+set_property PACKAGE_PIN AR18    [get_ports {FMC_PL_LA00_N_CC}];
+set_property PACKAGE_PIN AP18    [get_ports {FMC_PL_LA00_P_CC}];
 
 set_property PACKAGE_PIN AN20    [get_ports {FMC_PL_LA01_N_CC}];
 set_property PACKAGE_PIN AM20    [get_ports {FMC_PL_LA01_P_CC}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA01_P_CC}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA01_P_CC}];
 
 set_property PACKAGE_PIN AT22    [get_ports {FMC_PL_LA02_N}];
 set_property PACKAGE_PIN AR22    [get_ports {FMC_PL_LA02_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA02_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA02_P}];
 
 set_property PACKAGE_PIN AT21    [get_ports {FMC_PL_LA03_N}];
 set_property PACKAGE_PIN AR21    [get_ports {FMC_PL_LA03_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA03_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA03_P}];
 
 set_property PACKAGE_PIN AW21    [get_ports {FMC_PL_LA04_N}];
 set_property PACKAGE_PIN AV21    [get_ports {FMC_PL_LA04_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA04_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA04_P}];
 
 set_property PACKAGE_PIN AK21    [get_ports {FMC_PL_LA05_N}];
 set_property PACKAGE_PIN AK22    [get_ports {FMC_PL_LA05_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA05_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA05_P}];
 
 set_property PACKAGE_PIN AV18    [get_ports {FMC_PL_LA06_N}];
 set_property PACKAGE_PIN AU18    [get_ports {FMC_PL_LA06_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA06_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA06_P}];
 
 set_property PACKAGE_PIN AL20    [get_ports {FMC_PL_LA07_N}];
 set_property PACKAGE_PIN AL21    [get_ports {FMC_PL_LA07_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA07_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA07_P}];
 
 set_property PACKAGE_PIN AM22    [get_ports {FMC_PL_LA08_N}];
 set_property PACKAGE_PIN AL22    [get_ports {FMC_PL_LA08_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA08_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA08_P}];
 
 set_property PACKAGE_PIN AT19    [get_ports {FMC_PL_LA09_N}];
 set_property PACKAGE_PIN AR19    [get_ports {FMC_PL_LA09_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA09_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA09_P}];
 
 set_property PACKAGE_PIN AV17    [get_ports {FMC_PL_LA10_N}];
 set_property PACKAGE_PIN AU17    [get_ports {FMC_PL_LA10_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA10_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA10_P}];
 
 set_property PACKAGE_PIN AM19    [get_ports {FMC_PL_LA11_N}];
 set_property PACKAGE_PIN AL19    [get_ports {FMC_PL_LA11_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA11_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA11_P}];
 
 set_property PACKAGE_PIN AH20    [get_ports {FMC_PL_LA12_N}];
 set_property PACKAGE_PIN AG20    [get_ports {FMC_PL_LA12_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA12_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA12_P}];
 
 set_property PACKAGE_PIN AJ19    [get_ports {FMC_PL_LA13_N}];
 set_property PACKAGE_PIN AJ20    [get_ports {FMC_PL_LA13_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA13_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA13_P}];
 
 set_property PACKAGE_PIN AK18    [get_ports {FMC_PL_LA14_N}];
 set_property PACKAGE_PIN AJ18    [get_ports {FMC_PL_LA14_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA14_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA14_P}];
 
 set_property PACKAGE_PIN AT17    [get_ports {FMC_PL_LA15_N}];
 set_property PACKAGE_PIN AR17    [get_ports {FMC_PL_LA15_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA15_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA15_P}];
 
 set_property PACKAGE_PIN AH18    [get_ports {FMC_PL_LA16_N}];
 set_property PACKAGE_PIN AG18    [get_ports {FMC_PL_LA16_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA16_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA16_P}];
 
 set_property PACKAGE_PIN AR8     [get_ports {FMC_PL_LA17_N_CC}];
 set_property PACKAGE_PIN AP8     [get_ports {FMC_PL_LA17_P_CC}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA17_P_CC}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA17_P_CC}];
 
 set_property PACKAGE_PIN AR9     [get_ports {FMC_PL_LA18_N_CC}];
 set_property PACKAGE_PIN AP9     [get_ports {FMC_PL_LA18_P_CC}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA18_P_CC}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA18_P_CC}];
 
 set_property PACKAGE_PIN AV12    [get_ports {FMC_PL_LA19_N}];
 set_property PACKAGE_PIN AU12    [get_ports {FMC_PL_LA19_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA19_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA19_P}];
 
 set_property PACKAGE_PIN AW8     [get_ports {FMC_PL_LA20_N}];
 set_property PACKAGE_PIN AW9     [get_ports {FMC_PL_LA20_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA20_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA20_P}];
 
 set_property PACKAGE_PIN AN13    [get_ports {FMC_PL_LA21_N}];
 set_property PACKAGE_PIN AM13    [get_ports {FMC_PL_LA21_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA21_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA21_P}];
 
 set_property PACKAGE_PIN AU10    [get_ports {FMC_PL_LA22_N}];
 set_property PACKAGE_PIN AT10    [get_ports {FMC_PL_LA22_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA22_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA22_P}];
 
 set_property PACKAGE_PIN AW11    [get_ports {FMC_PL_LA23_N}];
 set_property PACKAGE_PIN AV11    [get_ports {FMC_PL_LA23_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA23_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA23_P}];
 
 set_property PACKAGE_PIN AN7     [get_ports {FMC_PL_LA24_N}];
 set_property PACKAGE_PIN AN8     [get_ports {FMC_PL_LA24_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA24_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA24_P}];
 
 set_property PACKAGE_PIN AM14    [get_ports {FMC_PL_LA25_N}];
 set_property PACKAGE_PIN AL14    [get_ports {FMC_PL_LA25_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA25_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA25_P}];
 
 set_property PACKAGE_PIN AN12    [get_ports {FMC_PL_LA26_N}];
 set_property PACKAGE_PIN AM12    [get_ports {FMC_PL_LA26_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA26_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA26_P}];
 
 set_property PACKAGE_PIN AR11    [get_ports {FMC_PL_LA27_N}];
 set_property PACKAGE_PIN AR12    [get_ports {FMC_PL_LA27_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA27_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA27_P}];
 
 set_property PACKAGE_PIN AM10    [get_ports {FMC_PL_LA28_N}];
 set_property PACKAGE_PIN AL10    [get_ports {FMC_PL_LA28_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA28_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA28_P}];
 
 set_property PACKAGE_PIN AK14    [get_ports {FMC_PL_LA29_N}];
 set_property PACKAGE_PIN AJ14    [get_ports {FMC_PL_LA29_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA29_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA29_P}];
 
 set_property PACKAGE_PIN AH12    [get_ports {FMC_PL_LA30_N}];
 set_property PACKAGE_PIN AG12    [get_ports {FMC_PL_LA30_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA30_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA30_P}];
 
 set_property PACKAGE_PIN AK12    [get_ports {FMC_PL_LA31_N}];
 set_property PACKAGE_PIN AJ12    [get_ports {FMC_PL_LA31_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA31_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA31_P}];
 
 set_property PACKAGE_PIN AL7     [get_ports {FMC_PL_LA32_N}];
 set_property PACKAGE_PIN AL8     [get_ports {FMC_PL_LA32_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA32_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA32_P}];
 
 set_property PACKAGE_PIN AM9     [get_ports {FMC_PL_LA33_N}];
 set_property PACKAGE_PIN AL9     [get_ports {FMC_PL_LA33_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_LA33_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_LA33_P}];
 
 set_property PACKAGE_PIN A10     [get_ports {FMC_PL_PG_M2C}];
 set_property IOSTANDARD LVCMOS33 [get_ports {FMC_PL_PG_M2C}];
 
 set_property PACKAGE_PIN AP11    [get_ports {FMC_PL_REFCLK_M2C_N}];
 set_property PACKAGE_PIN AN11    [get_ports {FMC_PL_REFCLK_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_REFCLK_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_REFCLK_M2C_P}];
 
 #set_property PACKAGE_PIN AW10    [get_ports {FMC_PL_SYNC_C2M_N}];
 #set_property PACKAGE_PIN AV10    [get_ports {FMC_PL_SYNC_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_SYNC_C2M_P}];
 
 set_property PACKAGE_PIN AP10    [get_ports {FMC_PL_SYNC_M2C_N}];
 set_property PACKAGE_PIN AN10    [get_ports {FMC_PL_SYNC_M2C_P}];
-set_property IOSTANDARD LVDS     [get_ports {FMC_PL_SYNC_M2C_P}];
-set_property DIFF_TERM 1         [get_ports {FMC_PL_SYNC_M2C_P}];
 
 set_property PACKAGE_PIN B10     [get_ports {FMC_PL_HSPC_PRSNT_M2C_L}];
 set_property IOSTANDARD LVCMOS33 [get_ports {FMC_PL_HSPC_PRSNT_M2C_L}];
@@ -784,4 +682,4 @@ set_property IOSTANDARD LVCMOS33 [get_ports {FMC_PL_HSPC_PRSNT_M2C_L}];
 
 # OpenCPI additions to the above, which is unmodified from the original
 create_clock -name clk_fpga_0 -period 10.000 [get_pins -hier * -filter {NAME =~ */ps/U0/U0/PS8_i/PLCLK[0]}]
-set_property DONT_TOUCH true [get_cells "ftop/pfconfig_i/zrf8_48dr_i/worker/ps/ps/U0/PS8_i"]
+set_property DONT_TOUCH true [get_cells "ftop/pfconfig_i/zrf8_48dr_i/worker/ps/U0/U0/PS8_i"]

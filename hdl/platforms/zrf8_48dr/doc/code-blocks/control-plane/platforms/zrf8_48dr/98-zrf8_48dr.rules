@@ -1,1 +1,1 @@
-SUBSYSTEM=="tty" ATTRS{product}=="Cypress-USB2UART-*" SYMLINK+="z3u%n" MODE:="0666"
+SUBSYSTEM=="tty" ATTRS{product}=="Cypress-USB2UART-*" SYMLINK+="zrf8_48dr%n" MODE:="0666"

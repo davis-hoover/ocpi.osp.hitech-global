@@ -74,11 +74,11 @@ This Guide uses the following Framework branch and commit ID
 
 #. Clone the OpenCPI framework
 
-   ``cd /home/user``
+   ``cd /home/user/``
 
    ``git clone https://gitlab.com/opencpi/opencpi.git``
 
-   ``cd opencpi``
+   ``cd opencpi/``
 
    ``git checkout cbcd6fa7fa477e72031181c997a5a666487b0eb9``
 
@@ -87,6 +87,39 @@ This Guide uses the following Framework branch and commit ID
    ``cd /home/user/opencpi/``
 
    ``./scripts/install-opencpi.sh --minimal``
+
+.. _dev-Configure-a-host-terminal-for-OpenCPI-development:
+
+Configure a host terminal for OpenCPI development
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. After the OpenCPI framework has been installed, source the OpenCPI framework setup script
+
+   ``cd /home/user/opencpi``
+
+   ``source cdk/opencpi-setup.sh -s``
+
+#. Ensure that the environment is configured for the **desired version of Vivado** and its license file
+
+   ``export OCPI_XILINX_VIVADO_VERSION=2021.1``
+
+   ``env | grep OCPI``
+
+   ::
+
+      $ env | grep OCPI
+      OCPI_TOOL_PLATFORM=centos7
+      OCPI_PREREQUISITES_DIR=/home/user/opencpi/prerequisites
+      OCPI_TOOL_OS_VERSION=c7
+      OCPI_CDK_DIR=/home/user/opencpi/cdk
+      OCPI_XILINX_VIVADO_VERSION=2021.1
+      OCPI_ROOT_DIR=/home/user/opencpi
+      OCPI_TOOL_OS=linux
+      OCPI_TOOL_PLATFORM_DIR=/home/user/opencpi/project-registry/ocpi.core/exports/rcc/platforms/centos7
+      OCPI_TOOL_ARCH=x86_64
+      OCPI_TOOL_DIR=centos7
+
+  ..
 
 .. _install-the-hdl-platform:
 
@@ -99,13 +132,13 @@ The steps provided below rely heavily on the **OpenCPI Installation Guide**.
 
 #. Clone ``ocpi.osp.hitech-global`` project into the appropriate directory
 
-   ``cd /home/user/opencpi/projects/osps``
+   ``cd /home/user/opencpi/projects/osps/``
 
    ``git clone https://gitlab.com/opencpi/osp/ocpi.osp.hitech-global.git``
 
 #. Register the ocpi.osp.hitech-global project
 
-   ``cd ocpi.osp.hitech-global``
+   ``cd ocpi.osp.hitech-global/``
 
    ``ocpidev register project``
 
@@ -118,9 +151,9 @@ The steps provided below rely heavily on the **OpenCPI Installation Guide**.
 
 #. Implement the ``fmc_plus.xml`` card-spec within the ``projects/core/hdl/cards/specs/`` directory.
 
-   ``cp opencpi/projects/osps/ocpi.osp.hitech-global/guide/zrf8_48dr/fmc_plus.xml opencpi/projects/core/hdl/cards/specs``
+   ``cp opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/fmc_plus.xml opencpi/projects/core/hdl/cards/specs``
 
-   ``cd opencpi/projects/core``
+   ``cd opencpi/projects/core/``
 
    ``ocpidev unregister project``
 
@@ -128,7 +161,7 @@ The steps provided below rely heavily on the **OpenCPI Installation Guide**.
 
 #. Install ``zrf8_48dr`` HDL platform  using the ``--minmal`` flag
 
-   ``cd opencpi``
+   ``cd opencpi/``
 
    ``ocpiadmin install platform zrf8_48dr --minimal``
 
@@ -199,7 +232,7 @@ Once the ``zrf8_48dr`` HDL Platform and ``xilinx21_1_aarch64`` RCC Platform have
 
 #. Complete the steps in the :ref:`creating-a-valid-sd-card` sections of the APPENDIX
 
-#. ``cd opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64``
+#. ``cd opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/``
 
 #. ``sudo rm -rf /run/media/<user>/BOOT/*``
 
@@ -288,7 +321,7 @@ Run the testbias application using Standalone-Mode
 
 #. On the ``zrf8_48dr`` device, browse to the applications directory
 
-   ``cd /home/root/opencpi/applications``
+   ``cd /home/root/opencpi/applications/``
 
 #. Configure the OpenCPI artifacts search path:
 
@@ -464,7 +497,7 @@ The following commands are outlined in the `OpenCPI Installation Guide <https://
 
 #. Implement the provided ``2021.1-zrf8_48dr-release.tar.xz`` into the ``ZynqReleases`` directory
 
-   ``cd opencpi/projects/osps/ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/data-plane/boot-artifacts``
+   ``cd opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/code-blocks/data-plane/boot-artifacts/``
 
    ``sudo cp 2021.1-zrf8_48dr-release.tar.xz /opt/Xilinx/ZynqReleases/2021.1/``
 
@@ -480,11 +513,11 @@ The following commands are outlined in the `OpenCPI Installation Guide <https://
 
    #. Download ``linux-xlnx``
 
-      #. ``cd ~/Downloads``
+      #. ``cd ~/Downloads/``
 
       #. ``git clone https://github.com/Xilinx/linux-xlnx.git``
 
-      #. ``cd linux-xlnx``
+      #. ``cd linux-xlnx/``
 
       #. ``git checkout -b xilinx-v2021.1``
 
@@ -495,11 +528,11 @@ The following commands are outlined in the `OpenCPI Installation Guide <https://
 
    #. Download ``u-boot-xlnx``
 
-      #. ``cd ~/Downloads``
+      #. ``cd ~/Downloads/``
 
       #. ``git clone https://github.com/Xilinx/u-boot-xlnx.git``
 
-      #. ``cd u-boot-xlnx``
+      #. ``cd u-boot-xlnx/``
 
       #. ``git checkout -b xilinx-v2021.1``
 
