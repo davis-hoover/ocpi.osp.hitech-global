@@ -41,6 +41,6 @@ component zynq_ultra_zrf8_48dr_ps is
        m_axi_hp_in  : in    axi.zynq_ultra_m_hp.axi_s2m_array_t(0 to C_M_AXI_HP_COUNT-1);
        m_axi_hp_out : out   axi.zynq_ultra_m_hp.axi_m2s_array_t(0 to C_M_AXI_HP_COUNT-1));
        --s_axi_hp_in  : in    axi.zynq_ultra_s_hp.axi_m2s_array_t(0 to C_S_AXI_HP_COUNT-1);
-      -- s_axi_hp_out : out   axi.zynq_ultra_s_hp.axi_s2m_array_t(0 to C_S_AXI_HP_COUNT-1));
+       --s_axi_hp_out : out   axi.zynq_ultra_s_hp.axi_s2m_array_t(0 to C_S_AXI_HP_COUNT-1));
 end component zynq_ultra_zrf8_48dr_ps;
 end package zynq_ultra_zrf8_48dr_pkg;

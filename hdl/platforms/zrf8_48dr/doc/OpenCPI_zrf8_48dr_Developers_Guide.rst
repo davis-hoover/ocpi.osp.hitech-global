@@ -520,6 +520,12 @@ Create an OpenCPI project for the ZRF8
 
    ``cd ocpi.osp.hitech-global``
 
+#. Clean up the following files
+
+   ``rm -rf project.xml``
+
+   ``rm -rf project.rst``
+
 #. Create a ``Makefile``:
 
   ::
@@ -582,26 +588,15 @@ Create an OpenCPI project for the ZRF8
 
    ``ocpidev register project``
 
-
-
-
-
-
-
-
-
-
-
-
 .. _dev-Enable-OpenCPI-HDL-Control-Plane:
 
 Enable OpenCPI HDL Control Plane
 -------------------------------
 
-.. _dev-Configure-PS-for-Control-Plane:
+.. _dev-Configure-PS-for-CP:
 
-Configure PS for Control Plane
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configure PS for CP
+^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
@@ -732,7 +727,7 @@ Create HDL Primitive for CP
 
    ::
 
-      ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/control-plane/primitives/
+      ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/guide/code-blocks/control-plane/primitives/
 
    ..
 
@@ -758,16 +753,15 @@ Create HDL Primitive for CP
 
 #. Clean up the following files
 
-    ``cd <ocpi.osp.hitech-global>/``
+   ``cd <ocpi.osp.hitech-global>/hdl/primitives/``
 
-   ``rm -rf hdl/primitives/primitives.xml``
+   ``rm -rf primitives.xml``
 
-   ``rm -rf hdl/primitives/primitives.rst``
+   ``rm -rf primitives.rst``
 
-   ``rm -rf project.xml``
+   ``rm -rf zynq_ultra_zrf8_48dr.xml``
 
-   ``rm -rf project.rst``
-
+   ``rm -rf zynq_ultra_zrf8_48dr.rst``
 
 #. From the Vivado project modified in  :ref:`dev-Configure-PS-for-Control-Plane`, which is specific to using the vendor's reference design for configuring the PS core IP for the ``ZRF8``, browse to the generated artifacts directory, and copy them into the newly created OpenCPI HDL primitive library.
 
@@ -922,10 +916,10 @@ Create HDL Primitive for CP
 
    ..
 
-.. _dev-Build-HDL-Primitive-with-CP:
+.. _dev-Build-HDL-Primitive-for-CP:
 
-Build HDL Primitive with CP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Build HDL Primitive for CP
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
@@ -963,6 +957,7 @@ Build HDL Primitive with CP
       No previous installation for target-zynq_ultra/zynq_ultra_zrf8_48dr in ../lib/zynq_ultra_zrf8_48dr/zynq_ultra.
       Installing target-zynq_ultra/zynq_ultra_zrf8_48dr into ../lib/zynq_ultra_zrf8_48dr/zynq_ultra
 
+   ..
 
 .. _dev-Create-HDL-Platform-Worker-for-CP:
 
@@ -971,7 +966,7 @@ Create HDL Platform Worker for CP
 
 **CODEBLOCK:** The code block for the various files that make up the HDL platform worker can be found in the following directory of the ocpi.osp.hitech-global repository:::
 
-   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/control-plane/platforms/
+   ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/guide/code-blocks/control-plane/platforms/
 
 ..
 
@@ -1157,10 +1152,10 @@ Create HDL Platform Worker for CP
 
    ..
 
-.. _dev-Build-HDL-Platform-Worker-with-CP-enabled:
+.. _dev-Build-HDL-Platform-Worker-for-CP:
 
-Build HDL Platform Worker with CP enabled
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Build HDL Platform Worker for CP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
@@ -1223,10 +1218,10 @@ With all previous :ref:`dev-Enable-OpenCPI-HDL-Control-Plane` sections complete,
 
    ``ocpiadmin install platform zrf8_48dr --minimal``
 
-.. _dev-Petalinux-workspace-for-Control-Plane:
+.. _dev-Petalinux-workspace-for-CP:
 
-Petalinux workspace for Control Plane
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Petalinux workspace for CP
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
@@ -1279,10 +1274,10 @@ Petalinux workspace for Control Plane
 
    There should now be a ``BOOT.BIN`` in the ``images/linux`` directory
 
-.. _dev-Create-Control-Plane-Boot-Artifacts:
+.. _dev-Create-CP-Boot-Artifacts:
 
-Create Control Plane Boot Artifacts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Create CP Boot Artifacts
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
@@ -1331,7 +1326,6 @@ Install the RCC Platform xilinx21_1_aarch64 for CP
 
    ``export OCPI_XILINX_VIVADO_VERSION=2021.1``
 
-
 #. **Reinstall RCC Platform** ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr-release.tar.xz`` boot artifacts can be implemented into the framework.
 
    #. Remove the old ``xilinx21_1_aarch64`` from ``cdk``
@@ -1373,10 +1367,10 @@ Deploy the Platforms for CP
 
 ``ocpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr``
 
-.. _dev-Populate-the-SD-Card-Artifacts-for-Control-Plane:
+.. _dev-Populate-the-SD-Card-Artifacts-for-CP:
 
-Populate the SD-Card Artifacts for Control Plane
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Populate the SD-Card Artifacts for CP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
@@ -1395,25 +1389,6 @@ Be sure that the :ref:`dev-Format-SD-card` section is complete.
 ``cp -RLp opencpi/ /run/media/<user>/BOOT/``
 
 ``umount /dev/sda1``
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .. _dev-HDL-CP-Verification-OpenCPI-Magic-Word:
 
@@ -1559,7 +1534,7 @@ Configure PS for DP
 
 **GOAL:**
 
-- Modify the PS core IP from the :ref:`dev-Enable-OpenCPI-HDL-Control-Plane` section, to add the ports necessary to support enabling the OpenCPI Data Plane
+- Modify the PS core IP from the :ref:`dev-Configure-PS-for-CP` section, to add the ports necessary to support enabling the OpenCPI Data Plane
 
 - Re-generate the PS core IP output products
 
@@ -1571,15 +1546,23 @@ Configure PS for DP
 
 #. These steps continue with the completion of the :ref:`dev-Configure-PS-for-CP` section.
 
-#. ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
+   ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
 
-#. ``cd /home/user/``
+   ``cd /home/user/``
 
-#. ``cp -rf zrf8_48dr_cp/  zrf8_48dr_dp/``
+   ``cp -rf zrf8_48dr_cp/  zrf8_48dr_dp/``
 
-#. ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/``
+   ``cd zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/``
 
-#. ``vivado pl_core.xpr &``
+#. Remove the old ``petalinux_cp`` directory
+
+   ``rm -rf petalinux_cp``
+
+#. Open the ``pl_core`` project
+
+   ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
+
+   ``vivado pl_core.xpr &``
 
 #. Enable the Slave High Performance ports of the PS core IP
 
@@ -1591,7 +1574,7 @@ Configure PS for DP
 
       #. ``PS-PL Interface`` -> ``Slave Interface`` -> ``AXI HP`` -> Enable the following AXI HP Ports: ``AXI HP0 FPD``, ``AXI HP1 FPD``, ``AXI HP2 FPD``, ``AXI HP3 FPD``
 
-      #. From the same location expand each of the enabled ``AXI HP* FPD`` Ports to select a ``32 bit`` ``AXI HP FPD* Data Width`` -> Select ``OK``
+      #. From the same location expand each of the enabled ``AXI HP* FPD`` Ports to select a ``64 bit`` ``AXI HP FPD* Data Width`` -> Select ``OK``
 
       #. For each of the Slave AXI HP port clocks ( ``saxihp*_fpd_aclk``), perform ``Make External``
 
@@ -1607,6 +1590,7 @@ Configure PS for DP
 
    - Leave the default export location ``pl_core``
 
+   - Overwrite the ``*.xsa`` that is there from the Control-Plane section
 
 #. The Block Design should look as follows:
 
@@ -1618,14 +1602,216 @@ Configure PS for DP
 
 ..
 
-.. _dev-Petalinux-workspace-for-Data-Plane:
+.. _dev-Configure-HDL-Primitive-for-DP:
 
-Petalinux workspace for Data Plane
+Configure HDL Primitive for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- Edit the OpenCPI HDL primitive library source to support the Slave High-Performance (HP) ports that were made available in the previous section.
+
+**IMPLEMENTATION:**
+
+**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
+
+   ocpi.osp.hitech-global/hdl/platform/zrf8_48dr/guide/code-blocks/data-plane/primitives/
+
+..
+
+#. At the start of this effort, perform a clean within the OSP directory to ensure that no stale files exist
+
+   ``cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global``
+
+   ``ocpidev clean``
+
+#. In an effort to avoid stale content, remove the current PS core IP before copying over the updated version
+
+   ``cd ocpi.osp.hitech-global/hdl/primitives/zynq_ultra_zrf8_48dr``
+
+   ``rm -rf design_1_zynq_ultra_ps_e_0_0``
+
+#. From :ref:`dev-Configure-PS-for-DP`, copy the updated ``design_1_zynq_ultra_ps_e_0_0`` directory into the ``ocpi.osp.hitech-global`` HDL primitive directory
+
+   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/pl_core.srcs/sources_1/bd/design_1/ip/``
+
+   ``cp -rf design_1_zynq_ultra_ps_e_0_0/ <ocpi.osp.hitech-global>/hdl/primitives/zynq_ultra_zrf8_48dr/``
+
+   ``cd <ocpi.osp.hitech-global>/hdl/primitives/zynq_ultra_zrf8_48dr``
+
+#. Edit the ``zynq_ultra_zrf8_48dr_pkg.vhd`` file to include the newly enabled Slave HP ports
+
+   #. In the entity, uncomment the ``s_axi_hp_in`` and ``s_axi_hp_out`` ports
+
+#. Edit the ``zynq_ultra_zrf8_48dr_ps.vhd`` file to enable the newly enabled Slave HP ports
+
+   #. In the entity, uncomment the ``s_axi_hp_in`` and ``s_axi_hp_out`` ports
+
+   #. Uncomment all other ports which included:
+
+      #. ``saxihp0_*``, ``saxihp1_*``, ``saxihp2_*``, ``saxihp3_*``
+
+      #. ``saxigp2_*``, ``saxigp3_*``, ``saxigp4_*``, ``saxigp5_*``
+
+   #. Uncomment the ``gs: for i in 0 to C_S_AXI_HP_COUNT-1 generate`` code block
+
+.. _dev-Build-HDL-Primitive-DP:
+
+Build HDL Primitive for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- Build the HDL Primitive that implements the DP and which is instanced in the zrf8_48dr HDL Platform
+  Worker
+
+**IMPLEMENTATION:**
+
+#. Return to the top of the project
+
+   ``$ cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global``
+
+#. **Build the primitive library**
+
+   ``$ ocpidev build --hdl-target zynq_ultra``
+
+   ::
+
+      $ ocpidev build --hdl-target zynq_ultra
+      No HDL platforms specified.  No HDL assets will be targeted.
+      Possible HdlPlatforms are: alst4 alst4x isim matchstiq_z1 ml605 modelsim x4sim xsim zcu104 zcu104 zcu104_ise.
+      make[1]: Entering directory `/home/user/opencpi/projects/osps/ocpi.osp.hitech-global'
+      make[1]: Leaving directory `/home/user/opencpi/projects/osps/ocpi.osp.hitech-global'
+      ============== For library zynq_ultra_zrf8_48dr:
+      Building the zynq_ultra_zrf8_48dr library for zynq_ultra (target-zynq_ultra/zynq_ultra_zrf8_48dr) 0:()
+       Tool "vivado" for target "zynq_ultra" succeeded.  0:00.02 at 14:13:29
+      Creating directory ../lib/zynq_ultra_zrf8_48dr for library zynq_ultra_zrf8_48dr
+      No previous installation for gen/zynq_ultra_zrf8_48dr.libs in ../lib/zynq_ultra_zrf8_48dr.
+      Installing gen/zynq_ultra_zrf8_48dr.libs into ../lib/zynq_ultra_zrf8_48dr
+      No previous installation for target-zynq_ultra/zynq_ultra_zrf8_48dr.sources in target-zynq_ultra/zynq_ultra_zrf8_48dr.
+      Installing target-zynq_ultra/zynq_ultra_zrf8_48dr.sources into target-zynq_ultra/zynq_ultra_zrf8_48dr
+      No previous installation for target-zynq_ultra/zynq_ultra_zrf8_48dr in ../lib/zynq_ultra_zrf8_48dr/zynq_ultra.
+      Installing target-zynq_ultra/zynq_ultra_zrf8_48dr into ../lib/zynq_ultra_zrf8_48dr/zynq_ultra
+
+
+.. _dev-Configure-HDL-Platform-Worker-for-DP:
+
+Configure HDL Platform Worker for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- Edit the HDL Platform Worker files in order to implement the Slave High-Performance (HP) ports that have been made available to the ZynqMP Processing System.
+
+**IMPLEMENTATION:**
+
+
+**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
+
+   ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/guide/code-blocks/data-plane/platforms/
+
+..
+
+#. Edit the ``zrf8_48dr.xml`` file
+
+   #. Uncomment the ``<sdp name='zynq_ultra' master='true' count='4'/>``
+
+   #. Uncomment the following Properties: ``axi_error``, and ``sdpDropCount``
+
+   #. Leave the ``debug_state*`` properties commented out
+
+#. Edit the ``zrf8_48dr.vhd`` file:
+
+   #. Uncomment the ``library sdp``
+
+   #. Uncomment the newly created ``Slave HP`` signals: ``ps_m_axi_gp_in``, and ``ps_m_axi_gp_out``
+
+   #. Uncomment the sdp signals: ``my_sdp_out``, and ``my_sdp_out_data``
+
+   #. Leave the ``dbg_state*`` signals commented out
+
+   #. Uncomment the ``s_axi_hp_in`` and ``s_axi_hp_out`` signals in the ``ps : zynq_ultra_zrf8_48dr_ps``
+      code block
+
+   #. Uncomment the ``zynq_ultra_out`` and ``zynq_ultra_out_data`` signals in the ``cp : axi_...``
+      code block
+
+   #. Uncomment the generate block for the ``sdp2axi adapter``, leave the ``dbg_state*`` signals
+      commented out
+
+
+.. _dev-Build-HDL-Platform-Worker-for-DP:
+
+Build HDL Platform Worker for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. **Build the HDL Platform Worker and "base" Platform Configuration**
+
+   ``$ cd /home/user/projects/osps/ocpi.osp.hitech-global``
+
+   ``$ ocpidev build --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64``
+
+
+.. _dev-Undo-edits-made-to-validate-HDL-CP:
+
+Undo edits made to validate HDL CP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- The following `Petalinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked". 
+- Initially in support of validating the HDL platform for Control Plane ONLY, several scripts
+  were modified to build and deploy the ``canary`` Control Plane bitstream (pattern_capture). The
+  purpose of this section is to revert those changes such that the ``canary`` Data Plane bitstream
+  (testbias) will be installed (i.e. built) and deployed for the targeted HDL platform.
+
+**IMPLEMENTATION:**
+
+#. ``$ cd /home/user/opencpi``
+
+#. ``$ git checkout tools/scripts/deploy-platform.sh``
+
+#. ``$ git checkout tools/scripts/export-platform-to-framework.sh``
+
+#. ``$ git checkout tools/scripts/ocpiadmin.sh``
+
+.. _dev-Install-the-HDL-Platform-zrf8_48dr-for-DP:
+
+Install the HDL Platform zrf8_48dr for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- The goal of this section is to **install** the ``zrf8_48dr`` HDL Platform.
+
+- Installation of the ``ZRF8`` includes building the HDL Container (i.e. bitstream) for verifying
+  the Control Plane.
+
+**IMPLEMENTATION:**
+
+With all previous :ref:`dev-Enable-OpenCPI-HDL-Data-Plane` sections complete, the ``zrf8_48dr`` HDL and ``xilinx21_1_aarch64``  RCC platform can now be installed and deployed.
+
+#. Browse to top of the OpenCPI directory
+
+   ``cd /home/user/opencpi``
+
+#. Setup terminal for OpenCPI development
+
+   ``source ./cdk/opencpi-setup.sh -s``
+
+   ``export OCPI_XILINX_VIVADO_VERSION=2021.1``
+
+#. **Install: zrf8_48dr (an HDL platform)**
+
+   ``ocpiadmin install platform zrf8_48dr --minimal``
+
+.. _dev-Petalinux-workspace-for-DP:
+
+Petalinux workspace for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- The following `Petalinux Tools Documentation Reference Guide (UG1144) <https://docs.xilinx.com/r/2021.1-English/ug1144-petalinux-tools-reference-guide>`_ describes the commands and build flow that will be utilized in this section. These steps can be revisted, and will allow consequent bitstreams to be "spot checked".
 
 - Successful completion of this section is a bootable SD-card image utilizing the Petalinux utility
 
@@ -1702,10 +1888,28 @@ Create Control-Plane boot artifacts for the framework to leverage when the Platf
 
        - Note: This may require adjusting the permissions for ``/opt/Xilinx/ZynqReleases`` or its subdirectories
 
-Reinstall RCC Platform ``xilinx21_1_aarch64``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _dev-Install-the-RCC-Platform-xilinx21_1_aarch64-for-DP:
 
-Reinstall RCC Platform ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr-release.tar.xz`` boot artifacts can be implemented into the framework
+Install the RCC Platform xilinx21_1_aarch64 for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- The goal of this section is to **install** the ``xilinx21_1_aarch64`` RCC Platform
+
+**IMPLEMENTATION:**
+
+#. Browse to top of the OpenCPI directory
+
+   ``cd /home/user/opencpi``
+
+#. Setup terminal for OpenCPI development
+
+   ``source ./cdk/opencpi-setup.sh -s``
+
+   ``export OCPI_XILINX_VIVADO_VERSION=2021.1``
+
+#. **Reinstall RCC Platform** ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr-release.tar.xz`` boot artifacts can be implemented into the framework.
 
    #. Remove the old ``xilinx21_1_aarch64`` from ``cdk``
 
@@ -1717,7 +1921,7 @@ Reinstall RCC Platform ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr
 
       ``cd /home/user/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64``
 
-      ``rm -rf /gen /lib``
+      ``rm -rf gen/ lib/``
 
    #. Unregister/Re-register project
 
@@ -1731,244 +1935,43 @@ Reinstall RCC Platform ``xilinx21_1_aarch64`` so that the new ``2021.1-zrf8_48dr
 
       ``cd /home/user/opencpi``
 
-      ``ocpiadmin install platform xilinx21_1_aarch64``
+      ``ocpiadmin install platform xilinx21_1_aarch64 --minimal``
 
-.. _dev-Configure-HDL-Primitive-for-DP:
+.. _dev-Deploy-the-Platforms-for-DP:
 
-Configure HDL Primitive for DP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- Edit the OpenCPI HDL primitive library source to support the Slave High-Performance (HP) ports that were made available in the previous section.
-
-**IMPLEMENTATION:**
-
-
-**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
-
-   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/data-plane/primitives/
-
-..
-
-#. At the start of this effort, perform a clean within the OSP directory to ensure that no stale files exist
-
-   ``cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global``
-
-   ``ocpidev clean``
-
-#. In an effort to avoid stale content, remove the current PS core IP before copying over the updated version
-
-   ``cd /home/user/projects/osps/ocpi.osp.hitech-global/hdl/primitives/zynq_ultra_zrf8_48dr``
-
-   ``rm -rf design_1_zynq_ultra_ps_e_0_0``
-
-#. From :ref:`dev-Configure-PS-for-DP`, copy the updated ``design_1_zynq_ultra_ps_e_0_0`` directory into the ``ocpi.osp.hitech-global`` HDL primitive directory
-
-   ``cd /home/user/zrf8_48dr_dp/
-
-   ``cp -rf /home/user/zrf8_48dr_dp/zrf8_48dr_dp.srcs/sources_1/bd/zynq_system/ip/design_1_zynq_ultra_ps_e_0_0/ /home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/primitives/zynq_ultra_zrf8_48dr/``
-
-
-#. Edit the ``zynq_ultra_zrf8_48dr_pkg.vhd`` file to include the newly enabled Slave HP ports
-
-   #. In the entity, uncomment the ``s_axi_hp_in`` and ``s_axi_hp_out`` ports
-
-#. Edit the ``zynq_ultra_zrf8_48dr_ps.vhd`` file to enable the newly enabled Slave HP ports
-
-   #. In the entity, uncomment the ``s_axi_hp_in`` and ``s_axi_hp_out`` ports
-
-   #. Uncomment all other ports which included:
-
-      #. ``saxihp0_*``, ``saxihp1_*``, ``saxihp2_*``, ``saxihp3_*``
-
-      #. ``saxigp2_*``, ``saxigp3_*``, ``saxigp4_*``, ``saxigp5_*``
-
-   #. Uncomment the ``gs: for i in 0 to C_S_AXI_HP_COUNT-1 generate`` code block
-
-
-.. _dev-Build-HDL-Primitive-with-DP:
-
-Build HDL Primitive with DP
+Deploy the Platforms for DP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- Build the HDL Primitive that implements the DP and which is instanced in the zrf8_48dr HDL Platform
-  Worker
+- To deploy the the HDL Platfrom ``zrf8_48dr`` with the RCC Platform ``xilinx21_1_aarch64`` to create SD-Card artifacts for the ``zrf8_48dr`` device.
 
 **IMPLEMENTATION:**
 
-#. Return to the top of the project
+``ocpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr``
 
-   ``$ cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global``
+.. _dev-Populate-the-SD-Card-Artifacts-for-DP:
 
-#. **Build the primitive library**
-
-   ``$ ocpidev build --hdl-target zynq_ultra``
-
-   ::
-
-      $ ocpidev build --hdl-target zynq_ultra
-      No HDL platforms specified.  No HDL assets will be targeted.
-      Possible HdlPlatforms are: alst4 alst4x isim matchstiq_z1 ml605 modelsim x4sim xsim zcu104 zcu104 zcu104_ise.
-      make[1]: Entering directory `/home/user/opencpi/projects/osps/ocpi.osp.hitech-global'
-      make[1]: Leaving directory `/home/user/opencpi/projects/osps/ocpi.osp.hitech-global'
-      ============== For library zynq_ultra_zrf8_48dr:
-      Building the zynq_ultra_zrf8_48dr library for zynq_ultra (target-zynq_ultra/zynq_ultra_zrf8_48dr) 0:()
-       Tool "vivado" for target "zynq_ultra" succeeded.  0:00.02 at 14:13:29
-      Creating directory ../lib/zynq_ultra_zrf8_48dr for library zynq_ultra_zrf8_48dr
-      No previous installation for gen/zynq_ultra_zrf8_48dr.libs in ../lib/zynq_ultra_zrf8_48dr.
-      Installing gen/zynq_ultra_zrf8_48dr.libs into ../lib/zynq_ultra_zrf8_48dr
-      No previous installation for target-zynq_ultra/zynq_ultra_zrf8_48dr.sources in target-zynq_ultra/zynq_ultra_zrf8_48dr.
-      Installing target-zynq_ultra/zynq_ultra_zrf8_48dr.sources into target-zynq_ultra/zynq_ultra_zrf8_48dr
-      No previous installation for target-zynq_ultra/zynq_ultra_zrf8_48dr in ../lib/zynq_ultra_zrf8_48dr/zynq_ultra.
-      Installing target-zynq_ultra/zynq_ultra_zrf8_48dr into ../lib/zynq_ultra_zrf8_48dr/zynq_ultra
-
-
-.. _dev-Configure-HDL-Platform-Worker-for-DP:
-
-Configure HDL Platform Worker for DP
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Populate the SD-Card Artifacts for DP
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- Edit the HDL Platform Worker files in order to implement the Slave High-Performance (HP) ports that have been made available to the ZynqMP Processing System.
+- To populate the SD-Card Artifacts from the Control-Plane implementation onto a properly formatted SD-Card
 
 **IMPLEMENTATION:**
 
+Be sure that the :ref:`dev-Format-SD-card` section is complete.
 
-**CODEBLOCK**: The code block for the various files that make up the HDL Primitive can be found in the following directory of the ocpi.osp.hitech-global repository:::
+``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/``
 
-   ocpi.osp.hitech-global/guide/zrf8_48dr/code-blocks/data-plane/platforms/
+``sudo rm -rf /run/media/<user>/BOOT/*``
 
-..
+``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
 
-#. Edit the ``zrf8_48dr.xml`` file
+``cp -RLp opencpi/ /run/media/<user>/BOOT/``
 
-   #. Uncomment the ``<sdp name='zynq_ultra' master='true' count='4'/>``
-
-   #. Uncomment the following Properties: ``axi_error``, and ``sdpDropCount``
-
-   #. Leave the ``debug_state*`` properties commented out
-
-#. Edit the ``zrf8_48dr.vhd`` file:
-
-   #. Uncomment the ``library sdp``
-
-   #. Uncomment the newly created ``Slave HP`` signals: ``ps_m_axi_gp_in``, and ``ps_m_axi_gp_out``
-
-   #. Uncomment the sdp signals: ``my_sdp_out``, and ``my_sdp_out_data``
-
-   #. Leave the ``dbg_state*`` signals commented out
-
-   #. Uncomment the ``s_axi_hp_in`` and ``s_axi_hp_out`` signals in the ``ps : zynq_ultra_zrf8_48dr_ps``
-      code block
-
-   #. Uncomment the ``zynq_ultra_out`` and ``zynq_ultra_out_data`` signals in the ``cp : axi_...``
-      code block
-
-   #. Uncomment the generate block for the ``sdp2axi adapter``, leave the ``dbg_state*`` signals
-      commented out
-
-
-.. _dev-Build-HDL-Platform-Worker-with-DP-enabled:
-
-Build HDL Platform Worker with DP enabled
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-#. **Build the HDL Platform Worker and "base" Platform Configuration**
-
-   ``$ cd /home/user/projects/osps/ocpi.osp.hitech-global``
-
-   ``$ ocpidev build --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64``
-
-
-.. _dev-Undo-edits-made-to-validate-HDL-Control-Plane:
-
-Undo edits made to validate HDL Control Plane
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- Initially in support of validating the HDL platform for Control Plane ONLY, several scripts
-  were modified to build and deploy the ``canary`` Control Plane bitstream (pattern_capture). The
-  purpose of this section is to revert those changes such that the ``canary`` Data Plane bitstream
-  (testbias) will be installed (i.e. built) and deployed for the targeted HDL platform.
-
-**IMPLEMENTATION:**
-
-#. ``$ cd /home/user/opencpi``
-
-#. ``$ git checkout tools/scripts/deploy-platform.sh``
-
-#. ``$ git checkout tools/scripts/export-platform-to-framework.sh``
-
-#. ``$ git checkout tools/scripts/ocpiadmin.sh``
-
-.. _dev-Install-and-Deploy-with-DP-enabled:
-
-Install and Deploy with DP enabled
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**GOAL:**
-
-- **Install** and **deploy** the zrf8_48dr for verifying the DP.
-
-  - Installation of the ``ZRF8`` includes building the HDL Container (i.e. bitstream) for verifying
-    the ``Data Plane``.
-
-  - Deploying the ``ZRF8`` involves targeting a specific RCC Platform, which results in the gathering
-    artifacts into a directory that can be copied onto the microSD card.
-
-- This section simply installs/builds the ``testbias`` bitstream and deploys (i.e. updates) the
-  contents of the ``cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/artifacts/.bitz``
-
-**IMPLEMENTATION:**
-
-#. Setup the Software cross-compiler
-
-   #. For this step, section :ref:`dev-Install-and-Deploy-with-CP-enabled` performed all that was
-      necessary.
-
-      .. note::
-
-         **At this point in the development, there is NO NEED to create a
-         2018.3-zrf8_48dr-release.tar.xz file.**
-
-      ..
-
-#. Remove the old ``ZRF8`` installation
-
-   ``$ cd /home/user/opencpi/cdk``
-
-   ``$ rm -rf zrf8_48dr/``
-
-#. Browse to the top of the OpenCPI directory
-
-   ``$ cd /home/user/opencpi``
-
-#. **Install**: zrf8_48dr (an HDL platform)
-
-   ``$ ocpiadmin install platform zrf8_48dr``
-
-#. **Deploy: zrf8_48dr with xilinx21_1_aarch64**
-
-   ``$ ocpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr``
-
-#. **Populate the sd-card artifacts**
-
-   #. Be sure that the :ref:`dev-Format-microSD-card` section is complete.
-
-   #. ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64``
-
-   #. ``sudo rm -rf /run/media/<user>/BOOT/*``
-
-   #. ``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
-
-   #. ``sudo cp -RLp opencpi/ /run/media/<user>/BOOT/``
-
-   #. ``umount /dev/sda1``
+``umount /dev/sda1``
 
 .. _dev-HDL-DP-Verification-testbias-application:
 

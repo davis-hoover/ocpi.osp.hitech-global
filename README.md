@@ -1,5 +1,5 @@
 This is the source distribution of the OpenCPI System Package(s) (OSP) for
-Epiq Solutions devices.
+HiTech Global devices.
 
 OpenCPI is Open Source Software, licensed with the LGPL3. See LICENSE.txt.
 
