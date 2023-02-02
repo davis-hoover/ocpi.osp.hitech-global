@@ -23071,10 +23071,6 @@
 #define IOU_SLCR_MIO_PIN_74_OFFSET                                                 0XFF180128
 #undef IOU_SLCR_MIO_PIN_75_OFFSET 
 #define IOU_SLCR_MIO_PIN_75_OFFSET                                                 0XFF18012C
-#undef IOU_SLCR_MIO_PIN_76_OFFSET 
-#define IOU_SLCR_MIO_PIN_76_OFFSET                                                 0XFF180130
-#undef IOU_SLCR_MIO_PIN_77_OFFSET 
-#define IOU_SLCR_MIO_PIN_77_OFFSET                                                 0XFF180134
 #undef IOU_SLCR_MIO_MST_TRI0_OFFSET 
 #define IOU_SLCR_MIO_MST_TRI0_OFFSET                                               0XFF180204
 #undef IOU_SLCR_MIO_MST_TRI1_OFFSET 
@@ -25607,102 +25603,6 @@
 #define IOU_SLCR_MIO_PIN_75_L3_SEL_DEFVAL                      0x00000000
 #define IOU_SLCR_MIO_PIN_75_L3_SEL_SHIFT                       5
 #define IOU_SLCR_MIO_PIN_75_L3_SEL_MASK                        0x000000E0U
-
-/*
-* Level 0 Mux Select 0= Level 1 Mux Output 1= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_76_L0_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_76_L0_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_76_L0_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_76_L0_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_76_L0_SEL_SHIFT                       1
-#define IOU_SLCR_MIO_PIN_76_L0_SEL_MASK                        0x00000002U
-
-/*
-* Level 1 Mux Select 0= Level 2 Mux Output 1= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_76_L1_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_76_L1_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_76_L1_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_76_L1_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_76_L1_SEL_SHIFT                       2
-#define IOU_SLCR_MIO_PIN_76_L1_SEL_MASK                        0x00000004U
-
-/*
-* Level 2 Mux Select 0= Level 3 Mux Output 1= sd0, Input, sdio0_wp- (SD ca
-    * rd write protect from connector) 2= sd1, Output, sdio1_clk_out- (SDSDIO
-    * clock) 3= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_76_L2_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_76_L2_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_76_L2_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_76_L2_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_76_L2_SEL_SHIFT                       3
-#define IOU_SLCR_MIO_PIN_76_L2_SEL_MASK                        0x00000018U
-
-/*
-* Level 3 Mux Select 0= gpio2, Input, gpio_2_pin_in[24]- (GPIO bank 2) 0=
-    * gpio2, Output, gpio_2_pin_out[24]- (GPIO bank 2) 1= can1, Output, can1_p
-    * hy_tx- (Can TX signal) 2= i2c1, Input, i2c1_scl_input- (SCL signal) 2= i
-    * 2c1, Output, i2c1_scl_out- (SCL signal) 3= mdio0, Output, gem0_mdc- (MDI
-    * O Clock) 4= mdio1, Output, gem1_mdc- (MDIO Clock) 5= mdio2, Output, gem2
-    * _mdc- (MDIO Clock) 6= mdio3, Output, gem3_mdc- (MDIO Clock) 7= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_76_L3_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_76_L3_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_76_L3_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_76_L3_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_76_L3_SEL_SHIFT                       5
-#define IOU_SLCR_MIO_PIN_76_L3_SEL_MASK                        0x000000E0U
-
-/*
-* Level 0 Mux Select 0= Level 1 Mux Output 1= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_77_L0_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_77_L0_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_77_L0_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_77_L0_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_77_L0_SEL_SHIFT                       1
-#define IOU_SLCR_MIO_PIN_77_L0_SEL_MASK                        0x00000002U
-
-/*
-* Level 1 Mux Select 0= Level 2 Mux Output 1= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_77_L1_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_77_L1_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_77_L1_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_77_L1_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_77_L1_SEL_SHIFT                       2
-#define IOU_SLCR_MIO_PIN_77_L1_SEL_MASK                        0x00000004U
-
-/*
-* Level 2 Mux Select 0= Level 3 Mux Output 1= Not Used 2= sd1, Input, sdio
-    * 1_cd_n- (SD card detect from connector) 3= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_77_L2_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_77_L2_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_77_L2_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_77_L2_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_77_L2_SEL_SHIFT                       3
-#define IOU_SLCR_MIO_PIN_77_L2_SEL_MASK                        0x00000018U
-
-/*
-* Level 3 Mux Select 0= gpio2, Input, gpio_2_pin_in[25]- (GPIO bank 2) 0=
-    * gpio2, Output, gpio_2_pin_out[25]- (GPIO bank 2) 1= can1, Input, can1_ph
-    * y_rx- (Can RX signal) 2= i2c1, Input, i2c1_sda_input- (SDA signal) 2= i2
-    * c1, Output, i2c1_sda_out- (SDA signal) 3= mdio0, Input, gem0_mdio_in- (M
-    * DIO Data) 3= mdio0, Output, gem0_mdio_out- (MDIO Data) 4= mdio1, Input,
-    * gem1_mdio_in- (MDIO Data) 4= mdio1, Output, gem1_mdio_out- (MDIO Data) 5
-    * = mdio2, Input, gem2_mdio_in- (MDIO Data) 5= mdio2, Output, gem2_mdio_ou
-    * t- (MDIO Data) 6= mdio3, Input, gem3_mdio_in- (MDIO Data) 6= mdio3, Outp
-    * ut, gem3_mdio_out- (MDIO Data) 7= Not Used
-*/
-#undef IOU_SLCR_MIO_PIN_77_L3_SEL_DEFVAL 
-#undef IOU_SLCR_MIO_PIN_77_L3_SEL_SHIFT 
-#undef IOU_SLCR_MIO_PIN_77_L3_SEL_MASK 
-#define IOU_SLCR_MIO_PIN_77_L3_SEL_DEFVAL                      0x00000000
-#define IOU_SLCR_MIO_PIN_77_L3_SEL_SHIFT                       5
-#define IOU_SLCR_MIO_PIN_77_L3_SEL_MASK                        0x000000E0U
 
 /*
 * Master Tri-state Enable for pin 0, active high

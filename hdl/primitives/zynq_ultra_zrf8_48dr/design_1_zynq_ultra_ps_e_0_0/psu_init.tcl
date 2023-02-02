@@ -11076,56 +11076,6 @@ set psu_mio_init_data {
 		# Configures MIO Pin 75 peripheral interface mapping
 		#(OFFSET, MASK, VALUE)      (0XFF18012C, 0x000000FEU ,0x00000002U)  */
     mask_write 0XFF18012C 0x000000FE 0x00000002
-		# Register : MIO_PIN_76 @ 0XFF180130</p>
-
-		# Level 0 Mux Select 0= Level 1 Mux Output 1= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_76_L0_SEL                                                  0
-
-		# Level 1 Mux Select 0= Level 2 Mux Output 1= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_76_L1_SEL                                                  0
-
-		# Level 2 Mux Select 0= Level 3 Mux Output 1= sd0, Input, sdio0_wp- (SD ca
-    # rd write protect from connector) 2= sd1, Output, sdio1_clk_out- (SDSDIO
-    # clock) 3= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_76_L2_SEL                                                  0
-
-		# Level 3 Mux Select 0= gpio2, Input, gpio_2_pin_in[24]- (GPIO bank 2) 0=
-    # gpio2, Output, gpio_2_pin_out[24]- (GPIO bank 2) 1= can1, Output, can1_p
-    # hy_tx- (Can TX signal) 2= i2c1, Input, i2c1_scl_input- (SCL signal) 2= i
-    # 2c1, Output, i2c1_scl_out- (SCL signal) 3= mdio0, Output, gem0_mdc- (MDI
-    # O Clock) 4= mdio1, Output, gem1_mdc- (MDIO Clock) 5= mdio2, Output, gem2
-    # _mdc- (MDIO Clock) 6= mdio3, Output, gem3_mdc- (MDIO Clock) 7= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_76_L3_SEL                                                  6
-
-		# Configures MIO Pin 76 peripheral interface mapping
-		#(OFFSET, MASK, VALUE)      (0XFF180130, 0x000000FEU ,0x000000C0U)  */
-    mask_write 0XFF180130 0x000000FE 0x000000C0
-		# Register : MIO_PIN_77 @ 0XFF180134</p>
-
-		# Level 0 Mux Select 0= Level 1 Mux Output 1= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_77_L0_SEL                                                  0
-
-		# Level 1 Mux Select 0= Level 2 Mux Output 1= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_77_L1_SEL                                                  0
-
-		# Level 2 Mux Select 0= Level 3 Mux Output 1= Not Used 2= sd1, Input, sdio
-    # 1_cd_n- (SD card detect from connector) 3= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_77_L2_SEL                                                  0
-
-		# Level 3 Mux Select 0= gpio2, Input, gpio_2_pin_in[25]- (GPIO bank 2) 0=
-    # gpio2, Output, gpio_2_pin_out[25]- (GPIO bank 2) 1= can1, Input, can1_ph
-    # y_rx- (Can RX signal) 2= i2c1, Input, i2c1_sda_input- (SDA signal) 2= i2
-    # c1, Output, i2c1_sda_out- (SDA signal) 3= mdio0, Input, gem0_mdio_in- (M
-    # DIO Data) 3= mdio0, Output, gem0_mdio_out- (MDIO Data) 4= mdio1, Input,
-    # gem1_mdio_in- (MDIO Data) 4= mdio1, Output, gem1_mdio_out- (MDIO Data) 5
-    # = mdio2, Input, gem2_mdio_in- (MDIO Data) 5= mdio2, Output, gem2_mdio_ou
-    # t- (MDIO Data) 6= mdio3, Input, gem3_mdio_in- (MDIO Data) 6= mdio3, Outp
-    # ut, gem3_mdio_out- (MDIO Data) 7= Not Used
-		# PSU_IOU_SLCR_MIO_PIN_77_L3_SEL                                                  6
-
-		# Configures MIO Pin 77 peripheral interface mapping
-		#(OFFSET, MASK, VALUE)      (0XFF180134, 0x000000FEU ,0x000000C0U)  */
-    mask_write 0XFF180134 0x000000FE 0x000000C0
 		# Register : MIO_MST_TRI0 @ 0XFF180204</p>
 
 		# Master Tri-state Enable for pin 0, active high
@@ -11235,9 +11185,6 @@ set psu_mio_init_data {
 		# Master Tri-state Enable for pin 42, active high
 		# PSU_IOU_SLCR_MIO_MST_TRI1_PIN_42_TRI                                            0
 
-		# Master Tri-state Enable for pin 44, active high
-		# PSU_IOU_SLCR_MIO_MST_TRI1_PIN_44_TRI                                            1
-
 		# Master Tri-state Enable for pin 45, active high
 		# PSU_IOU_SLCR_MIO_MST_TRI1_PIN_45_TRI                                            1
 
@@ -11296,8 +11243,8 @@ set psu_mio_init_data {
 		# PSU_IOU_SLCR_MIO_MST_TRI1_PIN_63_TRI                                            0
 
 		# MIO pin Tri-state Enables, 63:32
-		#(OFFSET, MASK, VALUE)      (0XFF180208, 0xFFFFF780U ,0x00B03000U)  */
-    mask_write 0XFF180208 0xFFFFF780 0x00B03000
+		#(OFFSET, MASK, VALUE)      (0XFF180208, 0xFFFFE780U ,0x00B02000U)  */
+    mask_write 0XFF180208 0xFFFFE780 0x00B02000
 		# Register : MIO_MST_TRI2 @ 0XFF18020C</p>
 
 		# Master Tri-state Enable for pin 64, active high
@@ -12319,7 +12266,7 @@ set psu_mio_init_data {
 		# PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_17                                1
 
 		# Each bit applies to a single IO. Bit 0 for MIO[26].
-		# PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_18                                0
+		# PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_18                                1
 
 		# Each bit applies to a single IO. Bit 0 for MIO[26].
 		# PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_19                                0
@@ -12343,8 +12290,8 @@ set psu_mio_init_data {
 		# PSU_IOU_SLCR_BANK1_CTRL6_SLOW_FAST_SLEW_N_BIT_25                                1
 
 		# Slew rate control to MIO Bank 1 - control MIO[51:26]
-		#(OFFSET, MASK, VALUE)      (0XFF180168, 0x03FFFFFFU ,0x03F3FFEBU)  */
-    mask_write 0XFF180168 0x03FFFFFF 0x03F3FFEB
+		#(OFFSET, MASK, VALUE)      (0XFF180168, 0x03FFFFFFU ,0x03F7FFEBU)  */
+    mask_write 0XFF180168 0x03FFFFFF 0x03F7FFEB
 		# Register : bank2_ctrl0 @ 0XFF180170</p>
 
 		# Each bit applies to a single IO. Bit 0 for MIO[52].

@@ -123,9 +123,11 @@ This guide requires the creation of many directories. A summary of those directo
 
 **Vendor's reference design(s)**:
 
+   - **The** ``<reference_design>`` **is the Reference Design that is provided by the manufacturer.**
+
    ::
 
-      /home/user/reference_design
+      /home/user/<reference_design>
       /home/user/zrf8_48dr_cp
       /home/user/zrf8_48dr_dp
 
@@ -134,10 +136,12 @@ This guide requires the creation of many directories. A summary of those directo
 
 **Petalinux directories**:
 
+   - **The** ``<vivado_project_directory>`` **is the location where the** ``*.xpr``, ``<vivado_project>.xpr`` **is located.**
+
    ::
 
-      /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp
-      /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp
+      /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp
+      /home/user/zrf8_48dr_dp/<vivado_project_directory>/petalinux_dp
 
    ..
 
@@ -618,23 +622,23 @@ Configure PS for CP
 
 #. Create a copy of the reference design and create a ``Control-Plane`` only version ``zrf8_48dr_cp``
 
+   - **The** ``<reference_design>`` **is the Reference Design that is provided by the manufacturer.**
+
    ``cd /home/user``
 
    ``cp -rf <reference_design>/ ./zrf8_48dr_cp``
 
 #. Open the ``zrf8_48dr_cp`` vivado project
 
+   - **The** ``<vivado_project_directory>`` **is the location where the** ``*.xpr``, ``<vivado_project>.xpr`` **is located.**
+
    ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/``
+   ``cd /home/user/zrf8_48dr_cp/<vivado_project_directory>/``
 
-   ``vivado pl_core.xpr``
+   ``vivado <vivado_project>.xpr``
 
-#. Remove the following files from the ``Design Sources``
-
-   #. ``axi_reg_if``
-
-   #. ``pulse_converter``
+#. Remove all files from the ``Design Sources`` that do not pertain to the Block Design
 
 #. ``Open Block Design``
 
@@ -698,7 +702,7 @@ Configure PS for CP
 
       - File -> Export -> Export Hardware...-> Next -> Pre-synthesis -> Finish
 
-      - Leave the default export location ``pl_core``
+      - Leave the default export location ``<vivado_project_directory>``
 
 #. Close Vivado
 
@@ -763,9 +767,9 @@ Create HDL Primitive for CP
 
    ``rm -rf zynq_ultra_zrf8_48dr.rst``
 
-#. From the Vivado project modified in  :ref:`dev-Configure-PS-for-Control-Plane`, which is specific to using the vendor's reference design for configuring the PS core IP for the ``ZRF8``, browse to the generated artifacts directory, and copy them into the newly created OpenCPI HDL primitive library.
+#. From the Vivado project modified in  :ref:`dev-Configure-PS-for-CP`, which is specific to using the vendor's reference design for configuring the PS core IP for the ``ZRF8``, browse to the generated artifacts directory, and copy them into the newly created OpenCPI HDL primitive library.
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/pl_core.gen/sources_1/bd/design_1/ip/``
+   ``cd /home/user/zrf8_48dr_cp/<vivado_project_directory/<vivado_project>.gen/sources_1/bd/design_1/ip/``
 
    ``cp -rf design_1_zynq_ultra_ps_e_0_0/ <ocpi.osp.hitech-global>/hdl/primitives/zynq_ultra_zrf8_48dr/``
 
@@ -1239,7 +1243,7 @@ Petalinux workspace for CP
 
 #. Create a petalinux project directory for Control-Plane (cp)
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/``
+   ``cd /home/user/zrf8_48dr_cp/<vivado_project_directory>``
 
    ``petalinux-create -t project --template zynqMP --name "petalinux_cp"``
 
@@ -1247,7 +1251,7 @@ Petalinux workspace for CP
 
 #. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step.
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/``
+   ``cd /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/``
 
    ``petalinux-config --get-hw-description=../``
 
@@ -1289,7 +1293,7 @@ Create CP Boot Artifacts
 
 #. Create ``2021.1-zrf8_48dr-release`` directory to store boot artifacts
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/images/linux``
+   ``cd /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/images/linux``
 
    ``mkdir 2021.1-zrf8_48dr-release``
 
@@ -1554,13 +1558,13 @@ Configure PS for DP
 
    ``cp -rf zrf8_48dr_cp/  zrf8_48dr_dp/``
 
-   ``cd zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/``
+   ``cd zrf8_48dr_dp/<vivado_project_directory>/``
 
-#. Open the ``pl_core`` project
+#. Open the ``<vivado_project.xpr`` project
 
    ``source /opt/Xilinx/Vivado/2021.1/settings64.sh``
 
-   ``vivado pl_core.xpr &``
+   ``vivado <vivado_project>.xpr &``
 
 #. Enable the Slave High Performance ports of the PS core IP
 
@@ -1586,7 +1590,7 @@ Configure PS for DP
 
    - File -> Export -> Export Hardware...-> Next -> Pre-synthesis -> Finish
 
-   - Leave the default export location ``pl_core``
+   - Leave the default export location ``<vivado_project_directory>``
 
    - Overwrite the ``*.xsa`` that is there from the Control-Plane section
 
@@ -1631,7 +1635,7 @@ Configure HDL Primitive for DP
 
 #. From :ref:`dev-Configure-PS-for-DP`, copy the updated ``design_1_zynq_ultra_ps_e_0_0`` directory into the ``ocpi.osp.hitech-global`` HDL primitive directory
 
-   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/pl_core.gen/sources_1/bd/design_1/ip/``
+   ``cd /home/user/zrf8_48dr_dp/<vivado_project_directory>/<vivado_project>.gen/sources_1/bd/design_1/ip/``
 
    ``cp -rf design_1_zynq_ultra_ps_e_0_0/ <ocpi.osp.hitech-global>/hdl/primitives/zynq_ultra_zrf8_48dr/``
 
@@ -1842,7 +1846,7 @@ TODO: Include Integrating buildtools-extended into Petalinux picture for GCC Err
 
 #. Create a petalinux project directory for Data-Plane (dp) by making a copy of the ``petalinux_cp`` project
 
-   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/``
+   ``cd /home/user/zrf8_48dr_dp/<vivado_project_directory>/petalinux_cp/``
 
    ``petalinux-build -x mrproper``
 
@@ -1854,7 +1858,7 @@ TODO: Include Integrating buildtools-extended into Petalinux picture for GCC Err
 
 #. Import the Hardware Configuration that was exported from the Vivado project. This is the ``*.xsa`` file that was created during the  File → Export → Export Hardware step.
 
-   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp``
+   ``cd /home/user/zrf8_48dr_dp/<vivado_project_directory>/petalinux_dp``
 
    ``petalinux-config --get-hw-description=../``
 
@@ -1894,7 +1898,7 @@ Create Control-Plane boot artifacts for the framework to leverage when the Platf
 
 #. Create ``2021.1-zrf8_48dr-release`` directory to store boot artifacts
 
-   ``cd /home/user/zrf8_48dr_dp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_dp/images/linux``
+   ``cd /home/user/zrf8_48dr_dp/<vivado_project_directory>/petalinux_dp/images/linux``
 
    ``mkdir 2021.1-zrf8_48dr-release``
 
@@ -2018,101 +2022,279 @@ HDL DP Verification: testbias application
 
 #. Execute the :ref:`dev-Server-Mode-setup` section.
 
-#. Run DP application: ``testbias``
+#. Run ``testbias`` application
 
-   #. ``# cd /home/root/opencpi/applications``
+   ``cd /home/user/opencpi/projects/assets/applications/``
 
-   #. ``# export OCPI_LIBRARY_PATH=../artifacts:../xilinx21_1_aarch64/artifacts``
+   ``export OCPI_LIBRARY_PATH=../imports/ocpi.core/artifacts/:../../assets/artifacts/``
 
-   #. ``# export OCPI_DMA_CACHE_MODE=0`` (required if FOSS version is <v2.4.3)
-
-   #. Confirm that the ``testbias`` application functions as expected by verify the input and
-      output are equal when assigning a testbias of zero 0 (no change).
-
-      ``% ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0 testbias.xml``
-
-      stdout of screen session::
-
-         % cd /home/root/opencpi/applications/
-         % export OCPI_LIBRARY_PATH=../artifacts/:../xilinx21_1_aarch64/artifacts/
-         % export OCPI_DMA_CACHE_MODE=0
-         % ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0^C
-         % ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0 testbias.xml
-         Available containers are:  0: PL:0 [model: hdl os:  platform: zrf8_48dr], 1: rcc0 [model: rcc os: linux platform: xilinx21_1_aarch64]
-         Actual deployment is:
-           Instance  0 file_read (spec ocpi.core.file_read) on rcc container 1: rcc0, using file_read in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_read.rcc.0.xilinx21_1_aarch64.so dated Mon Dec 13 19:04:08 2021
-           Instance  1 bias (spec ocpi.core.bias) on hdl container 0: PL:0, using bias_vhdl/a/bias_vhdl in ../artifacts//testbias_zrf8_48dr_base.bitz dated Mon Dec 13 19:04:08 2021
-           Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: rcc0, using file_write in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_write.rcc.0.xilinx21_1_aarch64.so dated Mon Dec 13 19:04:08 2021
-         Application XML parsed and deployments (containers and artifacts) chosen [0 s 40 ms]
-         Application established: containers, workers, connections all created [0 s 66 ms]
-         Dump of all initial property values:
-         Property   0: file_read.fileName = "test.input" (cached)
-         Property   1: file_read.messagesInFile = "false" (cached)
-         Property   2: file_read.opcode = "0x0" (cached)
-         Property   3: file_read.messageSize = "0x10"
-         Property   4: file_read.granularity = "0x4" (cached)
-         Property   5: file_read.repeat = "false"
-         Property   6: file_read.bytesRead = "0x0"
-         Property   7: file_read.messagesWritten = "0x0"
-         Property   8: file_read.suppressEOF = "false"
-         Property   9: file_read.badMessage = "false"
-         Property  16: bias.biasValue = "0x0" (cached)
-         Property  20: bias.test64 = "0x0"
-         Property  31: file_write.fileName = "test.output" (cached)
-         Property  32: file_write.messagesInFile = "false" (cached)
-         Property  33: file_write.bytesWritten = "0x0"
-         Property  34: file_write.messagesWritten = "0x0"
-         Property  35: file_write.stopOnEOF = "true" (cached)
-         Property  39: file_write.suppressWrites = "false"
-         Property  40: file_write.countData = "false"
-         Property  41: file_write.bytesPerSecond = "0x0"
-         Application started/running [0 s 1 ms]
-         Waiting for application to finish (no time limit)
-         Application finished [0 s 20 ms]
-         Dump of all final property values:
-         Property   0: file_read.fileName = "test.input" (cached)
-         Property   1: file_read.messagesInFile = "false" (cached)
-         Property   2: file_read.opcode = "0x0" (cached)
-         Property   3: file_read.messageSize = "0x10"
-         Property   4: file_read.granularity = "0x4" (cached)
-         Property   5: file_read.repeat = "false" (cached)
-         Property   6: file_read.bytesRead = "0xfa0"
-         Property   7: file_read.messagesWritten = "0xfa"
-         Property   8: file_read.suppressEOF = "false" (cached)
-         Property   9: file_read.badMessage = "false"
-         Property  16: bias.biasValue = "0x0" (cached)
-         Property  20: bias.test64 = "0x0" (cached)
-         Property  31: file_write.fileName = "test.output" (cached)
-         Property  32: file_write.messagesInFile = "false" (cached)
-         Property  33: file_write.bytesWritten = "0xfa0"
-         Property  34: file_write.messagesWritten = "0xfb"
-         Property  35: file_write.stopOnEOF = "true" (cached)
-         Property  39: file_write.suppressWrites = "false" (cached)
-         Property  40: file_write.countData = "false" (cached)
-         Property  41: file_write.bytesPerSecond = "0x44229"
-
-      ..
-
-#. Verify that the data has successfully transferred through the application by performing an
-   m5sum on the input and output data files with bias effectively disabled, by setting the
-   biasValue=0.
-
-   Compare the md5sum of both ``test.input`` and ``test.output``. The stdout should be as follows:
+   ``ocpirun -v -P bias=zrf8_48dr -p bias=biasValue=0 testbias.xml``
 
    ::
 
-      % md5sum test.*
-      2934e1a7ae11b11b88c9b0e520efd978  test.input
-      2934e1a7ae11b11b88c9b0e520efd978  test.output
+       $ ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
+       Received server information from "10.3.10.66:12345".  Available containers are:
+         10.3.10.66:12345/PL:0                platform zcu102, model hdl, os , version , arch , build 
+           Transports: ocpi-dma-pio,00:0a:35:00:22:01,0,0,0x41,0x101|ocpi-socket-rdma, ,1,0,0x42,0x41|
+         10.3.10.66:12345/rcc0                platform xilinx19_2_aarch64, model rcc, os linux, version 19_2, arch aarch64, build 
+           Transports: ocpi-dma-pio,00:0a:35:00:22:01,1,0,0x103,0x103|ocpi-smb-pio,00:0a:35:00:22:01,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
+       Available containers are:  0: 10.3.10.66:12345/PL:0 [model: hdl os:  platform: zcu102], 1: 10.3.10.66:12345/rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
+       Actual deployment is:
+         Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Oct 25 13:35:05 2022
+         Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Oct 25 16:07:24 2022
+         Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 15:25:11 2022
+       Application XML parsed and deployments (containers and artifacts) chosen [0 s 160 ms]
+       Application established: containers, workers, connections all created [0 s 102 ms]
+       Application started/running [0 s 1 ms]
+       Waiting for application to finish (no time limit)
+       Application finished [0 s 20 ms]
 
    ..
 
+#. Validate success
+
+   ``md5sum test.input``
+
+   ``md5sum test.output`` (**On server at ``/home/root/sandbox/test.output``**)
+
+   If they have a matching ``md5sum`` then the application run successfully.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. _dev-HDL-DP-Verification-FSK-application-filerw-mode-label:
+
+HDL DP Verification: FSK application filerw mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**GOAL:**
+
+- (OPTIONAL) Execute another standard application which relies upon the HDL Data Plane
+
+**IMPLEMENTATION:**
+
 .. note::
 
-   **This shows that with a biasvalue=0 (no change in data) that the input matches the output
-   and the testbias application is working as it should.**
+   **The** :ref:`dev-Component-Unit-Test-results-table` **section in the appendix contains the verification test results of the zrf8_48dr board.**
 
 ..
+
+This section is outlined in the following location:
+
+   ``/home/user/opencpi/projects/assets/application/FSK/doc/FSK_app.tex``.
+
+This document covers the FSK ``txrx`` execution mode however, the ``filerw`` execution mode will be used in this section to validate the implementation of the Data Plane. To retrieve the contents of the ``FSK_app.tex`` file install **rubber** and run the following command:
+
+``rubber -d FSK_App_Getting_Started_Guide.tex``
+
+``envince FSK_App_Getting_Started_Guide.pdf``
+
+The following is a step-by-step set of instructions for executing the FSK application in ``filerw`` mode:
+
+#. **Build the FSK Application executable and copy it into the microSD card**
+
+   ``cd /home/user/opencpi/projects/assets/applications/FSK``
+
+   ``ocpidev build --rcc-platform xilinx21_1_aarch64``
+
+   ::
+
+      $ ocpidev build --rcc-platform xilinx21_1_aarch64
+      Compiling source file: FSK.cxx for platform xilinx21_1_aarch64
+      In file included from /home/user/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64/gen/sdk/sysroots/cortexa72-cortexa53-xilinx-linux/usr/include/c++/10.2.0/aarch64-xilinx-linux/bits/os_defines.h:39,
+                       from /home/user/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64/gen/sdk/sysroots/cortexa72-cortexa53-xilinx-linux/usr/include/c++/10.2.0/aarch64-xilinx-linux/bits/c++config.h:518,
+                       from /home/user/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64/gen/sdk/sysroots/cortexa72-cortexa53-xilinx-linux/usr/include/c++/10.2.0/iostream:38,
+                       from FSK.cxx:27:
+      /home/user/opencpi/projects/core/rcc/platforms/xilinx21_1_aarch64/gen/sdk/sysroots/cortexa72-cortexa53-xilinx-linux/usr/include/features.h:397:4: warning: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Wcpp]
+        397 | #  warning _FORTIFY_SOURCE requires compiling with optimization (-O)
+            |    ^~~~~~~
+      Creating executable for "FSK" running on platform xilinx21_1_aarch64 from target-xilinx21_1_aarch64/FSK.o
+      ./scripts/gen_rrcos_taps.py 128 0.95 `echo "1/64000" | bc -l` `echo "64000*39" | bc -l` 4096 idata/tx_rrcos_taps.dat
+      ('\n', '********************************************************************************')
+      *** Python: Generate Root-Raised Cosine taps ***
+      1.2588365809784572
+      [  85   96  105  111  115  116  114  109  100   88   72   53   31    6
+        -21  -50  -81 -113 -145 -177 -207 -235 -259 -280 -295 -305 -307 -302
+       -287 -263 -229 -184 -128  -60   20  112  217  334  462  602  752  912
+       1081 1257 1441 1629 1821 2015 2209 2402 2593 2779 2958 3130 3292 3443
+       3581 3705 3814 3906 3981 4038 4076 4096 4096 4076 4038 3981 3906 3814
+       3705 3581 3443 3292 3130 2958 2779 2593 2402 2209 2015 1821 1629 1441
+       1257 1081  912  752  602  462  334  217  112   20  -60 -128 -184 -229
+       -263 -287 -302 -307 -305 -295 -280 -259 -235 -207 -177 -145 -113  -81
+        -50  -21    6   31   53   72   88  100  109  114  116  115  111  105
+         96   85]
+      127862
+      31.21630859375
+      ./scripts/gen_rrcos_taps.py 128 0.95 `echo "1/64000" | bc -l` `echo "64000*39" | bc -l` 4096 idata/rx_rrcos_taps.dat
+      ('\n', '********************************************************************************')
+      *** Python: Generate Root-Raised Cosine taps ***
+      1.2588365809784572
+      [  85   96  105  111  115  116  114  109  100   88   72   53   31    6
+        -21  -50  -81 -113 -145 -177 -207 -235 -259 -280 -295 -305 -307 -302
+       -287 -263 -229 -184 -128  -60   20  112  217  334  462  602  752  912
+       1081 1257 1441 1629 1821 2015 2209 2402 2593 2779 2958 3130 3292 3443
+       3581 3705 3814 3906 3981 4038 4076 4096 4096 4076 4038 3981 3906 3814
+       3705 3581 3443 3292 3130 2958 2779 2593 2402 2209 2015 1821 1629 1441
+       1257 1081  912  752  602  462  334  217  112   20  -60 -128 -184 -229
+       -263 -287 -302 -307 -305 -295 -280 -259 -235 -207 -177 -145 -113  -81
+        -50  -21    6   31   53   72   88  100  109  114  116  115  111  105
+         96   85]
+      127862
+      31.21630859375
+
+   ..
+
+   ``cd /home/user/opencpi/projects/assets/applications``
+
+   ``cp -rf FSK/ /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_3_aarch64/opencpi/applications``
+
+#. **Build the fsk_filerw HDL Container (i.e. bitstream) and copy it into the microSD card**
+
+   ``cd /home/user/opencpi/projects/assets/hdl/assemblies/fsk_filerw``
+
+   ``ocpidev build --hdl-platform zrf8_48dr``
+
+   ``cd container-fsk_filerw_zrf8_48dr_base/target-zynq_ultra/``
+
+   ``cp fsk_filerw_zrf8_48dr_base.bitz /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/artifacts``
+
+#. Implement missing .so files into the microSD card xilinx21_1_aarch64 artifacts directory
+
+   .. note::
+
+      The following files are needed based off of the **/home/user/opencpi/projects/assets/ applications/FSK/app_fsk_filerw.xml** file under RCC Components. The ocpi.core.file_read is already given but the **ocpi.assets.dsp_comps.baudTracking** and **ocpi.assets.dsp_comps.real_ digitizer** components need to be supplemented. Check the **/home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/xilinx21_1_aarch64/artifacts** to see what is included
+
+   ..
+
+   #. Copy the Baudtracking_simple.so into the microSD card xilinx21_1_aarch64 artifacts directory
+
+      ``cd /home/user/opencpi/projects/assets/components/dsp_comps/Baudtracking_simple.rcc/``
+
+      ``ocpidev build --rcc-platform xilinx21_1_aarch64``
+
+      ``cd target-xilinx21_1_aarch64/``
+
+      ``cp Baudtracking_simple.so /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/xilinx21_1_aarch64/artifacts/``
+
+   #. Copy the real_digitizer.so into the microSD card xilinx21_1_aarch64 artifacts directory
+
+      ``cd /home/user/opencpi/projects/assets/components/dsp_comps/real_digitizer.rcc/``
+
+      ``ocpidev build --rcc-platform xilinx21_1_aarch64``
+
+      ``cd target-xilinx21_1_aarch64/``
+
+      ``cp real_digitizer.so /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/xilinx21_1_aarch64/artifacts/``
+
+#. Copy the newly implemented file onto the microSD card
+
+   ``cp -RLp /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/ /run/media/<user>/root/home/root/``
+
+#. Execute the :ref:`dev-Booting-the-zrf8_48dr` section
+
+#. Execute the :ref:`dev-Standalone-Mode-setup` section
+
+#. **On Device** Setup the library path to the artifacts:
+
+   ``cd /home/root/opencpi/applications/FSK``
+
+   ``export OCPI_LIBRARY_PATH=/home/root/opencpi/artifacts:/home/root/opencpi/xilinx21_1_aarch64/artifacts``
+
+#. **On Device** Run application: FSK filerw:
+
+   ``% ./target-xilinx21_1_aarch64/FSK filerw``
+
+   ::
+
+      % ./target-xilinx21_1_aarch64/FSK filerw
+      Application properties are found in XML file: app_fsk_filerw.xml
+      App initialized.
+      App started.
+      Waiting for done signal from file_write.
+      real_digitizer: sync pattern 0xFACE found
+      App stopped/finished.
+      Bytes to file : 8950
+      TX FIR Real Peak       = 4696
+      Phase to Amp Magnitude = 20000
+      RP Cordic Magnitude    = 19481
+      RX FIR Real Peak       = 13701
+      Application complete
+
+   ..
+
+#. In order to confirm that the output file is correct, it must be copied back to the development
+   host so that the graphical display utility can be executed.
+
+   - Copy/move the ``/home/root/opencpi/applications/FSK/odata/out_app_fsk_filerw.bin`` to the
+     development host.
+
+#. View the results of the output file
+
+   ``eog \<path>/out_app_fsk_filerw.bin``
+
+.. figure:: figures/oriole.png
+   :alt: Oriole
+   :align: center
+
+   Oriole
+
+..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .. _dev-Component-Unit-Testing:
 
@@ -2126,78 +2308,104 @@ Component Unit Testing
 
 .. _dev-Build-the-Unit-Tests-(in-parallel)-on-the-Development-Host:
 
-Build the Unit Tests (in parallel) on the Development Host
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Build the Unit Tests on the Development Host
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This process can be done in parallel. Open three different terminals and build all three Unit Test project directories (core, assets, assets_ts).
+#. Build the component unit tests for project: **core** (Takes several hours)
 
-#. Build the component unit tests from project: **core** (Takes several hours)
+   #. Open a new terminal on your local machine
 
-   Open a new terminal on your local machine
+      ``cd /home/user/opencpi``
 
-   ``cd /home/user/opencpi``
+      ``source cdk/opencpi-setup.sh -s``
 
-   ``source cdk/opencpi-setup.sh -s``
+   #. Build each ``core/components/`` Component Unit Test
 
-   ``cd /home/user/opencpi/projects/core/components``
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/core/components build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
 
-   ``ocpidev build tests --hdl-platform zrf8_48dr``
+#. Build the component unit tests for project: **assets**/**<sub-directory>** (Takes several hours)
 
-#. Build the component unit tests from project: **assets** (Takes several hours)
+   #. Open a new terminal on your local machine
 
-   Open a new terminal on your local machine
+      ``cd /home/user/opencpi``
 
-   ``cd /home/user/opencpi``
+      ``source cdk/opencpi-setup.sh -s``
 
-   ``source cdk/opencpi-setup.sh -s``
+   #. Build each ``assets/components/<sub-directory>`` Component Unit Test
 
-   ``cd /home/user/opencpi/projects/assets/components/<sub-directory>/``
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/base_comps build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
 
-   ``ocpidev build tests --hdl-platform zrf8_48dr``
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/comms_comps build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/dsp_comps build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/misc_comps build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/util_comps build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
 
 #. Build the component unit tests from project: **assets_ts** (Takes several hours)
 
-   Open a new terminal on your local machine
+   #. Open a new terminal on your local machine
 
-   ``cd /home/user/opencpi``
+      ``cd /home/user/opencpi``
 
-   ``source cdk/opencpi-setup.sh -s``
+      ``source cdk/opencpi-setup.sh -s``
 
-   ``cd /home/user/opencpi/projects/assets_ts/components/``
+   #. Build each ``assets_ts/components/`` Component Unit Test
 
-   ``ocpidev build tests --hdl-platform zrf8_48dr``
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets_ts/components build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
 
 
 .. _dev-Run-the-Unit-Tests-(Sequentially)-on-the-Development-Host:
 
 Run the Unit Tests (Sequentially) on the Development Host
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- This section is very painstaking. In order to be certain, that each Component Unit Test is performed, the user must traverse into each unit ``*\.test`` directory of each component library and to execute the unit test.
+This process must be done sequentially, as the FPGA can only load and . Open six different terminals and build all Unit Test project directories (core, assets, assets_ts).
 
-- Some of these tests are known to fail or partically fail, per the their performance on a FOSS supported OSP.
+#. Build the component unit tests for project: **core** (Takes several hours)
 
--  A chart is provided in the** :ref:`dev-Component-Unit-Test-results-table` **section below that outlines the expected outcome for each of these tests (as of v2.4.3).
+   #. Open a new terminal on your local machine
 
-#. Setup for :ref:`dev-Server-Mode-setup`
+      ``cd /home/user/opencpi``
 
-#. Run the component unit tests from project: **core**
+      ``source cdk/opencpi-setup.sh -s``
 
-   ``cd /home/user/opencpi/projects/core/components/<>.test``
+   #. Build each ``core/components/`` Component Unit Test
 
-   ``ocpidev run --only-platform zrf8_48dr --accumulate-errors``
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/core/components run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
 
-#. Run the component unit tests from project: **assets**
+#. Build the component unit tests for project: **assets**/**<sub-directory>** (Takes several hours)
 
-   ``cd /home/user/opencpi/projects/assets/components/<sub-directory>/<>.test``
+   #. Open a new terminal on your local machine
 
-   ``ocpidev run --only-platform zrf8_48dr --accumulate-errors``
+      ``cd /home/user/opencpi``
 
-#. Run the component unit tests from project: **assets_ts**
+      ``source cdk/opencpi-setup.sh -s``
 
-   ``cd /home/user/opencpi/projects/assets_ts/components/<>.test``
+   #. Build each ``assets/components/<sub-directory>`` Component Unit Test
 
-   ``ocpidev run --only-platform zrf8_48dr --accumulate-errors``
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/comms_comps run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/dsp_comps run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/misc_comps run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/util_comps run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
+
+
+#. Build the component unit tests from project: **assets_ts** (Takes several hours)
+
+   #. Open a new terminal on your local machine
+
+      ``cd /home/user/opencpi``
+
+      ``source cdk/opencpi-setup.sh -s``
+
+   #. Build each ``assets_ts/components/`` Component Unit Test
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets_ts/components run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
+
 
 .. _dev-APPENDIX:
 
@@ -2233,27 +2441,27 @@ Untar these files for use in this section:
 
    ``cd petalinux-fix/``
 
-   ``cp htg-zrf8.dtsi system-user.dtsi /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-user/recipes-bsp/device-tree/files``
+   ``cp htg-zrf8.dtsi system-user.dtsi /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-user/recipes-bsp/device-tree/files``
 
-   ``cp device-tree.bbappend /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-user/recipes-bsp/device-tree/``
+   ``cp device-tree.bbappend /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-user/recipes-bsp/device-tree/``
 
 **Network Fix**
 
    This issue presents itself when attempting to to ``run`` Component Units tests on the device using ``Server-Mode``. The device will intermittently lose connection to the host and fail subsequent Component Unit tests.
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/``
+   ``cd /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/``
 
    ``mkdir -p meta-zrf8/recipes-bsp``
 
    ``cd petalinux-fix/``
 
-    ``cp -rf conf/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8/``
+    ``cp -rf conf/ /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-zrf8/``
 
-    ``cp -rf pmu-firmware/ /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/meta-zrf8/recipes-bsp/``
+    ``cp -rf pmu-firmware/ /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-zrf8/recipes-bsp/``
 
 **Edit the config file**
 
-   ``cd /home/user/zrf8_48dr_cp/pl_core/build/htg-zrf8-rev3/pl_core/petalinux_cp/project-spec/configs/``
+   ``cd /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/configs/``
 
    #. Edit the ``config`` file to include the ``petalinux-image-minimal`` line under the ``Image Packaging Configuration``:
 
@@ -2275,10 +2483,6 @@ Untar these files for use in this section:
          CONFIG_USER_LAYER_1=""
 
       ..
-
-- Return to :ref:`dev-Petalinux-workspace-for-Control-Plane` section.
-
-- Return to :ref:`dev-Petalinux-workspace-for-Data-Plane` section.
 
 .. _dev-Format-SD-card:
 
@@ -2585,42 +2789,6 @@ Server Mode setup
 
          ``sudo systemctl status firewalld``
 
-#. Run ``testbias`` application
-
-   ``cd /home/user/opencpi/projects/assets/applications/``
-
-   ``export OCPI_LIBRARY_PATH=../imports/ocpi.core/artifacts/:../../assets/artifacts/``
-
-   ``ocpirun -v -P bias=zrf8_48dr -p bias=biasValue=0 testbias.xml``
-
-   ::
-
-       $ ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
-       Received server information from "10.3.10.66:12345".  Available containers are:
-         10.3.10.66:12345/PL:0                platform zcu102, model hdl, os , version , arch , build 
-           Transports: ocpi-dma-pio,00:0a:35:00:22:01,0,0,0x41,0x101|ocpi-socket-rdma, ,1,0,0x42,0x41|
-         10.3.10.66:12345/rcc0                platform xilinx19_2_aarch64, model rcc, os linux, version 19_2, arch aarch64, build 
-           Transports: ocpi-dma-pio,00:0a:35:00:22:01,1,0,0x103,0x103|ocpi-smb-pio,00:0a:35:00:22:01,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
-       Available containers are:  0: 10.3.10.66:12345/PL:0 [model: hdl os:  platform: zcu102], 1: 10.3.10.66:12345/rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
-       Actual deployment is:
-         Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Oct 25 13:35:05 2022
-         Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Oct 25 16:07:24 2022
-         Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 15:25:11 2022
-       Application XML parsed and deployments (containers and artifacts) chosen [0 s 160 ms]
-       Application established: containers, workers, connections all created [0 s 102 ms]
-       Application started/running [0 s 1 ms]
-       Waiting for application to finish (no time limit)
-       Application finished [0 s 20 ms]
-
-   ..
-
-#. Validate success
-
-   ``md5sum test.input``
-
-   ``md5sum test.output`` (**On server at ``/home/root/sandbox/test.output``**)
-
-   If they have a matching ``md5sum`` then the application run successfully.
 
 .. _dev-Test-results-tables:
 
@@ -2781,4 +2949,6 @@ Application verification results table
 | pattern_capture_asm               | P             |
 +-----------------------------------+---------------+
 | testbias                          | P             |
++-----------------------------------+---------------+
+| fsk_filerw                        | P             |
 +-----------------------------------+---------------+
