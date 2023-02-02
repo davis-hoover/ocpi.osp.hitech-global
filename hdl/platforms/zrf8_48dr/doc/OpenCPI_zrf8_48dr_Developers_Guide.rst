@@ -532,14 +532,14 @@ Create an OpenCPI project for the ZRF8
 
 #. Create a ``Makefile``:
 
-  ::
+   ::
 
-      $(if $(realpath $(OCPI_CDK_DIR)),,\
-        $(error The OCPI_CDK_DIR environment variable is not set correctly.))
-        # This is the Makefile for the ocpi.osp.xilinx project.
-      include $(OCPI_CDK_DIR)/include/project.mk
+       $(if $(realpath $(OCPI_CDK_DIR)),,\
+         $(error The OCPI_CDK_DIR environment variable is not set correctly.))
+         # This is the Makefile for the ocpi.osp.xilinx project.
+       include $(OCPI_CDK_DIR)/include/project.mk
 
-  ..
+   ..
 
 #. Create a ``Project.mk`` file:
 
@@ -2264,38 +2264,6 @@ The following is a step-by-step set of instructions for executing the FSK applic
 
 ..
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .. _dev-Component-Unit-Testing:
 
 Component Unit Testing
@@ -2306,7 +2274,7 @@ Component Unit Testing
 - To build, run and capture the results for each of the Component Unit Tests provided with the OpenCPI framework. The ``PASS`` (P) or ``FAIL`` (F), results for each test are captured in the :ref:`dev-Component-Unit-Test-results-table` section. The table compares the ``PASS and FAIL`` results to the FOSS supported zcu104. Refer to this table to ensure that testing behavior is consistent.
 
 
-.. _dev-Build-the-Unit-Tests-(in-parallel)-on-the-Development-Host:
+.. _dev-Build-the-Unit-Tests-on-the-Development-Host:
 
 Build the Unit Tests on the Development Host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2355,15 +2323,12 @@ Build the Unit Tests on the Development Host
 
       ``ocpidev -d $OCPI_CDK_DIR/../projects/assets_ts/components build tests --hdl-platform zrf8_48dr --rcc-platform xilinx21_1_aarch64 --rcc-platform centos7``
 
+.. _dev-Run-the-Unit-Tests-on-the-Development-Host:
 
-.. _dev-Run-the-Unit-Tests-(Sequentially)-on-the-Development-Host:
+Run the Unit Tests on the Development Host
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Run the Unit Tests (Sequentially) on the Development Host
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This process must be done sequentially, as the FPGA can only load and . Open six different terminals and build all Unit Test project directories (core, assets, assets_ts).
-
-#. Build the component unit tests for project: **core** (Takes several hours)
+#. Run the component unit tests for project: **core** (Takes several hours)
 
    #. Open a new terminal on your local machine
 
@@ -2371,11 +2336,11 @@ This process must be done sequentially, as the FPGA can only load and . Open six
 
       ``source cdk/opencpi-setup.sh -s``
 
-   #. Build each ``core/components/`` Component Unit Test
+   #. Run each ``core/components/`` Component Unit Test
 
       ``ocpidev -d $OCPI_CDK_DIR/../projects/core/components run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
 
-#. Build the component unit tests for project: **assets**/**<sub-directory>** (Takes several hours)
+#. Run the component unit tests for project: **assets**/**<sub-directory>** (Takes several hours)
 
    #. Open a new terminal on your local machine
 
@@ -2383,7 +2348,7 @@ This process must be done sequentially, as the FPGA can only load and . Open six
 
       ``source cdk/opencpi-setup.sh -s``
 
-   #. Build each ``assets/components/<sub-directory>`` Component Unit Test
+   #. Run each ``assets/components/<sub-directory>`` Component Unit Test
 
       ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/comms_comps run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
 
@@ -2394,7 +2359,7 @@ This process must be done sequentially, as the FPGA can only load and . Open six
       ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/util_comps run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
 
 
-#. Build the component unit tests from project: **assets_ts** (Takes several hours)
+#. Run the component unit tests from project: **assets_ts** (Takes several hours)
 
    #. Open a new terminal on your local machine
 
@@ -2402,10 +2367,57 @@ This process must be done sequentially, as the FPGA can only load and . Open six
 
       ``source cdk/opencpi-setup.sh -s``
 
-   #. Build each ``assets_ts/components/`` Component Unit Test
+   #. Run each ``assets_ts/components/`` Component Unit Test
 
       ``ocpidev -d $OCPI_CDK_DIR/../projects/assets_ts/components run --mode prep_run --only-platform zrf8_48dr --accumulate-errors``
 
+.. _dev-Verify-the-Unit-Tests-(Sequentially)-on-the-Development-Host:
+
+Verify the Unit Tests on the Development Host
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Verify the component unit tests for project: **core** (Takes several hours)
+
+   #. Open a new terminal on your local machine
+
+      ``cd /home/user/opencpi``
+
+      ``source cdk/opencpi-setup.sh -s``
+
+   #. Verify each ``core/components/`` Component Unit Test
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/core/components run --mode verify --only-platform zrf8_48dr --accumulate-errors``
+
+#. Verify the component unit tests for project: **assets**/**<sub-directory>** (Takes several hours)
+
+   #. Open a new terminal on your local machine
+
+      ``cd /home/user/opencpi``
+
+      ``source cdk/opencpi-setup.sh -s``
+
+   #. Verify each ``assets/components/<sub-directory>`` Component Unit Test
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/comms_comps run --mode verify --only-platform zrf8_48dr --accumulate-errors``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/dsp_comps run --mode verify --only-platform zrf8_48dr --accumulate-errors``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/misc_comps run --mode verify --only-platform zrf8_48dr --accumulate-errors``
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets/components/util_comps run --mode verify --only-platform zrf8_48dr --accumulate-errors``
+
+
+#. Verify the component unit tests from project: **assets_ts** (Takes several hours)
+
+   #. Open a new terminal on your local machine
+
+      ``cd /home/user/opencpi``
+
+      ``source cdk/opencpi-setup.sh -s``
+
+   #. Verify each ``assets_ts/components/`` Component Unit Test
+
+      ``ocpidev -d $OCPI_CDK_DIR/../projects/assets_ts/components run --mode verify --only-platform zrf8_48dr --accumulate-errors``
 
 .. _dev-APPENDIX:
 
@@ -2455,9 +2467,9 @@ Untar these files for use in this section:
 
    ``cd petalinux-fix/``
 
-    ``cp -rf conf/ /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-zrf8/``
+   ``cp -rf conf/ /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-zrf8/``
 
-    ``cp -rf pmu-firmware/ /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-zrf8/recipes-bsp/``
+   ``cp -rf pmu-firmware/ /home/user/zrf8_48dr_cp/<vivado_project_directory>/petalinux_cp/project-spec/meta-zrf8/recipes-bsp/``
 
 **Edit the config file**
 
@@ -2937,8 +2949,6 @@ Component Unit Test results table
 Application verification results table
 """"""""""""""""""""""""""""""""""""""
 
-+-----------------------------------+---------------+
-| FOSS Version                      | v2.1.0        |
 +-----------------------------------+---------------+
 | Platform Under Test               | zrf8_48dr     |
 +-----------------------------------+---------------+
