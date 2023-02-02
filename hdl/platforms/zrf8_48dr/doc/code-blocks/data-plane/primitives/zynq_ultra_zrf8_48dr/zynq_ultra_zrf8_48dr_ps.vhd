@@ -24,6 +24,7 @@ library IEEE; use IEEE.std_logic_1164.all; use ieee.numeric_std.all;
 library ocpi; use ocpi.types.all; -- remove this to avoid all ocpi name collisions
 library zynq_ultra_zrf8_48dr; use zynq_ultra_zrf8_48dr.zynq_ultra_zrf8_48dr_pkg.all;
 library axi; use axi.axi_pkg.all;
+
 entity zynq_ultra_zrf8_48dr_ps is
   port(ps_in        : in    pl2ps_t;
        ps_out       : out   ps2pl_t;
@@ -32,9 +33,13 @@ entity zynq_ultra_zrf8_48dr_ps is
        s_axi_hp_in  : in    axi.zynq_ultra_s_hp.axi_m2s_array_t(0 to C_S_AXI_HP_COUNT-1);
        s_axi_hp_out : out   axi.zynq_ultra_s_hp.axi_s2m_array_t(0 to C_S_AXI_HP_COUNT-1));
 end entity zynq_ultra_zrf8_48dr_ps;
+
 architecture rtl of zynq_ultra_zrf8_48dr_ps is
   COMPONENT design_1_zynq_ultra_ps_e_0_0 is
     PORT (
+      pl_resetn0 : OUT STD_LOGIC;
+      pl_clk0 : OUT STD_LOGIC;
+
       maxihpm0_fpd_aclk : IN STD_LOGIC;
 
       maxigp0_awid : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -245,15 +250,16 @@ architecture rtl of zynq_ultra_zrf8_48dr_ps is
       saxigp5_rvalid : OUT STD_LOGIC;
       saxigp5_rready : IN STD_LOGIC;
       saxigp5_awqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-      saxigp5_arqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-
-      pl_resetn0 : OUT STD_LOGIC;
-      pl_clk0 : OUT STD_LOGIC
+      saxigp5_arqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0)
     );
   END COMPONENT design_1_zynq_ultra_ps_e_0_0;
+
 begin
   U0 : design_1_zynq_ultra_ps_e_0_0
     PORT MAP (
+      pl_resetn0 => ps_out.FCLKRESET_N,
+      pl_clk0 => ps_out.FCLK(0),
+
       maxihpm0_fpd_aclk => m_axi_hp_in(0).A.CLK,
 
       maxigp0_awid => m_axi_hp_out(0).AW.ID, --[15:0]
@@ -464,10 +470,9 @@ begin
       saxigp5_rvalid => s_axi_hp_out(3).R.VALID,
       saxigp5_rready => s_axi_hp_in(3).R.READY,
       saxigp5_awqos => s_axi_hp_in(3).AW.QOS, --[3:0]
-      saxigp5_arqos => s_axi_hp_in(3).AR.QOS, --[3:0]
-      pl_resetn0 => ps_out.FCLKRESET_N,
-      pl_clk0 => ps_out.FCLK(0)
+      saxigp5_arqos => s_axi_hp_in(3).AR.QOS --[3:0]
     );
+
   -- Finally we drive the signals out of this module to make the interfaces more AXI4 compliant.
   -- I.e. AXI4 signals that are somehow not driven by the PS hardware
   -- This reduces warnings so we can actually see if anything is not driven that should be
@@ -478,6 +483,7 @@ begin
     m_axi_hp_out(i).AW.USER   <= (others => '0');
     m_axi_hp_out(i).W.USER    <= (others => '0');
   end generate;
+
   gs: for i in 0 to C_S_AXI_HP_COUNT-1 generate
     s_axi_hp_out(i).R.USER    <= (others => '0');
     s_axi_hp_out(i).B.USER    <= (others => '0');

@@ -329,7 +329,6 @@ set_property PACKAGE_PIN J38     [get_ports {FMC_PL_DP1_M2C_P}];
 
 #set_property PACKAGE_PIN G34     [get_ports {FMC_PL_DP2_C2M_N}];
 #set_property PACKAGE_PIN G33     [get_ports {FMC_PL_DP2_C2M_P}];
-#set_property IOSTANDARD LVDS     [get_ports {FMC_PL_DP2_C2M_P}];
 
 set_property PACKAGE_PIN H37     [get_ports {FMC_PL_DP2_M2C_N}];
 set_property PACKAGE_PIN H36     [get_ports {FMC_PL_DP2_M2C_P}];

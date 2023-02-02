@@ -331,6 +331,89 @@ Run the testbias application using Standalone-Mode
 
    ``ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0 testbias.xml``
 
+   stdout of screen session::
+
+      % cd /home/root/opencpi/applications/
+      % export OCPI_LIBRARY_PATH=../artifacts/:../xilinx21_1_aarch64/artifacts/
+      % export OCPI_DMA_CACHE_MODE=0
+      % ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0^C
+      % ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0 testbias.xml
+      Available containers are:  0: PL:0 [model: hdl os:  platform: zrf8_48dr], 1: rcc0 [model: rcc os: linux platform: xilinx21_1_aarch64]
+      Actual deployment is:
+        Instance  0 file_read (spec ocpi.core.file_read) on rcc container 1: rcc0, using file_read in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_read.rcc.0.xilinx21_1_aarch64.so dated Mon Dec 13 19:04:08 2021
+        Instance  1 bias (spec ocpi.core.bias) on hdl container 0: PL:0, using bias_vhdl/a/bias_vhdl in ../artifacts//testbias_zrf8_48dr_base.bitz dated Mon Dec 13 19:04:08 2021
+        Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: rcc0, using file_write in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_write.rcc.0.xilinx21_1_aarch64.so dated Mon Dec 13 19:04:08 2021
+      Application XML parsed and deployments (containers and artifacts) chosen [0 s 40 ms]
+      Application established: containers, workers, connections all created [0 s 66 ms]
+      Dump of all initial property values:
+      Property   0: file_read.fileName = "test.input" (cached)
+      Property   1: file_read.messagesInFile = "false" (cached)
+      Property   2: file_read.opcode = "0x0" (cached)
+      Property   3: file_read.messageSize = "0x10"
+      Property   4: file_read.granularity = "0x4" (cached)
+      Property   5: file_read.repeat = "false"
+      Property   6: file_read.bytesRead = "0x0"
+      Property   7: file_read.messagesWritten = "0x0"
+      Property   8: file_read.suppressEOF = "false"
+      Property   9: file_read.badMessage = "false"
+      Property  16: bias.biasValue = "0x0" (cached)
+      Property  20: bias.test64 = "0x0"
+      Property  31: file_write.fileName = "test.output" (cached)
+      Property  32: file_write.messagesInFile = "false" (cached)
+      Property  33: file_write.bytesWritten = "0x0"
+      Property  34: file_write.messagesWritten = "0x0"
+      Property  35: file_write.stopOnEOF = "true" (cached)
+      Property  39: file_write.suppressWrites = "false"
+      Property  40: file_write.countData = "false"
+      Property  41: file_write.bytesPerSecond = "0x0"
+      Application started/running [0 s 1 ms]
+      Waiting for application to finish (no time limit)
+      Application finished [0 s 20 ms]
+      Dump of all final property values:
+      Property   0: file_read.fileName = "test.input" (cached)
+      Property   1: file_read.messagesInFile = "false" (cached)
+      Property   2: file_read.opcode = "0x0" (cached)
+      Property   3: file_read.messageSize = "0x10"
+      Property   4: file_read.granularity = "0x4" (cached)
+      Property   5: file_read.repeat = "false" (cached)
+      Property   6: file_read.bytesRead = "0xfa0"
+      Property   7: file_read.messagesWritten = "0xfa"
+      Property   8: file_read.suppressEOF = "false" (cached)
+      Property   9: file_read.badMessage = "false"
+      Property  16: bias.biasValue = "0x0" (cached)
+      Property  20: bias.test64 = "0x0" (cached)
+      Property  31: file_write.fileName = "test.output" (cached)
+      Property  32: file_write.messagesInFile = "false" (cached)
+      Property  33: file_write.bytesWritten = "0xfa0"
+      Property  34: file_write.messagesWritten = "0xfb"
+      Property  35: file_write.stopOnEOF = "true" (cached)
+      Property  39: file_write.suppressWrites = "false" (cached)
+      Property  40: file_write.countData = "false" (cached)
+      Property  41: file_write.bytesPerSecond = "0x44229"
+
+   ..
+
+#. Verify that the data has successfully transferred through the application by performing an
+   m5sum on the input and output data files with bias effectively disabled, by setting the
+   biasValue=0.
+
+   Compare the md5sum of both ``test.input`` and ``test.output``. The stdout should be as follows:
+
+   ::
+
+      % md5sum test.*
+      2934e1a7ae11b11b88c9b0e520efd978  test.input
+      2934e1a7ae11b11b88c9b0e520efd978  test.output
+
+   ..
+
+   .. note::
+
+      **This shows that with a biasvalue=0 (no change in data) that the input matches the output
+      and the testbias application is working as it should.**
+
+   ..
+
 .. _Server-Mode-setup:
 
 Server Mode setup

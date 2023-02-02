@@ -24,6 +24,7 @@ library IEEE; use IEEE.std_logic_1164.all; use ieee.numeric_std.all;
 library ocpi; use ocpi.types.all; -- remove this to avoid all ocpi name collisions
 library zynq_ultra_zrf8_48dr; use zynq_ultra_zrf8_48dr.zynq_ultra_zrf8_48dr_pkg.all;
 library axi; use axi.axi_pkg.all;
+
 entity zynq_ultra_zrf8_48dr_ps is
   port(ps_in        : in    pl2ps_t;
        ps_out       : out   ps2pl_t;
@@ -32,6 +33,7 @@ entity zynq_ultra_zrf8_48dr_ps is
        --s_axi_hp_in  : in    axi.zynq_ultra_s_hp.axi_m2s_array_t(0 to C_S_AXI_HP_COUNT-1);
        --s_axi_hp_out : out   axi.zynq_ultra_s_hp.axi_s2m_array_t(0 to C_S_AXI_HP_COUNT-1));
 end entity zynq_ultra_zrf8_48dr_ps;
+
 architecture rtl of zynq_ultra_zrf8_48dr_ps is
   COMPONENT design_1_zynq_ultra_ps_e_0_0 is
     PORT (
@@ -39,7 +41,6 @@ architecture rtl of zynq_ultra_zrf8_48dr_ps is
       pl_clk0 : OUT STD_LOGIC;
 
       maxihpm0_fpd_aclk : IN STD_LOGIC;
-      --maxihpm0_lpd_aclk : IN STD_LOGIC;
 
       maxigp0_awid : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
       maxigp0_awaddr : OUT STD_LOGIC_VECTOR(39 DOWNTO 0);
@@ -83,8 +84,6 @@ architecture rtl of zynq_ultra_zrf8_48dr_ps is
 
       -- DATA PLANE START HERE:
       -------------------------------------------------------------------------------
-      --saxihp0_fpd_rclk : IN STD_LOGIC;
-      --saxihp0_fpd_wclk : IN STD_LOGIC;
       --saxihp0_fpd_aclk : IN STD_LOGIC;
 
       --saxigp2_aruser : IN STD_LOGIC;
@@ -126,13 +125,7 @@ architecture rtl of zynq_ultra_zrf8_48dr_ps is
       --saxigp2_rready : IN STD_LOGIC;
       --saxigp2_awqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
       --saxigp2_arqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp2_rcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp2_wcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp2_racount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp2_wacount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 
-      --saxihp1_fpd_rclk : IN STD_LOGIC;
-      --saxihp1_fpd_wclk : IN STD_LOGIC;
       --saxihp1_fpd_aclk : IN STD_LOGIC;
 
       --saxigp3_aruser : IN STD_LOGIC;
@@ -174,13 +167,7 @@ architecture rtl of zynq_ultra_zrf8_48dr_ps is
       --saxigp3_rready : IN STD_LOGIC;
       --saxigp3_awqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
       --saxigp3_arqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp3_rcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp3_wcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp3_racount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp3_wacount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 
-      --saxihp2_fpd_rclk : IN STD_LOGIC;
-      --saxihp2_fpd_wclk : IN STD_LOGIC;
       --saxihp2_fpd_aclk : IN STD_LOGIC;
 
       --saxigp4_aruser : IN STD_LOGIC;
@@ -222,13 +209,7 @@ architecture rtl of zynq_ultra_zrf8_48dr_ps is
       --saxigp4_rready : IN STD_LOGIC;
       --saxigp4_awqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
       --saxigp4_arqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp4_rcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp4_wcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp4_racount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp4_wacount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
 
-      --saxihp3_fpd_rclk : IN STD_LOGIC;
-      --saxihp3_fpd_wclk : IN STD_LOGIC;
       --saxihp3_fpd_aclk : IN STD_LOGIC;
 
       --saxigp5_aruser : IN STD_LOGIC;
@@ -270,59 +251,16 @@ architecture rtl of zynq_ultra_zrf8_48dr_ps is
       --saxigp5_rready : IN STD_LOGIC;
       --saxigp5_awqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
       --saxigp5_arqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp5_rcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp5_wcount : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-      --saxigp5_racount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-      --saxigp5_wacount : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
     );
   END COMPONENT design_1_zynq_ultra_ps_e_0_0;
+
 begin
   U0 : design_1_zynq_ultra_ps_e_0_0
-    --GENERIC MAP (
-    --  C_DP_USE_AUDIO => 0,
-    --  C_DP_USE_VIDEO => 0,
-    --  C_MAXIGP0_DATA_WIDTH => 32,
-    --  C_MAXIGP1_DATA_WIDTH => 32,
-    --  C_MAXIGP2_DATA_WIDTH => 32,
-    --  C_SAXIGP0_DATA_WIDTH => 128,
-    --  C_SAXIGP1_DATA_WIDTH => 128,
-    --  C_SAXIGP2_DATA_WIDTH => 64,
-    --  C_SAXIGP3_DATA_WIDTH => 64,
-    --  C_SAXIGP4_DATA_WIDTH => 64,
-    --  C_SAXIGP5_DATA_WIDTH => 64,
-    --  C_SAXIGP6_DATA_WIDTH => 128,
-    --  C_USE_DIFF_RW_CLK_GP0 => 0,
-    --  C_USE_DIFF_RW_CLK_GP1 => 0,
-    --  C_USE_DIFF_RW_CLK_GP2 => 0,
-    --  C_USE_DIFF_RW_CLK_GP3 => 0,
-    --  C_USE_DIFF_RW_CLK_GP4 => 0,
-    --  C_USE_DIFF_RW_CLK_GP5 => 0,
-    --  C_USE_DIFF_RW_CLK_GP6 => 0,
-    --  C_EN_FIFO_ENET0 => "0",
-    --  C_EN_FIFO_ENET1 => "0",
-    --  C_EN_FIFO_ENET2 => "0",
-    --  C_EN_FIFO_ENET3 => "0",
-    --  C_PL_CLK0_BUF => "TRUE",
-    --  C_PL_CLK1_BUF => "FALSE",
-    --  C_PL_CLK2_BUF => "FALSE",
-    --  C_PL_CLK3_BUF => "FALSE",
-    --  C_TRACE_PIPELINE_WIDTH => 8,
-    --  C_EN_EMIO_TRACE => 0,
-    --  C_TRACE_DATA_WIDTH => 32,
-    --  C_USE_DEBUG_TEST => 0,
-    --  C_SD0_INTERNAL_BUS_WIDTH => 8,
-    --  C_SD1_INTERNAL_BUS_WIDTH => 8,
-    --  C_NUM_F2P_0_INTR_INPUTS => 1,
-    --  C_NUM_F2P_1_INTR_INPUTS => 1,
-    --  C_EMIO_GPIO_WIDTH => 1,
-    --  C_NUM_FABRIC_RESETS => 1
-    --)
     PORT MAP (
       pl_resetn0 => ps_out.FCLKRESET_N,
       pl_clk0 => ps_out.FCLK(0),
 
       maxihpm0_fpd_aclk => m_axi_hp_in(0).A.CLK,
-      --maxihpm0_lpd_aclk => '0',
 
       maxigp0_awid => m_axi_hp_out(0).AW.ID, --[15:0]
       maxigp0_awaddr => m_axi_hp_out(0).AW.ADDR, --[39:0]
@@ -362,12 +300,10 @@ begin
       maxigp0_rvalid => m_axi_hp_in(0).R.VALID,
       maxigp0_rready => m_axi_hp_out(0).R.READY,
       maxigp0_awqos => m_axi_hp_out(0).AW.QOS, --[3:0]
-      maxigp0_arqos => m_axi_hp_out(0).AR.QOS --[3:0]
+      maxigp0_arqos => m_axi_hp_out(0).AR.QOS, --[3:0]
 
       -- DATA PLANE START HERE:
       -------------------------------------------------------------------------------
-      --saxihp0_fpd_rclk => '0',
-      --saxihp0_fpd_wclk => '0',
       --saxihp0_fpd_aclk => s_axi_hp_in(0).A.CLK,
 
       --saxigp2_aruser => '0',
@@ -410,8 +346,6 @@ begin
       --saxigp2_awqos => s_axi_hp_in(0).AW.QOS, --[3:0]
       --saxigp2_arqos => s_axi_hp_in(0).AR.QOS, --[3:0]
 
-      --saxihp1_fpd_rclk => '0',
-      --saxihp1_fpd_wclk => '0',
       --saxihp1_fpd_aclk => s_axi_hp_in(1).A.CLK,
 
       --saxigp3_awuser => '0',
@@ -454,8 +388,6 @@ begin
       --saxigp3_awqos => s_axi_hp_in(1).AW.QOS, --[3:0]
       --saxigp3_arqos => s_axi_hp_in(1).AR.QOS, --[3:0]
 
-      --saxihp2_fpd_rclk => '0',
-      --saxihp2_fpd_wclk => '0',
       --saxihp2_fpd_aclk => s_axi_hp_in(2).A.CLK,
 
       --saxigp4_aruser => '0',
@@ -542,6 +474,7 @@ begin
       --saxigp5_awqos => s_axi_hp_in(3).AW.QOS, --[3:0]
       --saxigp5_arqos => s_axi_hp_in(3).AR.QOS, --[3:0]
     );
+
   -- Finally we drive the signals out of this module to make the interfaces more AXI4 compliant.
   -- I.e. AXI4 signals that are somehow not driven by the PS hardware
   -- This reduces warnings so we can actually see if anything is not driven that should be
@@ -552,6 +485,7 @@ begin
     m_axi_hp_out(i).AW.USER   <= (others => '0');
     m_axi_hp_out(i).W.USER    <= (others => '0');
   end generate;
+
   --gs: for i in 0 to C_S_AXI_HP_COUNT-1 generate
   --  s_axi_hp_out(i).R.USER    <= (others => '0');
   --  s_axi_hp_out(i).B.USER    <= (others => '0');

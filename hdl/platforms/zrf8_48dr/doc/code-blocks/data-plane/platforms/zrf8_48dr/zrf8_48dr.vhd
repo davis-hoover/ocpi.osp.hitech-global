@@ -24,6 +24,7 @@ library axi; use axi.axi_pkg.all;
 library unisim; use unisim.vcomponents.all;
 --library bsv;
 library sdp; use sdp.sdp.all;
+
 architecture rtl of zrf8_48dr_worker is
   signal ps_m_axi_gp_in   : axi.zynq_ultra_m_hp.axi_s2m_array_t(0 to C_M_AXI_HP_COUNT-1); -- s2m
   signal ps_m_axi_gp_out  : axi.zynq_ultra_m_hp.axi_m2s_array_t(0 to C_M_AXI_HP_COUNT-1); -- m2s
@@ -39,18 +40,22 @@ architecture rtl of zrf8_48dr_worker is
   --signal dbg_state        : ulonglong_array_t(0 to 3);
   --signal dbg_state1       : ulonglong_array_t(0 to 3);
   --signal dbg_state2       : ulonglong_array_t(0 to 3);
+
 begin
   -- Drive metadata interface - boiler plate
   metadata_out.clk     <= clk;
   metadata_out.romAddr <= props_in.romAddr;
   metadata_out.romEn   <= props_in.romData_read;
+
   -- Drive timekeepping interface - depends on which clock, and whether there is a PPS input
   timebase_out.clk      <= clk;
   timebase_out.PPS      <= '0';
   timebase_out.usingPPS <= '0'; -- When not using PPS, drive usingPPS low
+
   -- Use a global clock buffer for this clock used for both control and data
   clkbuf : BUFG port map(I => fclk(0),
                          O => clk);
+
   -- The FCLKRESET signals from the PS are documented as asynchronous with the
   -- associated FCLK for whatever reason.  Here we make a synchronized reset from it.
   -- cdc.cdc reset allows one to take in active low reset and output an active high or low reset
@@ -61,11 +66,12 @@ begin
                 dst_clk => clk,
                 dst_rst => reset,
                 dst_rst_n => open);
+
   -- Instantiate the processor system (i.e. the interface to it).
   ps : zynq_ultra_zrf8_48dr_ps
     port map(
       -- Signals from the PS used in the PL
-      ps_in.debug => (others => '0'),
+      ps_in.debug           => (others => '0'),
       ps_out.FCLK           => fclk,
       ps_out.FCLKRESET_N    => raw_rst_n,
       m_axi_hp_in           => ps_m_axi_gp_in,
@@ -82,9 +88,11 @@ begin
       axi_out => ps_m_axi_gp_in(0),
       cp_in   => cp_in,
       cp_out  => cp_out);
+
   zynq_ultra_out               <= my_sdp_out;
   zynq_ultra_out_data          <= my_sdp_out_data;
   props_out.sdpDropCount <= zynq_ultra_in(0).dropCount;
+
   -- We use one sdp2axi adapter foreach of the processor's S_AXI_HP channels
   g : for i in 0 to C_S_AXI_HP_COUNT-1 generate
     dp : axi.zynq_ultra_s_hp.sdp2axi_zynq_ultra_s_hp
