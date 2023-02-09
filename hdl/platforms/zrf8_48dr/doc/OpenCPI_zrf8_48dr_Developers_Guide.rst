@@ -232,7 +232,6 @@ Review Vendor's Reference Design Package
 
    #. HiTech-Global ZRF8 Users Guide
 
-cpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr
    #. HiTech-Global ZRF8 Schematic
 
 #. Run the various examples application(s)
@@ -1421,7 +1420,7 @@ HDL CP Verification: OpenCPI Magic Word
 
 **IMPLEMENTATION:**
 
-#. Perform the :ref:`dev-Booting-the-zrf8_48dr` section in the Appendix to setup the ``zrf8_48dr`` device.
+#. Perform the :ref:`dev-Booting-the-HTG-RF8-48DR` section in the Appendix to setup the HTG RF8-48DR device.
 
 #. Perform the following commands to verify that the Control Plane is successfully enabled:
 
@@ -1446,12 +1445,11 @@ HDL CP Verification: Pattern Capture application
 
 **GOAL:**
 
-- Setup the zrf8_48dr with the OpenCPI runtime environment and run the ``canary`` Control Plane test
-  application ``pattern_capture``
+- Setup the zrf8_48dr with the OpenCPI runtime environment and run the ``canary`` Control Plane test application ``pattern_capture``
 
 **IMPLEMENTATION:**
 
-#. Perform the :ref:`dev-Booting-the-zrf8_48dr` section in the Appendix to setup the ``zrf8_48dr`` device.
+#. Perform the :ref:`dev-Booting-the-HTG-RF8-48DR` section in the Appendix to setup the HTG RF8-48DR device.
 
 #. During the next step (Execute the Standalone Mode setup section) implement the ``mysetup.sh`` script to target the ``pattern_capture_asm`` bitstream, rather than the ``testbias`` bitream.
 
@@ -1984,7 +1982,7 @@ Deploy the Platforms for DP
 
 **GOAL:**
 
-- To deploy the the HDL Platfrom ``zrf8_48dr`` with the RCC Platform ``xilinx21_1_aarch64`` to create SD-Card artifacts for the ``zrf8_48dr`` device.
+- To deploy the HDL Platform ``zrf8_48dr`` with the RCC Platform ``xilinx21_1_aarch64`` to create SD-Card artifacts for the HTG RF8-48DR device.
 
 **IMPLEMENTATION:**
 
@@ -2024,13 +2022,13 @@ HDL DP Verification: testbias application
 
 .. note::
 
-   **The** :ref:`dev-Component-Unit-Test-results-table` **section in the APPENDIX contains the verfication test results of the zrf8_48dr board.**
+   **The** :ref:`dev-Component-Unit-Test-results-table` **section in the APPENDIX contains the verfication test results of the HTG RF8-48DR board.**
 
 ..
 
 **IMPLEMENTATION:**
 
-#. Perform the :ref:`dev-Booting-the-zrf8_48dr` section in the Appendix to setup the ``zrf8_48dr`` device.
+#. Perform the :ref:`dev-Booting-the-HTG-RF8-48DR` section in the Appendix to setup the HTG RF8-48DR device.
 
 #. Execute the :ref:`dev-Server-Mode-setup` section.
 
@@ -2084,7 +2082,7 @@ HDL DP Verification: FSK application filerw mode
 
 .. note::
 
-   **The** :ref:`dev-Component-Unit-Test-results-table` **section in the appendix contains the verification test results of the zrf8_48dr board.**
+   **The** :ref:`dev-Component-Unit-Test-results-table` **section in the appendix contains the verification test results of the HTG RF8-48DR board.**
 
 ..
 
@@ -2527,26 +2525,26 @@ A valid SD-Card with a ``boot`` partition needs to be made.
 
 #. Check that the partition ``boot`` has been created
 
-.. _dev-Booting-the-zrf8_48dr:
+.. _dev-Booting-the-HTG-RF8-48DR:
 
-Booting the zrf8_48dr
-^^^^^^^^^^^^^^^^^^^^^
+Booting the HTG RF8-48DR
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
-- To properly setup the ``zrf8_48dr`` device hardware.
+- To properly setup the HTG RF8-48DR device hardware.
 
 - To properly initialize a boot sequence.
 
 **Implementation**
 
-#. Power down the ``zrf8_48dr`` unit
+#. Power down the HTG RF8-48DR unit
 
-#. With contents provided in either the :ref:`dev-Populate-the-SD-Card-Artifacts-for-CP` section or the :ref:`dev-Populate-the-SD-Card-Artifacts-for-DP` section, insert the micro SD-Card into the ``zrf8_48dr`` micro SD-Card slot.
+#. With contents provided in either the :ref:`dev-Populate-the-SD-Card-Artifacts-for-CP` section or the :ref:`dev-Populate-the-SD-Card-Artifacts-for-DP` section, insert the micro SD-Card into the HTG RF8-48DR micro SD-Card slot.
 
-#. Attach a micro-USB serial port from the ``zrf8_48dr`` to the host (Needed for both ``Standalone-Mode`` and ``Server-Mode``)
+#. Attach a micro-USB serial port from the HTG RF8-48DR to the host (Needed for both ``Standalone-Mode`` and ``Server-Mode``)
 
-#. Attach an ethernet cable from the ``zrf8_48dr`` to the host (Only needed for ``Server-Mode``)
+#. Attach an ethernet cable from the HTG RF8-48DR to the host (Only needed for ``Server-Mode``)
 
 #. Establish a serial connection
 

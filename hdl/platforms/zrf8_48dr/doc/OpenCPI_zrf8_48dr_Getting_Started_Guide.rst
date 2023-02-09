@@ -40,7 +40,7 @@ Revision History
 Hitech Global Documentation
 ---------------------------
 
-This document provides installation information that is specific to the ``HiTech Global zrf8_48dr`` OSP, herein ``zrf8_48dr``. It is assumed that the user understands the material and procedures that are defined in the OpenCPI documentation. To avoid reproducing redundant information in an effort of keeping this guide concise, the following documents are referenced to the tasks described in this document:
+This document provides installation information that is specific to the ``HiTech Global HTG RF8-48DR`` OSP, herein ``zrf8_48dr``. It is assumed that the user understands the material and procedures that are defined in the OpenCPI documentation. To avoid reproducing redundant information in an effort of keeping this guide concise, the following documents are referenced to the tasks described in this document:
 
 .. csv-table::
    :header: "Document", "Source", "Location"
@@ -208,7 +208,7 @@ Device Overview
 
 **Power Cable**
 
-The 6-pin Molex PCIe power cable labeled PWR in the picture below, is used to apply power to the zrf8_48dr device.
+The 6-pin Molex PCIe power cable labeled PWR in the picture below, is used to apply power to the HTG RF8-48DR device.
 
 **Micro-USB**
 
@@ -231,7 +231,7 @@ The Ethernet port in the picture below labeled ETH is used as an Ethernet connec
 Populating SD-Card artifacts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Once the ``zrf8_48dr`` HDL Platform and ``xilinx21_1_aarch64`` RCC Platform have been successfully deployed in the :ref:`deploy-the-platforms`, the following steps can be taken in order to create a valid microSD card to boot the ``zrf8_48dr`` device.
+Once the ``zrf8_48dr`` HDL Platform and ``xilinx21_1_aarch64`` RCC Platform have been successfully deployed in the :ref:`deploy-the-platforms`, the following steps can be taken in order to create a valid microSD card to boot the HTG RF8-48DR device.
 
 #. Complete the steps in the :ref:`creating-a-valid-sd-card` sections of the APPENDIX
 
@@ -247,18 +247,18 @@ Once the ``zrf8_48dr`` HDL Platform and ``xilinx21_1_aarch64`` RCC Platform have
 
 - Remove the microSD card from Host
 
-.. _Booting-the-zrf8_48dr:
+.. _Booting-the-HTG-RF8-48DR:
 
-Booting the zrf8_48dr
-^^^^^^^^^^^^^^^^^^^^^
+Booting the HTG RF8-48DR
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. Remove power from the ``zrf8_48dr`` unit
+#. Remove power from the HTG RF8-48DR unit
 
-#. With the contents provided in the :ref:`Populating-SD-card-artifacts` section, insert the microSD card into the ``zrf8_48dr`` microSD card slot
+#. With the contents provided in the :ref:`Populating-SD-card-artifacts` section, insert the microSD card into the HTG RF8-48DR microSD card slot
 
-#. Attach a micro-USB serial port from the ``zrf8_48dr`` to the host (Needed for both ``Standalone-Mode`` and ``Server-Mode``)
+#. Attach a micro-USB serial port from the HTG RF8-48DR to the host (Needed for both ``Standalone-Mode`` and ``Server-Mode``)
 
-#. Attach an ethernet cable from the ``zrf8_48dr`` to the host (Only needed for ``Server-Mode``)
+#. Attach an ethernet cable from the HTG RF8-48DR to the host (Only needed for ``Server-Mode``)
 
 #. Establish a serial connection
 
@@ -275,7 +275,7 @@ Configuring the Runtime Environment on the Platform
 
 After a successful boot to PetaLinux, login to the system, using **“root“** for user name and password.
 
-Take note of the **root@zynqmp-generic** indicating that the zrf8_48dr has successfully booted using PetaLinux.
+Take note of the **root@zynqmp-generic** indicating that the HTG RF8-48DR has successfully booted using PetaLinux.
 
 Verify that the following ``uname -a`` is observed::
 
@@ -289,7 +289,7 @@ Standalone Mode setup
 
 The goal of this section is to enable the user with the ability to setup the ``Standalone Mode`` on the ``zrf8_48dr``. Success of this section is the ability to source the customized ``mysetup.sh`` script that enables the ``Standalone Mode`` and provides the ability to load bitstreams from the microSD card to the Platform Host (``zrf8_48dr``).
 
-#. The following instructions are possible after the ``zrf8_48dr`` device has been successfully booted.
+#. The following instructions are possible after the HTG RF8-48DR device has been successfully booted.
 
 #. Create an empty ``opencpi`` directory
 
@@ -301,7 +301,7 @@ The goal of this section is to enable the user with the ability to setup the ``S
 
    ``mount /media/sd-mmcblk0p1/opencpi /home/root/opencpi``
 
-#. On the ``zrf8_48dr`` device, browse to the OpenCPI installation directory
+#. On the HTG RF8-48DR device, browse to the OpenCPI installation directory
 
    ``cd /home/root/opencpi/``
 
@@ -326,7 +326,7 @@ Run the testbias application using Standalone-Mode
 
 **The goal of this section is to pass a biasvalue of zero to the testbias application using the** ``bias=biasvalue=0`` **portion of the** ``ocpirun`` **command below. With a biasvalue of zero the input data and output data should be unchanged. This data can then be validated by checking the md5sum of the** ``test.input`` **and** ``test.output`` **files.**
 
-#. On the ``zrf8_48dr`` device, browse to the applications directory
+#. On the HTG RF8-48DR device, browse to the applications directory
 
    ``cd /home/root/opencpi/applications/``
 
