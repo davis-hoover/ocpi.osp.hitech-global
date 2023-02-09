@@ -32,7 +32,8 @@ Revision History
    :header: "Revision", "Description of Change", "Date"
    :widths: 20,20,20
 
-   "v1.0", "Initial Release", "2/2023"
+   "v1.0", "Initial Release", "02/03/2023"
+   "v1.1", "Minor typo update", "02/09/2023"
 
 .. _Hitech-Global-Documentation:
 
@@ -142,26 +143,28 @@ The steps provided below rely heavily on the **OpenCPI Installation Guide**.
 
    ``ocpidev register project``
 
-#. Implement the ``zrf8_48dr`` part number ``xczu48dr`` in the ``opencpi/tools/include/hdl/hdl-targets.xml`` file::
+#. Implement the ``zrf8_48dr`` part number ``xczu48dr`` in the ``/home/user/opencpi/tools/include/hdl/hdl-targets.xml`` file::
 
      <family name='zynq_ultra' toolset='vivado' default='xczu3cg-2-sbva484e'
               parts='xczu28dr xczu9eg xczu7ev xczu3cg xczu48dr'/>
 
    ..
 
-#. Implement the ``fmc_plus.xml`` card-spec within the ``projects/core/hdl/cards/specs/`` directory.
+#. Implement the ``fmc_plus.xml`` card-spec within the ``/home/user/opencpi/projects/core/hdl/cards/specs/`` directory.
 
-   ``cp opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/fmc_plus.xml opencpi/projects/core/hdl/cards/specs``
+   ``cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/``
 
-   ``cd opencpi/projects/core/``
+   ``cp fmc_plus.xml /home/user/opencpi/projects/core/hdl/cards/specs``
+
+   ``cd /home/user/opencpi/projects/core/``
 
    ``ocpidev unregister project``
 
    ``ocpidev register project``
 
-#. Install ``zrf8_48dr`` HDL platform  using the ``--minmal`` flag
+#. Install ``zrf8_48dr`` HDL platform  using the ``--minimal`` flag
 
-   ``cd opencpi/``
+   ``cd /home/user/opencpi/``
 
    ``ocpiadmin install platform zrf8_48dr --minimal``
 
@@ -189,7 +192,7 @@ Deploy the Platforms
 
    ``ocpiadmin deploy platform xilinx21_1_aarch64 zrf8_48dr``
 
-#. Check that the following SD-Card artifacts have been populated in the ``opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64`` directory:
+#. Check that the following SD-Card artifacts have been populated in the ``/home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64`` directory:
 
    ``BOOT.BIN`` ``boot.scr`` ``Image`` ``opencpi`` ``rootfs.cpio.gz.u-boot``
 
@@ -232,13 +235,13 @@ Once the ``zrf8_48dr`` HDL Platform and ``xilinx21_1_aarch64`` RCC Platform have
 
 #. Complete the steps in the :ref:`creating-a-valid-sd-card` sections of the APPENDIX
 
-#. ``cd opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/``
+#. ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/``
 
-#. ``sudo rm -rf /run/media/<user>/BOOT/*``
+#. ``sudo rm -rf /run/media/<user>/boot/*``
 
-#. ``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
+#. ``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/boot/``
 
-#. ``sudo cp -RLp opencpi/ /run/media/<user>/BOOT/``
+#. ``sudo cp -RLp opencpi/ /run/media/<user>/boot/``
 
 #. ``umount /dev/sda1``
 
@@ -304,6 +307,8 @@ The goal of this section is to enable the user with the ability to setup the ``S
 
 #. Create the ``mysetup.sh`` for editing
 
+   **If a copy is not made to drop the** ``default_`` **then the script will not run properly.**
+
    ``cp default_mysetup.sh ./mysetup.sh``
 
 #. Source the ``mysetup.sh`` script to enable ``Standalone Mode``
@@ -318,6 +323,8 @@ The goal of this section is to enable the user with the ability to setup the ``S
 
 Run the testbias application using Standalone-Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**The goal of this section is to pass a biasvalue of zero to the testbias application using the** ``bias=biasvalue=0`` **portion of the** ``ocpirun`` **command below. With a biasvalue of zero the input data and output data should be unchanged. This data can then be validated by checking the md5sum of the** ``test.input`` **and** ``test.output`` **files.**
 
 #. On the ``zrf8_48dr`` device, browse to the applications directory
 
@@ -335,14 +342,12 @@ Run the testbias application using Standalone-Mode
 
       % cd /home/root/opencpi/applications/
       % export OCPI_LIBRARY_PATH=../artifacts/:../xilinx21_1_aarch64/artifacts/
-      % export OCPI_DMA_CACHE_MODE=0
-      % ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0^C
       % ocpirun -v -d -x -m bias=hdl -p bias=biasvalue=0 testbias.xml
       Available containers are:  0: PL:0 [model: hdl os:  platform: zrf8_48dr], 1: rcc0 [model: rcc os: linux platform: xilinx21_1_aarch64]
       Actual deployment is:
-        Instance  0 file_read (spec ocpi.core.file_read) on rcc container 1: rcc0, using file_read in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_read.rcc.0.xilinx21_1_aarch64.so dated Mon Dec 13 19:04:08 2021
-        Instance  1 bias (spec ocpi.core.bias) on hdl container 0: PL:0, using bias_vhdl/a/bias_vhdl in ../artifacts//testbias_zrf8_48dr_base.bitz dated Mon Dec 13 19:04:08 2021
-        Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: rcc0, using file_write in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_write.rcc.0.xilinx21_1_aarch64.so dated Mon Dec 13 19:04:08 2021
+        Instance  0 file_read (spec ocpi.core.file_read) on rcc container 1: rcc0, using file_read in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_read.rcc.0.xilinx21_1_aarch64.so dated Fri Jan 13 19:04:08 2023
+        Instance  1 bias (spec ocpi.core.bias) on hdl container 0: PL:0, using bias_vhdl/a/bias_vhdl in ../artifacts//testbias_zrf8_48dr_base.bitz dated Fri Jan 13 19:04:08 2023
+        Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: rcc0, using file_write in ../xilinx21_1_aarch64/artifacts//ocpi.core.file_write.rcc.0.xilinx21_1_aarch64.so dated Fri Jan 13 19:04:08 2023
       Application XML parsed and deployments (containers and artifacts) chosen [0 s 40 ms]
       Application established: containers, workers, connections all created [0 s 66 ms]
       Dump of all initial property values:
@@ -393,9 +398,7 @@ Run the testbias application using Standalone-Mode
 
    ..
 
-#. Verify that the data has successfully transferred through the application by performing an
-   m5sum on the input and output data files with bias effectively disabled, by setting the
-   biasValue=0.
+#. Verify that the data has successfully transferred through the application by performing an md5sum on the input and output data files with bias effectively disabled, by setting the biasValue=0.
 
    Compare the md5sum of both ``test.input`` and ``test.output``. The stdout should be as follows:
 
@@ -409,8 +412,7 @@ Run the testbias application using Standalone-Mode
 
    .. note::
 
-      **This shows that with a biasvalue=0 (no change in data) that the input matches the output
-      and the testbias application is working as it should.**
+      **This shows that with a biasvalue=0 (no change in data) that the input matches the output and the testbias application is working as it should.**
 
    ..
 
@@ -441,7 +443,7 @@ Server Mode setup
 
    ``source cdk/opencpi-setup.sh -s``
 
-#. Export the Device IP Address and valid Port
+#. Setup the host for targeting the remote platform by setting the terminal environment variables Device IP Address and valid Port.
 
    ``export OCPI_SERVER_ADDRESSES=<Valid ip-address>:<Valid port>``
 
@@ -514,6 +516,35 @@ Run the testbias application using Server-Mode
 
    ``ocpirun -v -P bias=zrf8_48dr -p bias=biasValue=0 testbias.xml``
 
+   ::
+
+       $ ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
+       Received server information from "10.3.10.66:12345".  Available containers are:
+         10.3.10.66:12345/PL:0                platform zcu102, model hdl, os , version , arch , build 
+           Transports: ocpi-dma-pio,00:0a:35:00:22:01,0,0,0x41,0x101|ocpi-socket-rdma, ,1,0,0x42,0x41|
+         10.3.10.66:12345/rcc0                platform xilinx19_2_aarch64, model rcc, os linux, version 19_2, arch aarch64, build 
+           Transports: ocpi-dma-pio,00:0a:35:00:22:01,1,0,0x103,0x103|ocpi-smb-pio,00:0a:35:00:22:01,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
+       Available containers are:  0: 10.3.10.66:12345/PL:0 [model: hdl os:  platform: zcu102], 1: 10.3.10.66:12345/rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
+       Actual deployment is:
+         Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Jan 31 13:35:05 2023
+         Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Jan 31 16:07:24 2023
+         Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Jan 31 15:25:11 2023
+       Application XML parsed and deployments (containers and artifacts) chosen [0 s 160 ms]
+       Application established: containers, workers, connections all created [0 s 102 ms]
+       Application started/running [0 s 1 ms]
+       Waiting for application to finish (no time limit)
+       Application finished [0 s 20 ms]
+
+   ..
+
+#. Validate success
+
+   ``md5sum test.input``
+
+   ``md5sum test.output`` (**On server at ``/home/root/sandbox/test.output``**)
+
+   If they have a matching ``md5sum`` then the application run successfully.
+
 .. _APPENDIX:
 
 APPENDIX
@@ -524,7 +555,7 @@ APPENDIX
 Creating a valid SD-Card
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-A valid SD-Card with a ``BOOT`` partition needs to be made.
+A valid SD-Card with a ``boot`` partition needs to be made.
 
 #. Be sure to save off any important information on the SD card
 
@@ -542,8 +573,7 @@ A valid SD-Card with a ``BOOT`` partition needs to be made.
 
 #. Make the following selections to create two partitions
 
-   #. New ``n``, Primary ``p``, Partition number ``1``, First sector [enter] (default),
-      Last sector size [enter] (default)
+   #. New ``n``, Primary ``p``, Partition number ``1``, First sector [enter] (default), Last sector size [enter] (default)
 
 #. Write table to disk and exit
 
@@ -553,11 +583,11 @@ A valid SD-Card with a ``BOOT`` partition needs to be made.
 
 #. ``sudo umount /dev/sda1``
 
-#. ``sudo mkfs.vfat -F 32 -n BOOT /dev/sda1``
+#. ``sudo mkfs.vfat -F 32 -n boot /dev/sda1``
 
 #. Uninstall and reinstall the microSD card
 
-#. Check that the partition ``BOOT`` has been created
+#. Check that the partition ``boot`` has been created
 
 .. _Setup-the-Software-cross-compiler:
 
@@ -580,7 +610,7 @@ The following commands are outlined in the `OpenCPI Installation Guide <https://
 
 #. Implement the provided ``2021.1-zrf8_48dr-release.tar.xz`` into the ``ZynqReleases`` directory
 
-   ``cd opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/code-blocks/data-plane/boot-artifacts/``
+   ``cd <ocpi.osp.hitech-global>/hdl/platforms/zrf8_48dr/doc/code-blocks/data-plane/boot-artifacts/``
 
    ``sudo cp 2021.1-zrf8_48dr-release.tar.xz /opt/Xilinx/ZynqReleases/2021.1/``
 

@@ -23,6 +23,18 @@
 OpenCPI zrf8_48dr Developers Guide
 ==================================
 
+.. _Revision-History:
+
+Revision History
+----------------
+
+.. csv-table::
+   :header: "Revision", "Description of Change", "Date"
+   :widths: 20,20,20
+
+   "v1.0", "Initial Release", "02/03/2023"
+   "v1.1", "Minor typo update", "02/09/2023"
+
 .. _dev-Introduction:
 
 Introduction
@@ -1388,11 +1400,11 @@ Be sure that the :ref:`dev-Format-SD-card` section is complete.
 
 ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/``
 
-``sudo rm -rf /run/media/<user>/BOOT/*``
+``sudo rm -rf /run/media/<user>/boot/*``
 
-``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
+``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/boot/``
 
-``cp -RLp opencpi/ /run/media/<user>/BOOT/``
+``cp -RLp opencpi/ /run/media/<user>/boot/``
 
 ``umount /dev/sda1``
 
@@ -1993,11 +2005,11 @@ Be sure that the :ref:`dev-Format-SD-card` section is complete.
 
 ``cd /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/``
 
-``sudo rm -rf /run/media/<user>/BOOT/*``
+``sudo rm -rf /run/media/<user>/boot/*``
 
-``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/BOOT/``
+``cp BOOT.BIN boot.scr Image rootfs.cpio.gz.u-boot /run/media/<user>/boot/``
 
-``cp -RLp opencpi/ /run/media/<user>/BOOT/``
+``cp -RLp opencpi/ /run/media/<user>/boot/``
 
 ``umount /dev/sda1``
 
@@ -2040,9 +2052,9 @@ HDL DP Verification: testbias application
            Transports: ocpi-dma-pio,00:0a:35:00:22:01,1,0,0x103,0x103|ocpi-smb-pio,00:0a:35:00:22:01,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
        Available containers are:  0: 10.3.10.66:12345/PL:0 [model: hdl os:  platform: zcu102], 1: 10.3.10.66:12345/rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
        Actual deployment is:
-         Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Oct 25 13:35:05 2022
-         Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Oct 25 16:07:24 2022
-         Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Oct 25 15:25:11 2022
+         Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Jan 31 13:35:05 2023
+         Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Jan 31 16:07:24 2023
+         Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Jan 31 15:25:11 2023
        Application XML parsed and deployments (containers and artifacts) chosen [0 s 160 ms]
        Application established: containers, workers, connections all created [0 s 102 ms]
        Application started/running [0 s 1 ms]
@@ -2058,33 +2070,6 @@ HDL DP Verification: testbias application
    ``md5sum test.output`` (**On server at ``/home/root/sandbox/test.output``**)
 
    If they have a matching ``md5sum`` then the application run successfully.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .. _dev-HDL-DP-Verification-FSK-application-filerw-mode-label:
 
@@ -2507,7 +2492,7 @@ Format SD card
 
 **IMPLEMENTATION:**
 
-A valid SD-Card with a ``BOOT`` partition needs to be made.
+A valid SD-Card with a ``boot`` partition needs to be made.
 
 #. Be sure to save off any important information on the SD card
 
@@ -2536,11 +2521,11 @@ A valid SD-Card with a ``BOOT`` partition needs to be made.
 
 #. ``sudo umount /dev/sda1``
 
-#. ``sudo mkfs.vfat -F 32 -n BOOT /dev/sda1``
+#. ``sudo mkfs.vfat -F 32 -n boot /dev/sda1``
 
 #. Uninstall and reinstall the microSD card
 
-#. Check that the partition ``BOOT`` has been created
+#. Check that the partition ``boot`` has been created
 
 .. _dev-Booting-the-zrf8_48dr:
 
@@ -2591,6 +2576,8 @@ Standalone Mode setup
 ``cd /home/root/opencpi/``
 
 ``cp default_mysetup.sh ./mysetup.sh``
+
+   **If a copy is not made to drop the** ``default_`` **then the script will not run properly.**
 
 ``source /home/root/opencpi/mysetup.sh``
 
@@ -2721,7 +2708,7 @@ Server Mode setup
 
    ``source cdk/opencpi-setup.sh -s``
 
-#. Export the Device IP Address and valid Port
+#. Setup the host for targeting the remote platform by setting the terminal environment variables Device IP Address and valid Port.
 
    ``export OCPI_SERVER_ADDRESSES=<Valid ip-address>:<Valid port>``
 
