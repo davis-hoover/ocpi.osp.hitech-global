@@ -1,0 +1,154 @@
+<!-- OWD for Texas Instruments LMX2594 RF Synthesizer -->
+<hdldevice language="vhdl" firstrawproperty="register_0" libraries="util platform">
+
+  <!-- Allow time for the SPI transaction to complete:
+       SPI interface at 1MHz and CP clock at 100MHz
+       - 24 bits per WR or RD transaction @ 1 MHz = 24 us
+       - 24 us / (1/100 MHz) = 2400 (10 ns) cycles
+       - Round up to 4096 to ensure margin -->
+  <controlinterface Timeout='4096'/>
+
+  <!-- By design, this worker provides control and/or data plane functionality
+       that is never intended to be exposed by any other worker. Accordingly, this
+       worker defines the componentspec element inside this OWD file, as opposed to
+       creating an OCS file including said functionality which could be used by other
+       workers. -->
+  <componentspec/>
+
+  <!-- Debug parameter property to include ILA core -->
+  <property name="VIVADO_ILA_p" type="bool" parameter="true" default="false"/>
+
+  <!-- Parameter property for creating the SPI clock at the desired rate -->
+  <property name="CP_CLK_FREQ_HZ_p"  type="ulong" parameter="1" default="100000000"
+	    description="Actual frequency of the system's the Control Plane (CP) clock.
+			 Used to calculate the divisor needed for generating the target
+			 frequency of the SPI clock."/>
+  <property name="SPI_CLK_FREQ_HZ_p" type="ulong" parameter="1" default="1000000"
+	    description="Target frequency of the SPI clock."/>
+
+  <!-- Array property_register DOES NOT WORK DUE TO BUG: -->
+  <!--property name="property_register" arraylength="107"  type="ushort" volatile="true" writable="true"/-->
+
+  <!-- Raw props starts here -->
+  <property name="register_0"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_1"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_2"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_3"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_4"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_5"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_6"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_7"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_8"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_9"   type="ushort" volatile="true" writable="true"/>
+  <property name="register_10"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_11"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_12"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_13"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_14"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_15"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_16"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_17"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_18"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_19"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_20"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_21"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_22"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_23"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_24"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_25"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_26"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_27"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_28"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_29"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_30"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_31"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_32"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_33"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_34"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_35"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_36"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_37"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_38"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_39"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_40"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_41"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_42"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_43"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_44"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_45"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_46"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_47"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_48"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_49"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_50"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_51"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_52"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_53"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_54"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_55"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_56"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_57"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_58"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_59"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_60"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_61"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_62"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_63"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_64"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_65"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_66"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_67"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_68"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_69"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_70"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_71"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_72"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_73"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_74"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_75"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_76"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_77"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_78"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_79"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_80"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_81"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_82"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_83"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_84"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_85"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_86"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_87"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_88"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_89"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_90"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_91"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_92"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_93"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_94"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_95"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_96"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_97"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_98"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_99"  type="ushort" volatile="true" writable="true"/>
+  <property name="register_100" type="ushort" volatile="true" writable="true"/>
+  <property name="register_101" type="ushort" volatile="true" writable="true"/>
+  <property name="register_102" type="ushort" volatile="true" writable="true"/>
+  <property name="register_103" type="ushort" volatile="true" writable="true"/>
+  <property name="register_104" type="ushort" volatile="true" writable="true"/>
+  <property name="register_105" type="ushort" volatile="true" writable="true"/>
+  <property name="register_106" type="ushort" volatile="true" writable="true"/>
+  <property name="register_107" type="ushort" volatile="true"/>
+  <property name="register_108" type="ushort" volatile="true"/>
+  <property name="register_109" type="ushort" volatile="true"/>
+  <property name="register_110" type="ushort" volatile="true"/>
+  <property name="register_111" type="ushort" volatile="true"/>
+  <property name="register_112" type="ushort" volatile="true"/>
+
+  <!-- SPI Signals -->
+  <signal output="SPI_CE"/>
+  <signal output="SPI_CS_N"/>
+  <signal output="SPI_SCLK"/>
+  <signal output="SPI_SDI"/>
+  <signal input="SPI_SDO"/>
+
+</hdldevice>

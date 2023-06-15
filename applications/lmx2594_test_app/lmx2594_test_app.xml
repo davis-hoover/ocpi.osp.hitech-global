@@ -1,0 +1,6 @@
+<application>
+  <instance component='ocpi.osp.hitech_global.devices.lmx2594_proxy'>
+    <property name='in_filename' value='tics_pro.txt'/>
+    <property name='out_filename' value='outfile.txt'/>
+  </instance>
+</application>

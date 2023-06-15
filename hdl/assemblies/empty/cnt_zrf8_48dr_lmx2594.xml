@@ -1,0 +1,2 @@
+<!-- used to test only lmx2594 -->
+<hdlcontainer config='cfg_rfdc_j3_j13_j18_j20' platform='zrf8_48dr'/>

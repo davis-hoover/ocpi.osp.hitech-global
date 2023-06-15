@@ -1,7 +1,7 @@
-.. Hitech Gloabl OSP top level project documentation
+.. Hitech Global OSP project documentation
 
 .. This file is protected by Copyright. Please refer to the COPYRIGHT file
-      distributed with this source distribution.
+   distributed with this source distribution.
 
    This file is part of OpenCPI <http://www.opencpi.org>
 
@@ -18,17 +18,20 @@
    You should have received a copy of the GNU Lesser General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+..
 
-.. _hitech-gloabl-top-level:
+.. _hitech-global-top-level:
 
 #################
 Hitech Global OSP
 #################
 
-OpenCPI System support package (OSP) that supports the Hitech Global devices.
+OpenCPI System support Project (OSP) for the Hitech Global devices.
 
 .. toctree::
    :caption: Table of Contents
    :maxdepth: 2
 
+   applications/index.rst
    hdl/platforms/index.rst
+   hdl/devices/index.rst

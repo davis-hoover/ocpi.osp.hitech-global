@@ -1,0 +1,54 @@
+<rccworker language='c++' version='2' spec='drc-spec'
+	  controloperations='start,stop,release'
+    includedirs='drc/base/include drc/rfdc/include drc/base/src drc/rfdc/src'
+    staticprereqlibs='rfdc'
+    onlyplatforms='xilinx21_1_aarch64'>
+  <specproperty name='MAX_CHANNELS_p' value='4'/>
+  <specproperty name='MAX_RX_CHANNELS_p' value='2'/>
+  <specproperty name='MAX_TX_CHANNELS_p' value='2'/>
+  <specproperty name='MAX_RX_RF_PORTS_p' value='2'/>
+  <specproperty name='MAX_TX_RF_PORTS_p' value='2'/>
+  <specproperty name='rf_ports_rx' parameter='1' value='J20,J18'/>
+  <specproperty name='rf_ports_tx' parameter='1' value='J3,J13'/>
+  <specproperty name='prepare' writesync='1'/>
+  <specproperty name='start' writesync='1'/>
+  <specproperty name='stop' writesync='1'/>
+  <specproperty name='release' writesync='1'/>
+  <specproperty name='status' readsync='1'/>
+  <property name='tics_pro_filename' type='string' stringlength='1024' initial='true'
+      writesync='true' default=''
+      description='Leave empty for normal operation. Set to non-empty string to
+      override the default, known-good LMX2594 configuration.'/>
+  <property name='dump_regs' type='bool' writable='true' default='false'
+      description='Write true to exercise RFDC reg dump (debugging)'/>
+  <slaves>
+    <external name='rx' count='2'/>
+    <external name='tx' count='2'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_dac_config_0.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_dac_config_1.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_dac_config_2.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_dac_config_3.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_adc_config_0.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_adc_config_1.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_adc_config_2.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.rfdc_adc_config_3.hdl'/>
+    <instance worker='ocpi.osp.hitech_global.devices.lmx2594_proxy.rcc'/>
+    <connection>
+      <port instance='rfdc' name='out0'/>
+      <external name='rx' index='0'/>
+    </connection>
+    <connection>
+      <port instance='rfdc' name='out1'/>
+      <external name='rx' index='1'/>
+    </connection>
+    <connection>
+      <external name='tx' index='0'/>
+      <port instance='rfdc' name='in0'/>
+    </connection>
+    <connection>
+      <external name='tx' index='1'/>
+      <port instance='rfdc' name='in1'/>
+    </connection>
+  </slaves>
+</rccworker>

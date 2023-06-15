@@ -1,0 +1,6 @@
+<hdlassembly>
+  <instance worker='fs_div_4_generator'/>
+  <connection name='out_from_asm_tx_path_to_dac' external='producer'>
+    <port instance='fs_div_4_generator' name='out'/>
+  </connection>
+</hdlassembly>

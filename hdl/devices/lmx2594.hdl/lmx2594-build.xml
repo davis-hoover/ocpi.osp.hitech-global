@@ -1,0 +1,8 @@
+<build>
+  <!-- Default Configuration -->
+  <configuration id="0"/>
+  <!-- Debug Configuration -->
+  <configuration id="1">
+    <parameter name="VIVADO_ILA_p" value="true"/>
+  </configuration>
+</build>

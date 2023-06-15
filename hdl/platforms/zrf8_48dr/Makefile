@@ -18,7 +18,6 @@
 
 # The zrf8_48dr platform.
 Libraries=zynq_ultra_zrf8_48dr axi sdp
-Configuration=base
 OnlyTargets=zynq_ultra
 
 include $(OCPI_CDK_DIR)/include/hdl/hdl-platform.mk

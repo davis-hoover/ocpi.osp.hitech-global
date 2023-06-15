@@ -1,0 +1,133 @@
+<application>
+  <!-- tx chain -->
+  <instance component="ocpi.assets.dsp_comps.fs_div_4_generator"
+      name="j13_generator" connect="j13_generator_to_j13_interpolator_adapter">
+    <property name="freq_is_positive" value="false"/>
+    <!--property name="freq_is_positive" value="true" delay="1"/-->
+  </instance>
+  <instance component="ocpi.assets.dsp_comps.fs_div_4_generator"
+      name="j3_generator" connect="j3_generator_to_j3_interpolator_adapter"/>
+  <instance component="ocpi.assets.misc_comps.iqstream_to_csts"
+      name="j13_generator_to_j13_interpolator_adapter"
+      connect="j13_interpolator"/>
+  <instance component="ocpi.assets.misc_comps.iqstream_to_csts"
+      name="j3_generator_to_j3_interpolator_adapter"
+      connect="j3_interpolator"/>
+  <instance component="ocpi.comp.sdr.dsp.cic_interpolator_xs"
+      name="j13_interpolator" connect="j13_interpolator_to_drc_adapter">
+    <property name="up_sample_factor" value="1000"/>
+  </instance>
+  <instance component="ocpi.comp.sdr.dsp.cic_interpolator_xs"
+      name="j3_interpolator" connect="j3_interpolator_to_drc_adapter">
+    <property name="up_sample_factor" value="1000"/>
+  </instance>
+  <instance component="ocpi.assets.misc_comps.csts_to_iqstream"
+      name="j13_interpolator_to_drc_adapter"/>
+  <instance component="ocpi.assets.misc_comps.csts_to_iqstream"
+      name="j3_interpolator_to_drc_adapter"/>
+  <connection>
+    <port instance="j13_interpolator_to_drc_adapter" name="out"/>
+    <port instance="drc" name="tx" index="0"/>
+  </connection>
+  <connection>
+    <port instance="j3_interpolator_to_drc_adapter" name="out"/>
+    <port instance="drc" name="tx" index="1"/>
+  </connection>
+  <!-- rx chain -->
+  <instance component="ocpi.assets.misc_comps.iqstream_to_csts"
+      name="drc_to_j18_decimator_adapter" connect="j18_decimator"/>
+  <instance component="ocpi.assets.misc_comps.iqstream_to_csts"
+      name="drc_to_j20_decimator_adapter" connect="j20_decimator"/>
+  <instance component="ocpi.osp.hitech_global.cic_decimator_xs_htg"
+      name="j18_decimator" connect="j18_decimator_to_j18_fifo_adapter">
+    <property name="cic_diff_delay" value="1"/>
+    <property name="cic_reg_size" value="50"/>
+    <property name="down_sample_factor" value="1000"/>
+    <property name="scale_output" value="34"/>
+  </instance>
+  <instance component="ocpi.osp.hitech_global.cic_decimator_xs_htg"
+      name="j20_decimator" connect="j20_decimator_to_j20_fifo_adapter">
+    <property name="cic_diff_delay" value="1"/>
+    <property name="cic_reg_size" value="50"/>
+    <property name="down_sample_factor" value="1000"/>
+    <property name="scale_output" value="34"/>
+  </instance>
+  <instance component="ocpi.assets.misc_comps.csts_to_iqstream"
+      name="j18_decimator_to_j18_fifo_adapter"
+      connect="j18_fifo"/>
+  <instance component="ocpi.assets.misc_comps.csts_to_iqstream"
+      name="j20_decimator_to_j20_fifo_adapter"
+      connect="j20_fifo"/>
+  <instance component="ocpi.assets.util_comps.fifo" name="j18_fifo"
+      connect="j18_file_writer">
+    <property name="oneshot" value="true"/>
+  </instance>
+  <instance component="ocpi.assets.util_comps.fifo" name="j20_fifo"
+      connect="j20_file_writer">
+    <property name="oneshot" value="true"/>
+  </instance>
+  <instance component="ocpi.core.file_write" name="j18_file_writer">
+    <property name="fileName" value="j18_rx.bin"/>
+  </instance>
+  <instance component="ocpi.core.file_write" name="j20_file_writer">
+    <property name="fileName" value="j20_rx.bin"/>
+  </instance>
+  <connection>
+    <port instance="drc" name="rx" index="0"/>
+    <port instance="drc_to_j20_decimator_adapter" name="in"/>
+  </connection>
+  <connection>
+    <port instance="drc" name="rx" index="1"/>
+    <port instance="drc_to_j18_decimator_adapter" name="in"/>
+  </connection>
+  <!-- radio -->
+  <instance component="ocpi.platform.drc"> <!-- worker='ocpi.osp.hitech-global.devices.drc'-->
+    <property name="configurations"
+        value="{description first,
+        channels {{rx true,
+        tuning_freq_MHz 390.95,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J18},
+        {rx true,
+        tuning_freq_MHz 390.95,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J20},
+        {rx false,
+        tuning_freq_MHz 20,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J3},
+        {rx false,
+        tuning_freq_MHz 390.95,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J13}}}"/>
+    <property name="start" value="0"/>
+  </instance>
+</application>

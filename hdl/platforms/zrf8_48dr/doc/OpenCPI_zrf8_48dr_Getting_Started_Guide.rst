@@ -40,7 +40,7 @@ Revision History
 Hitech Global Documentation
 ---------------------------
 
-This document provides installation information that is specific to the ``HiTech Global HTG RF8-48DR`` OSP, herein ``zrf8_48dr``. It is assumed that the user understands the material and procedures that are defined in the OpenCPI documentation. To avoid reproducing redundant information in an effort of keeping this guide concise, the following documents are referenced to the tasks described in this document:
+This document provides installation information that is specific to the ``HiTech Global HTG RF8-48DR`` OSP, herein ``zrf8_48dr``. It is assumed that the user understands the material and procedures that are defined in the OpenCPI documentation. In an effort of keeping this guide concise and to avoid reproducing redundant information, the following documents are referenced for the tasks described in this guide.
 
 .. csv-table::
    :header: "Document", "Source", "Location"
@@ -67,25 +67,21 @@ The following Software suites need to be installed on the host system:
 Install the Framework
 ^^^^^^^^^^^^^^^^^^^^^
 
-This Guide uses the following Framework branch and commit ID
+This Guide uses the ``rfdc`` branch of this Geon Technologies OpenCPI Fork:
 
-   - `3420-support-for-rcc-platform-xilinx21_1_aarch64 <https://gitlab.com/opencpi/opencpi/-/tree/3420-support-for-rcc-platform-xilinx21_1_aarch64>`_
-
-   - git commit ID - **cbcd6fa7fa477e72031181c997a5a666487b0eb9**
+   - `Geon Technologies OpenCPI Fork <https://gitlab.com/geon-technologies/opencpi/opencpi/-/tree/rfdc?ref_type=heads>`_
 
 #. Clone the OpenCPI framework
 
    ``cd /home/user/``
 
-   ``git clone https://gitlab.com/opencpi/opencpi.git``
+   ``git clone https://gitlab.com/geon-technologies/opencpi/opencpi.git``
 
    ``cd opencpi/``
 
-   ``git checkout cbcd6fa7fa477e72031181c997a5a666487b0eb9``
+   ``git checkout rfdc``
 
 #. Install the framework
-
-   ``cd /home/user/opencpi/``
 
    ``./scripts/install-opencpi.sh --minimal``
 
@@ -110,17 +106,85 @@ Configure a host terminal for OpenCPI development
 
       $ env | grep OCPI
       OCPI_TOOL_PLATFORM=centos7
-      OCPI_PREREQUISITES_DIR=/home/user/opencpi/prerequisites
+      OCPI_PREREQUISITES_DIR=/home/jpalmer/projects/opencpi/releases/guide_test/opencpi/prerequisites
       OCPI_TOOL_OS_VERSION=c7
-      OCPI_CDK_DIR=/home/user/opencpi/cdk
+      OCPI_CDK_DIR=/home/jpalmer/projects/opencpi/releases/guide_test/opencpi/cdk
       OCPI_XILINX_VIVADO_VERSION=2021.1
-      OCPI_ROOT_DIR=/home/user/opencpi
+      OCPI_ROOT_DIR=/home/jpalmer/projects/opencpi/releases/guide_test/opencpi
       OCPI_TOOL_OS=linux
-      OCPI_TOOL_PLATFORM_DIR=/home/user/opencpi/project-registry/ocpi.core/exports/rcc/platforms/centos7
+      OCPI_TOOL_PLATFORM_DIR=/home/jpalmer/projects/opencpi/releases/guide_test/opencpi/project-registry/ocpi.core/exports/rcc/platforms/centos7
       OCPI_TOOL_ARCH=x86_64
       OCPI_TOOL_DIR=centos7
 
   ..
+
+.. _install-the-ocpi.osp.hitech-global-platform:
+
+Install the ocpi.osp.hitech-global platform
+-------------------------------------------
+
+.. _clone-and-register-the-ocpi.osp.hitech-global-project:
+
+Clone and register the ocpi.osp.hitech-global project
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Clone ``ocpi.osp.hitech-global`` project into the appropriate directory
+
+   ``cd /home/user/opencpi/projects/osps/``
+
+   ``git clone https://gitlab.com/opencpi/osp/ocpi.osp.hitech-global.git``
+
+#. Register the ``ocpi.osp.hitech-global`` project
+
+   ``cd ocpi.osp.hitech-global/``
+
+   ``ocpidev register project``
+
+.. _apply-changes-to-support-building-testbias:
+
+Apply changes to support building testbias
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Copy the ``build.tcl`` file located in ``gsg_artifacts`` into the ``projects/assets/hdl/assemblies/testbias`` project.
+
+   ``build.tcl`` Location: ``/home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/gsg_artifacts``
+
+   ``cd /home/user/opencpi/projects/assets/hdl/assemblies/testbias/``
+
+   ``cp <path>/build.tcl ./``
+
+#. Apply the ``testbias.Makefile.patch`` patch-file
+
+   ``testbias.Makefile.patch`` Location: ``/home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/gsg_artifacts``
+
+   ``cp <path>/testbias.Makefile.patch ./``
+
+   ``git apply testbias.Makefile.patch``
+
+.. _prerequisite-project-ocpi.comp.sdr:
+
+Prerequisite project ocpi.comp.sdr
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``ocpi.comp.sdr`` project is a prerequisite project for the ``zrf8_48dr`` to successfully install. Below is a set of steps that guide the user through the installation of the ``ocpi.comp.sdr`` project.
+
+#. Clone ``ocpi.comp.sdr`` project into the appropriate directory
+
+   ``cd /home/user/opencpi/projects/``
+
+   ``git clone https://gitlab.com/opencpi/comp/ocpi.comp.sdr.git``
+
+   ``cd ocpi.comp.sdr/``
+
+   ``git checkout tags/v2.4.5``
+
+#. Register the ``ocpi.comp.sdr`` project
+
+   ``ocpidev register project``
+
+#. Build the ``ocpi.comp.sdr`` primitives required for an assembly in this project.
+
+   ``ocpidev build hdl primitives --hdl-target zynq_ultra``
 
 .. _install-the-hdl-platform:
 
@@ -131,36 +195,17 @@ Below is an abbreviated set of steps that guide the user through the installatio
 
 The steps provided below rely heavily on the **OpenCPI Installation Guide**.
 
-#. Clone ``ocpi.osp.hitech-global`` project into the appropriate directory
+#. Build core hdl primitive libraries
 
-   ``cd /home/user/opencpi/projects/osps/``
+   ``cd /home/user/opencpi/``
 
-   ``git clone https://gitlab.com/opencpi/osp/ocpi.osp.hitech-global.git``
+   ``ocpidev -d projects/core/ build hdl primitives --hdl-target zynq_ultra``
 
-#. Register the ocpi.osp.hitech-global project
+#. Build rfdc primitive core IP
 
-   ``cd ocpi.osp.hitech-global/``
+   ``cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global/``
 
-   ``ocpidev register project``
-
-#. Implement the ``zrf8_48dr`` part number ``xczu48dr`` in the ``/home/user/opencpi/tools/include/hdl/hdl-targets.xml`` file::
-
-     <family name='zynq_ultra' toolset='vivado' default='xczu3cg-2-sbva484e'
-              parts='xczu28dr xczu9eg xczu7ev xczu3cg xczu48dr'/>
-
-   ..
-
-#. Implement the ``fmc_plus.xml`` card-spec within the ``/home/user/opencpi/projects/core/hdl/cards/specs/`` directory.
-
-   ``cd /home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/``
-
-   ``cp fmc_plus.xml /home/user/opencpi/projects/core/hdl/cards/specs``
-
-   ``cd /home/user/opencpi/projects/core/``
-
-   ``ocpidev unregister project``
-
-   ``ocpidev register project``
+   ``ocpidev build --hdl-target zynq_ultra --no-assemblies``
 
 #. Install ``zrf8_48dr`` HDL platform  using the ``--minimal`` flag
 
@@ -478,7 +523,7 @@ Server Mode setup
       $ ocpiremote start -b
       Executing remote configuration command: start -B
       The driver module is not loaded. No action was taken.
-      Reloading kernel driver: 
+      Reloading kernel driver:
       No reserved DMA memory found on the linux boot command line.
       Driver loaded successfully.
       Loading opencpi bitstream
@@ -518,22 +563,22 @@ Run the testbias application using Server-Mode
 
    ::
 
-       $ ocpirun -v -P bias=zcu102 -p bias=biasValue=0 testbias.xml
-       Received server information from "10.3.10.66:12345".  Available containers are:
-         10.3.10.66:12345/PL:0                platform zcu102, model hdl, os , version , arch , build 
-           Transports: ocpi-dma-pio,00:0a:35:00:22:01,0,0,0x41,0x101|ocpi-socket-rdma, ,1,0,0x42,0x41|
-         10.3.10.66:12345/rcc0                platform xilinx19_2_aarch64, model rcc, os linux, version 19_2, arch aarch64, build 
-           Transports: ocpi-dma-pio,00:0a:35:00:22:01,1,0,0x103,0x103|ocpi-smb-pio,00:0a:35:00:22:01,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
-       Available containers are:  0: 10.3.10.66:12345/PL:0 [model: hdl os:  platform: zcu102], 1: 10.3.10.66:12345/rcc0 [model: rcc os: linux platform: xilinx19_2_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
-       Actual deployment is:
-         Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Tue Jan 31 13:35:05 2023
-         Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.3.10.66:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zcu102_base.hdl.0.zcu102.bitz dated Tue Jan 31 16:07:24 2023
-         Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.3.10.66:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx19_2_aarch64.so dated Tue Jan 31 15:25:11 2023
-       Application XML parsed and deployments (containers and artifacts) chosen [0 s 160 ms]
-       Application established: containers, workers, connections all created [0 s 102 ms]
-       Application started/running [0 s 1 ms]
-       Waiting for application to finish (no time limit)
-       Application finished [0 s 20 ms]
+      $ ocpirun -v -P bias=zrf8_48dr -p bias=biasValue=0 testbias.xml
+      Received server information from "10.100.1.20:12345".  Available containers are:
+        10.100.1.20:12345/PL:0               platform zrf8_48dr, model hdl, os , version , arch , build 
+          Transports: ocpi-dma-pio,36:6c:6e:30:16:26,0,0,0x41,0x101|ocpi-socket-rdma, ,1,0,0x42,0x41|
+        10.100.1.20:12345/rcc0               platform xilinx21_1_aarch64, model rcc, os linux, version 21_1, arch aarch64, build 
+          Transports: ocpi-dma-pio,36:6c:6e:30:16:26,1,0,0x103,0x103|ocpi-smb-pio,36:6c:6e:30:16:26,0,0,0xb,0xb|ocpi-socket-rdma, ,1,0,0x42,0x43|
+      Available containers are:  0: 10.100.1.20:12345/PL:0 [model: hdl os:  platform: zrf8_48dr], 1: 10.100.1.20:12345/rcc0 [model: rcc os: linux platform: xilinx21_1_aarch64], 2: rcc0 [model: rcc os: linux platform: centos7]
+      Actual deployment is:
+        Instance  0 file_read (spec ocpi.core.file_read) on rcc container 2: rcc0, using file_read in ../imports/ocpi.core/artifacts//ocpi.core.file_read.rcc.0.centos7.so dated Mon Jun 12 12:50:26 2023
+        Instance  1 bias (spec ocpi.core.bias) on hdl container 0: 10.100.1.20:12345/PL:0, using bias_vhdl/a/bias_vhdl in ../../assets/artifacts//ocpi.assets.testbias_zrf8_48dr_base.hdl.0.zrf8_48dr.bitz dated Mon Jun 12 14:35:18 2023
+        Instance  2 file_write (spec ocpi.core.file_write) on rcc container 1: 10.100.1.20:12345/rcc0, using file_write in ../imports/ocpi.core/artifacts//ocpi.core.file_write.rcc.0.xilinx21_1_aarch64.so dated Mon Jun 12 13:10:58 2023
+      Application XML parsed and deployments (containers and artifacts) chosen [0 s 86 ms]
+      Application established: containers, workers, connections all created [0 s 119 ms]
+      Application started/running [0 s 1 ms]
+      Waiting for application to finish (no time limit)
+      Application finished [0 s 30 ms]
 
    ..
 
@@ -610,9 +655,9 @@ The following commands are outlined in the `OpenCPI Installation Guide <https://
 
 #. Implement the provided ``2021.1-zrf8_48dr-release.tar.xz`` into the ``ZynqReleases`` directory
 
-   ``cd <ocpi.osp.hitech-global>/hdl/platforms/zrf8_48dr/doc/code-blocks/data-plane/boot-artifacts/``
+   ``2021.1-zrf8_48dr-release.tar.xz`` Location: ``/home/user/opencpi/projects/osps/ocpi.osp.hitech-global/hdl/platforms/zrf8_48dr/doc/gsg_artifacts``
 
-   ``sudo cp 2021.1-zrf8_48dr-release.tar.xz /opt/Xilinx/ZynqReleases/2021.1/``
+   ``sudo cp <2021.1-zrf8_48dr-release.tar.xz> /opt/Xilinx/ZynqReleases/2021.1/``
 
    ``sudo chown -R <user>:users /opt/Xilinx/ZynqReleases``
 

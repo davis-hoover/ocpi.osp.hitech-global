@@ -1,0 +1,3 @@
+<hdlcontainer config='cfg_rfdc_j3_j13_j18_j20' platform='zrf8_48dr'>
+  <connection external='out_from_asm_tx_path_to_dac' port='in0' device='rfdc'/>
+</hdlcontainer>

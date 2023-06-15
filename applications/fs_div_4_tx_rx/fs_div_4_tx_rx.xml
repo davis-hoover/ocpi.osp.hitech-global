@@ -1,0 +1,94 @@
+<application>
+  <instance component="ocpi.assets.dsp_comps.fs_div_4_generator"
+      name="j13_generator">
+    <property name="freq_is_positive" value="false"/>
+    <!--property name="freq_is_positive" value="true" delay="1"/-->
+  </instance>
+  <instance component="ocpi.assets.dsp_comps.fs_div_4_generator"
+      name="j3_generator"/>
+  <instance component="ocpi.assets.util_comps.fifo" name="j18_fifo">
+    <property name="oneshot" value="true"/>
+  </instance>
+  <instance component="ocpi.assets.util_comps.fifo" name="j20_fifo">
+    <property name="oneshot" value="true"/>
+  </instance>
+  <instance component="ocpi.core.file_write" name="j18_file_writer">
+    <property name="fileName" value="j18_rx.bin"/>
+  </instance>
+  <instance component="ocpi.core.file_write" name="j20_file_writer">
+    <property name="fileName" value="j20_rx.bin"/>
+  </instance>
+  <connection>
+    <port instance="drc" name="rx" index="0"/>
+    <port instance="j20_fifo" name="in"/>
+  </connection>
+  <connection>
+    <port instance="j20_fifo" name="out"/>
+    <port instance="j20_file_writer" name="in"/>
+  </connection>
+  <connection>
+    <port instance="drc" name="rx" index="1"/>
+    <port instance="j18_fifo" name="in"/>
+  </connection>
+  <connection>
+    <port instance="j18_fifo" name="out"/>
+    <port instance="j18_file_writer" name="in"/>
+  </connection>
+  <connection>
+    <port instance="j13_generator" name="out"/>
+    <port instance="drc" name="tx" index="0"/>
+  </connection>
+  <connection>
+    <port instance="j3_generator" name="out"/>
+    <port instance="drc" name="tx" index="1"/>
+  </connection>
+  <instance component="ocpi.platform.drc"> <!-- worker='ocpi.osp.hitech-global.devices.drc'-->
+    <property name="configurations"
+        value="{description first,
+        channels {{rx true,
+        tuning_freq_MHz 390.95,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J18},
+        {rx true,
+        tuning_freq_MHz 390.95,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J20},
+        {rx false,
+        tuning_freq_MHz 20,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J3},
+        {rx false,
+        tuning_freq_MHz 390.95,
+        bandwidth_3dB_MHz 90,
+        sampling_rate_Msps 90,
+        samples_are_complex true,
+        gain_mode manual,
+        gain_dB 0,
+        tolerance_tuning_freq_MHz 0.01,
+        tolerance_sampling_rate_Msps 0.01,
+        tolerance_gain_dB 1,
+        rf_port_name J13}}}"/>
+    <property name="start" value="0"/>
+  </instance>
+</application>
