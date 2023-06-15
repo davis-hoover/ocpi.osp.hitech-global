@@ -1,0 +1,94 @@
+<hdlassembly>
+  <!-- tx -->
+  <instance worker='fs_div_4_generator' name='generator0'/>
+  <instance worker='fs_div_4_generator' name='generator1'/>
+  <instance worker='iqstream_to_csts' name='generator0_to_interpolator0_adapter'/>
+  <instance worker='iqstream_to_csts' name='generator1_to_interpolator1_adapter'/>
+  <instance worker='cic_interpolator_xs' name='interpolator0'/>
+  <instance worker='cic_interpolator_xs' name='interpolator1'/>
+  <instance worker='csts_to_iqstream' name='interpolator0_to_iqstream_adapter'/>
+  <instance worker='csts_to_iqstream' name='interpolator1_to_iqstream_adapter'/>
+  <connection>
+    <port instance='generator0' name='out'/>
+    <port instance='generator0_to_interpolator0_adapter' name='in'/>
+  </connection>
+  <connection>
+    <port instance='generator0_to_interpolator0_adapter' name='out'/>
+    <port instance='interpolator0' name='input'/>
+  </connection>
+  <connection>
+    <port instance='interpolator0' name='output'/>
+    <port instance='interpolator0_to_iqstream_adapter' name='in'/>
+  </connection>
+  <connection name='out_from_asm_tx_path_to_dac0' external='producer'>
+    <port instance='interpolator0_to_iqstream_adapter' name='out'/>
+  </connection>
+  <connection>
+    <port instance='generator1' name='out'/>
+    <port instance='generator1_to_interpolator1_adapter' name='in'/>
+  </connection>
+  <connection>
+    <port instance='generator1_to_interpolator1_adapter' name='out'/>
+    <port instance='interpolator1' name='input'/>
+  </connection>
+  <connection>
+    <port instance='interpolator1' name='output'/>
+    <port instance='interpolator1_to_iqstream_adapter' name='in'/>
+  </connection>
+  <connection name='out_from_asm_tx_path_to_dac1' external='producer'>
+    <port instance='interpolator1_to_iqstream_adapter' name='out'/>
+  </connection>
+  <!-- rx -->
+  <instance worker='iqstream_to_csts' name='iqstream_to_decimator0_adapter'/>
+  <instance worker='iqstream_to_csts' name='iqstream_to_decimator1_adapter'/>
+  <instance worker='cic_decimator_xs_htg' name='decimator0'>
+    <property name='cic_order' value='3'/>
+    <property name='cic_diff_delay' value='1'/>
+    <property name='cic_reg_size' value='50'/>
+  </instance>
+  <instance worker='cic_decimator_xs_htg' name='decimator1'>
+    <property name='cic_order' value='3'/>
+    <property name='cic_diff_delay' value='1'/>
+    <property name='cic_reg_size' value='50'/>
+  </instance>
+  <instance worker='csts_to_iqstream' name='decimator0_to_fifo0_adapter'/>
+  <instance worker='csts_to_iqstream' name='decimator1_to_fifo1_adapter'/>
+  <instance worker='fifo'/>
+  <instance worker='fifo'/>
+  <connection name='in_to_asm_rx_path_from_adc0' external='consumer'>
+    <port instance='iqstream_to_decimator0_adapter' name='in'/>
+  </connection>
+  <connection>
+    <port instance='iqstream_to_decimator0_adapter' name='out'/>
+    <port instance='decimator0' name='input'/>
+  </connection>
+  <connection>
+    <port instance='decimator0' name='output'/>
+    <port instance='decimator0_to_fifo0_adapter' name='in'/>
+  </connection>
+  <connection>
+    <port instance='decimator0_to_fifo0_adapter' name='out'/>
+    <port instance='fifo0' name='in'/>
+  </connection>
+  <connection name='out_from_asm_rx_path0' external='producer'>
+    <port instance='fifo0' name='out'/>
+  </connection>
+  <connection name='in_to_asm_rx_path_from_adc1' external='consumer'>
+    <port instance='iqstream_to_decimator1_adapter' name='in'/>
+  </connection>
+  <connection>
+    <port instance='iqstream_to_decimator1_adapter' name='out'/>
+    <port instance='decimator1' name='input'/>
+  </connection>
+  <connection>
+    <port instance='decimator1' name='output'/>
+    <port instance='decimator1_to_fifo1_adapter' name='in'/>
+  </connection>
+  <connection>
+    <port instance='decimator1_to_fifo1_adapter' name='out'/>
+    <port instance='fifo1' name='in'/>
+  </connection>
+  <connection name='out_from_asm_rx_path1' external='producer'>
+    <port instance='fifo1' name='out'/>
+  </connection>
+</hdlassembly>

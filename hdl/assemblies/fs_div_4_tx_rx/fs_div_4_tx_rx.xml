@@ -1,0 +1,24 @@
+<hdlassembly>
+  <instance worker='fs_div_4_generator'/>
+  <instance worker='fs_div_4_generator'/>
+  <instance worker='fifo'/>
+  <instance worker='fifo'/>
+  <connection name='in_to_asm_rx_path_from_adc0' external='consumer'>
+    <port instance='fifo0' name='in'/>
+  </connection>
+  <connection name='in_to_asm_rx_path_from_adc1' external='consumer'>
+    <port instance='fifo1' name='in'/>
+  </connection>
+  <connection name='out_from_asm_rx_path0' external='producer'>
+    <port instance='fifo0' name='out'/>
+  </connection>
+  <connection name='out_from_asm_rx_path1' external='producer'>
+    <port instance='fifo1' name='out'/>
+  </connection>
+  <connection name='out_from_asm_tx_path_to_dac0' external='producer'>
+    <port instance='fs_div_4_generator0' name='out'/>
+  </connection>
+  <connection name='out_from_asm_tx_path_to_dac1' external='producer'>
+    <port instance='fs_div_4_generator1' name='out'/>
+  </connection>
+</hdlassembly>

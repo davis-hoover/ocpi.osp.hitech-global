@@ -23,7 +23,7 @@
 OpenCPI zrf8_48dr Developers Guide
 ==================================
 
-.. _Revision-History:
+.. _dev-Revision-History:
 
 Revision History
 ----------------
@@ -519,7 +519,7 @@ Benchmark testing the OpenCPI zcu104 OSP
 .. _dev-Create-an-OpenCPI-project-for-the-ZRF8:
 
 Create an OpenCPI project for the ZRF8
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **GOAL:**
 
@@ -606,7 +606,7 @@ Create an OpenCPI project for the ZRF8
 .. _dev-Enable-OpenCPI-HDL-Control-Plane:
 
 Enable OpenCPI HDL Control Plane
--------------------------------
+--------------------------------
 
 .. _dev-Configure-PS-for-CP:
 
@@ -1477,7 +1477,7 @@ HDL CP Verification: Pattern Capture application
 
 #. Run the ``pattern_capture.xml`` application
 
-   ``cd /home/root/opencpi/applications/
+   ``cd /home/root/opencpi/applications/``
 
    ``ocpirun -v -x -d pattern_capture.xml``
 
@@ -2197,7 +2197,7 @@ The following is a step-by-step set of instructions for executing the FSK applic
 
    ``cp -RLp /home/user/opencpi/cdk/zrf8_48dr/sdcard-xilinx21_1_aarch64/opencpi/ /run/media/<user>/root/home/root/``
 
-#. Execute the :ref:`dev-Booting-the-zrf8_48dr` section
+#. Execute the :ref:`dev-Booting-the-HTG-RF8-48DR` section
 
 #. Execute the :ref:`dev-Standalone-Mode-setup` section
 

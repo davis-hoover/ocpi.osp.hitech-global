@@ -1,0 +1,8 @@
+<hdlcontainer config='cfg_rfdc_j3_j13_j18_j20' platform='zrf8_48dr'>
+  <connection external='out_from_asm_rx_path0' interconnect='zynq_ultra'/>
+  <connection external='out_from_asm_rx_path1' interconnect='zynq_ultra'/>
+  <connection external='in_to_asm_rx_path_from_adc0' port='out0' device='rfdc'/>
+  <connection external='in_to_asm_rx_path_from_adc1' port='out1' device='rfdc'/>
+  <connection external='out_from_asm_tx_path_to_dac0' port='in0' device='rfdc'/>
+  <connection external='out_from_asm_tx_path_to_dac1' port='in1' device='rfdc'/>
+</hdlcontainer>

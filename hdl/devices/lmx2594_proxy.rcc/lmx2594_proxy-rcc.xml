@@ -1,0 +1,232 @@
+<RccWorker Language='c++' Version='2' controloperations='start'
+    slave='lmx2594.hdl'>
+  <componentspec/>
+  <property name='delete_me_but_test_first' type='uchar' volatile='true'/> <!-- for some reason deleting this breaks lock status assessment... -->
+  <property name='in_filename' type='string' stringLength='1024' initial='true'
+      description='Either the TICSPRO filepath (file configuration mode) or an empty string (property configuration mode)'/>
+  <property name='out_filename' type='string' stringLength='1024' initial='true'
+      default='lmx2594_out.txt'
+      description='Must contain path for output file wherein registers are dumped in TICSPRO format.'/>
+  <!-- Each of the register properties write values are ignored if in_filename
+       is non-empty. The read values are always accurate. -->
+  <property name='register_0'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_1'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_2'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_3'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_4'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_5'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_6'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_7'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_8'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_9'   type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_10'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_11'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_12'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_13'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_14'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_15'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_16'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_17'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_18'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_19'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_20'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_21'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_22'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_23'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_24'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_25'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_26'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_27'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_28'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_29'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_30'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_31'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_32'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_33'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_34'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_35'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_36'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_37'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_38'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_39'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_40'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_41'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_42'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_43'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_44'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_45'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_46'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_47'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_48'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_49'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_50'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_51'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_52'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_53'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_54'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_55'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_56'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_57'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_58'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_59'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_60'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_61'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_62'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_63'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_64'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_65'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_66'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_67'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_68'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_69'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_70'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_71'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_72'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_73'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_74'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_75'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_76'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_77'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_78'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_79'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_80'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_81'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_82'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_83'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_84'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_85'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_86'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_87'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_88'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_89'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_90'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_91'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_92'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_93'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_94'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_95'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_96'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_97'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_98'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_99'  type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_100' type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_101' type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_102' type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_103' type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_104' type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_105' type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_106' type='ushort' initial='true' volatile='true'
+      writesync='true' readsync='true'/>
+  <property name='register_107' type='ushort' volatile='true' readsync='true'/>
+  <property name='register_108' type='ushort' volatile='true' readsync='true'/>
+  <property name='register_109' type='ushort' volatile='true' readsync='true'/>
+  <property name='register_110' type='ushort' volatile='true' readsync='true'/>
+  <property name='register_111' type='ushort' volatile='true' readsync='true'/>
+  <property name='register_112' type='ushort' volatile='true' readsync='true'/>
+</RccWorker>

@@ -315,6 +315,10 @@
 set_property PACKAGE_PIN AP21    [get_ports {FMC_PL_CLK0_M2C_N}];
 set_property PACKAGE_PIN AN21    [get_ports {FMC_PL_CLK0_M2C_P}];
 
+# IOSTANDARD sometimes needed here to satisfy a build issue, but otherwise the clock isn't actually used/required for any assembly
+#set_property IOSTANDARD LVCMOS18 [get_ports {FMC_PL_CLK0_M2C_N}];
+#set_property IOSTANDARD LVCMOS18 [get_ports {FMC_PL_CLK0_M2C_P}];
+
 #set_property PACKAGE_PIN E34     [get_ports {FMC_PL_DP0_C2M_N}];
 #set_property PACKAGE_PIN E33     [get_ports {FMC_PL_DP0_C2M_P}];
 
@@ -677,7 +681,16 @@ set_property IOSTANDARD LVCMOS33 [get_ports {FMC_PL_HSPC_PRSNT_M2C_L}];
 #set_property PACKAGE_PIN Y16 [get_ports "XDAC_VN_F"]
 #set_property PACKAGE_PIN W17 [get_ports "XDAC_VP_F"]
 #set_property PACKAGE_PIN AW13 [get_ports "FAN_PWM"]
-#
+
+# SPI Bus Signals
+set_property PACKAGE_PIN F6      [get_ports {RF_PLL_CSB}];
+set_property IOSTANDARD LVCMOS33 [get_ports {RF_PLL_CSB}];
+set_property PACKAGE_PIN A5      [get_ports {RF_PLL_SCK}];
+set_property IOSTANDARD LVCMOS33 [get_ports {RF_PLL_SCK}];
+set_property PACKAGE_PIN B5      [get_ports {RF_PLL_SDI}];
+set_property IOSTANDARD LVCMOS33 [get_ports {RF_PLL_SDI}];
+set_property PACKAGE_PIN C5      [get_ports {RF_PLL_MUXout}];
+set_property IOSTANDARD LVCMOS33 [get_ports {RF_PLL_MUXout}];
 
 # OpenCPI additions to the above, which is unmodified from the original
 create_clock -name clk_fpga_0 -period 10.000 [get_pins -hier * -filter {NAME =~ */ps/U0/U0/PS8_i/PLCLK[0]}]

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- This file is protected by Copyright. Please refer to the COPYRIGHT file
+     distributed with this source distribution.
+
+     This file is part of OpenCPI <http://www.opencpi.org>
+
+     OpenCPI is free software: you can redistribute it and/or modify it under
+     the terms of the GNU Lesser General Public License as published by the Free
+     Software Foundation, either version 3 of the License, or (at your option)
+     any later version.
+
+     OpenCPI is distributed in the hope that it will be useful, but WITHOUT ANY
+     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+     FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for
+     more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this program. If not, see <http://www.gnu.org/licenses/>. -->
+<componentspec>
+  <property name="cic_order" type="uchar" writable="false" parameter="true" default="3" description="CIC order. Number of comb and integrator stages."/>
+  <property name="cic_diff_delay" type="uchar" writable="false" parameter="true" default="2" description="Number of differential delay stages."/>
+  <property name="cic_reg_size" type="uchar" writable="false" parameter="true" default="36" description="Internal data size used within the child primitives."/>
+  <property name="down_sample_factor" type="ushort" writable="true" default="2" description="Down sampling factor."/>
+  <property name="scale_output" type="uchar" writable="true" default="6" description="Output scale factor. CIC output is divided by :math:`2^{\texttt{scale_output}}`."/>
+  <property name="flush_length" type="ushort" writable="true" default="0" description="Number of zero samples that should be inserted into the CIC on receipt of a flush opcode."/>
+  <property name="overflow_sticky" type="bool" volatile="true" description="Sticky bit indication of numerical overflow which is possible when scale_output is less than cic_reg_size-16."/>
+  <port name="input" producer="false" protocol="complex_short_timed_sample-prot"/>
+  <port name="output" producer="true" protocol="complex_short_timed_sample-prot"/>
+</componentspec>
